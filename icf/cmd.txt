@@ -1,0 +1,1 @@
+gcc overapprox.c -o overapprox-dce.out -fdata-sections -ffunction-sections -Wl,--gc-sections 
