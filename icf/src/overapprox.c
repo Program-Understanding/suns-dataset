@@ -17,44 +17,41 @@ double mysqrt(double num) {
     return a;
 }
 
-int multiply2(int even) {
+int target1(int even) {
     return even * 2;
 }
 
-int multiply3(int odd) {
+int target2(int odd) {
     return odd * 3;
 }
 
-int divide3(int num) {
-    return num / 3;
-}
-
-int deadcode(int num) {
+// DEAD FUNCTION
+int target3(int num) {
     return num + 1;
 }
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         if (argc <= 0) { // must be false
-            deadcode(argc);
+            target3(argc);
         } else if (argc > 0) { // must be true so could get optimized away
             if (argc < 100) {
                 if (argc + 1 > 100) {
-                    deadcode(argc);
+                    target3(argc);
                 } else if (mysqrt(argc) > 10) {
-                    deadcode(argc);
+                    target3(argc);
                 } else {
                     return 0;
                 }
             }
         } else if (argc >= 0) { // this is unreachable
-            deadcode(argc);
+            target3(argc);
         } else {
-            deadcode(argc);
+            target3(argc);
         }
     }
     int result = atoi(argv[1]);
-    int (*fptr[3])(int) = { multiply2, multiply3, deadcode };
+    int (*fptr[3])(int) = { target1, target2, target3 };
     int fidx = result % 2;
     fidx++;
     fidx %= 2;

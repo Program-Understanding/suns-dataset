@@ -17,17 +17,17 @@ int atoi(char *str) {
     return result;
 }
 
-int multiply2(int even) {
+int target1(int even) {
     return even * 2;
 }
 
-int multiply3(int odd) {
+int target2(int odd) {
     return odd * 3;
 }
 
 int main(int argc, char *argv[]) {
     if (argc != 2) return 0;
     int result = atoi(argv[1]);
-    int (*fptr[2])(int) = { multiply2, multiply3 };
+    int (*fptr[2])(int) = { target1, target2 };
     return (*fptr[result%2])(result);
 }
