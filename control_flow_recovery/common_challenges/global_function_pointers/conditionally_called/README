@@ -1,0 +1,5 @@
+Build using
+
+make n=5
+
+This assumes you have installed cog
