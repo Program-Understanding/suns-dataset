@@ -1,0 +1,19 @@
+The general plan is to take work done at SNL and make it a bit more generic.
+
+Each analysis "tool" will be in a separate directory.
+Each directory will contain "questions.json" which are questions the tool believes it can answer.
+Each cfr file (in the datasets) may have one or more corresponding -tool-cfrs.json file,
+where the "cfrs" is a cfr file that specifies a "script" (s) designed to solve the specific
+question.
+
+Generally, tools prefer to have generic scripts...one does not need a special script for
+each and every tool...however, sometimes you do...and thus
+
+analysis
+
+checks to see if there are one or more "cfrs" file... and then it will simply run that for the
+tool in question... and won't run the generic script...otherwise, it checks to see for each
+tool if the tool is willing to answer the question, and then if so, uses a generic script
+for that question.
+
+Wait to see the details...it will make more sense when this is all concrete
