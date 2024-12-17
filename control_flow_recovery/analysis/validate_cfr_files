@@ -1,0 +1,12 @@
+#! /bin/bash
+find .. -name '*cfr.json' | while read -r file; do
+
+    jq -re '""' "$file"
+
+    #check if command failed
+
+    if [ $? -ne 0 ]; then
+        # Print the filename and the error message
+        echo "Error processing file: $file"
+    fi
+done
