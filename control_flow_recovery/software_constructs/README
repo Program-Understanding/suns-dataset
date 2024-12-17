@@ -1,0 +1,5 @@
+In addition to the core control flow recovery challenges, there are a number of software constructs that can make
+control flow recovery difficult indirectly, which are also relevant for measuring successful control flow recovery.
+These constructs should also be present in the critical control flow recovery data path for some samples to simulate
+those conditions.  In other words, the folders in this directory are more about the software constructs present in
+the sample than they are about the core challenge
