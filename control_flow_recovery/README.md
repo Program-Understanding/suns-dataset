@@ -42,3 +42,9 @@ Perhaps tool creators will dictate the types of questions they can answer, and d
 suit, or perhaps dataset creators will craft datasets and expect tools to accomadate... For now, both options
 are a possibility, though we suggest readers take a look at existing "cfr.json" files to get a sense of how this
 all might work.
+
+If you add cfr files, you can validate them with a script in the "analysis" folder, simply cd into analysis and run:
+
+./validate_cfr_files
+
+See the README in analysis if you want to try and set up automated analysis

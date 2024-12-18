@@ -1,0 +1,7 @@
+[ { "question":"What are the file offsets of the targets of the targets of the '<instr-disasm>' instruction at file offset <hex-offset>?",
+    "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite"},
+  { "question":"What are the file offsets of the targets of the '<insr-disasm>' instruction at file offset <hex-offset>?",
+    "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite"}
+]
+    
+
