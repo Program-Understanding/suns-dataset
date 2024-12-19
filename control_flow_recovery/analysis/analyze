@@ -1,0 +1,100 @@
+#! /bin/bash
+echo "This is a proof of concept script that runs a docker container that we feed our example to"
+echo "You must build the container separate from running the analyses"
+
+#docker stop running-ghidra-xrefs-tool
+#docker rm running-ghidra-xrefs-tool
+
+#docker create --name running-ghidra-xrefs-tool ghidra-xrefs-tool
+#we now have an actual container
+#docker ps -a | grep running-ghidra-xrefs-tool
+
+#docker start running-ghidra-xrefs-tool
+
+process_cfr_file() {
+
+    local json_file="$1"  # Get the first argument passed to the function
+
+    echo "this is the file to process:$json_file"
+
+    #TODOconsider having only a single parent directory???
+    CFR_JSON_PATH=$(dirname "$json_file")
+    CFR_JSON_FILENAME=$(basename "$json_file")
+    BINARY_TO_ANALYZE_PATH=$(dirname "$json_file")
+    BINARY_TO_ANALYZE_FILENAME=$(jq -r '.program' $json_file)
+
+
+    #we use "-r" because we don't want the double blackslash that we had to have in our JSON to get a backslash
+    SCRIPT=$(jq -r '.script' $CFR_JSON_PATH/$CFR_JSON_FILENAME )
+
+    if [ "$SCRIPT" = "null" ]; then
+	echo "no script found"
+	SCRIPT= "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite",
+
+    fi
+    
+    #use binary expansion to allow scripts to use the predefined environment variables
+
+    SCRIPT="${SCRIPT//\$BINARY_TO_ANALYZE_FILENAME/$BINARY_TO_ANALYZE_FILENAME}"
+    SCRIPT="${SCRIPT//\$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_PATH}"
+    SCRIPT="${SCRIPT//\$CFR_JSON_PATH/$CFR_JSON_PATH}"
+    SCRIPT="${SCRIPT//\$CFR_JSON_FILENAME/$CFR_JSON_FILENAME}"
+
+    echo "The script  is:$SCRIPT"
+
+    docker cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" running-ghidra-xrefs-tool:/control-flow-recovery/$BINARY_TO_ANALYZE_FILENAME
+    docker cp $json_file running-ghidra-xrefs-tool:/control-flow-recovery/$CFR_JSON_FILENAME
+
+    docker ps -a | grep running-ghidra-xrefs-tool
+
+    docker exec running-ghidra-xrefs-tool /bin/bash -c "ls"
+
+    LOGFILE="$(basename $CFR_JSON_PATH)-log"
+    RESULTFILE="$(basename $CFR_JSON_PATH)-results"
+    
+    docker exec running-ghidra-xrefs-tool /bin/bash -c "$SCRIPT" > results/$LOGFILE
+
+    #now search the log file
+    grep "RESULTS:" results/$LOGFILE > results/$RESULTFILE
+    
+    docker exec running-ghidra-xrefs-tool /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME"
+    docker exec running-ghidra-xrefs-tool /bin/bash -c "rm $CFR_JSON_FILENAME"
+    docker exec running-ghidra-xrefs-tool /bin/bash -c "ls"
+
+}
+#now we walk the datasets directory and do all of the analysis, putting the results in "results" directory
+
+find .. -type d | while read -r dir; do
+    #for each file
+    echo "processing directory: $dir"
+
+    json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
+
+    FUBAR=$(jq -r '.questions[0].question' ghidra_xrefs/questions.json)
+
+    INSTRUCTION="(.*)"
+    OFFSET="(0[xX][0-9a-fA-F]+|[0-9]+)"
+
+    #use binary expansion to build the regex
+    REGEX="${FUBAR//\$INSTRUCTION/$INSTRUCTION}"
+    REGEX="${REGEX//\$OFFSET/$OFFSET}"
+    
+    if [ -n "$json_files" ]; then
+	echo "Found cfr JSON files in $dir:"
+	echo "$json_files" | while read -r json_file; do
+	    QUESTION=$(jq -r '.question' $json_file )
+	    echo "Found a question: $QUESTION"
+	    echo "Does it match: $REGEX"
+	    if [[ $QUESTION =~ $REGEX ]]; then
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $json_file"
+		#process_cfr_file $json_file
+	    fi
+	done
+    else
+	echo "No json files found in $dir."
+    fi
+done
+
+docker stop running-ghidra-xrefs-tool
+docker rm running-ghidra-xrefs-tool
+
