@@ -2,5 +2,5 @@
  "program":"bug",
  "question":"What are the targets of the instruction at virtual address 0x10129E?",
  "groundtruth": ["0x1011c9", "0x1011d8"],
-    "evaluation":"set",
+ "evaluation":"set"
 }
