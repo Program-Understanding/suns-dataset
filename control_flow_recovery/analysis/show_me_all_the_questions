@@ -1,2 +1,4 @@
 #! /bin/bash
-find .. -name '*cfr.json' | xargs jq -r '.question + " in " + .program'
+for file in $(find .. -type f -name '*cfr.json'); do
+    echo "$(jq -r '.question + " in " + .program' "$file") (from $file)"
+done
