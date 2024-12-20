@@ -1,4 +1,4 @@
-Each subdirectory in this directory should contain a control flow analysis tool.
+Each subdirectory in the tools directory should contain a control flow analysis tool.
 You can build all of these tools using the script "build_all_the_tools" or
 "build_all_the_tools_with_a_proxy" if custom configuration is needed.  You can
 also build each tool individually by entering each directory and the running

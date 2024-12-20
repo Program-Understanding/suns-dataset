@@ -1,15 +1,29 @@
 #! /bin/bash
 echo "This is a proof of concept script that runs a docker container that we feed our example to"
 echo "You must build the container separate from running the analyses"
+declare -A map_of_tool_names_to_questions_and_scripts
 
-docker stop running-ghidra-xrefs-tool
-docker rm running-ghidra-xrefs-tool
+start_tool() {
 
-docker create --name running-ghidra-xrefs-tool ghidra-xrefs-tool
-we now have an actual container
-docker ps -a | grep running-ghidra-xrefs-tool
+    #e.g.,
+    #docker stop running-ghidra-xrefs-tool
+    #docker rm running-ghidra-xrefs-tool
+    #docker create --name running-ghidra-xrefs-tool ghidra-xrefs-tool
+    #docker ps -a | grep running-ghidra-xrefs-tool
+    #docker start running-ghidra-xrefs-tool
+    
+    local tool=$1
+    docker stop "running-$tool-tool"
+    docker rm "running-$tool-tool"
+    docker create --name "running-$tool-tool" "$tool-tool"
+    docker ps -a | grep "running-$tool-tool"
+    docker start "running-$tool-tool"
+}
 
-docker start running-ghidra-xrefs-tool
+stop_tool() {
+    docker stop "running-$tool-tool"
+    docker rm "running-$tool-tool"
+}
 
 process_cfr_file() {
 
@@ -68,44 +82,75 @@ process_cfr_file() {
     docker exec running-ghidra-xrefs-tool /bin/bash -c "ls"
 
 }
-#now we walk the datasets directory and do all of the analysis, putting the results in "results" directory
 
-find .. -type d | while read -r dir; do
-    #for each file
-    echo "processing directory: $dir"
-
-    json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
-
-    TOOL="ghidra_xrefs"
-    FUBAR=$(jq -r '.questions[0].question' ghidra_xrefs/questions.json)
-    TOOL_SCRIPT=$(jq -r '.questions[0].script' ghidra_xrefs/questions.json)
-
-    echo "from the questions.json file we have a script of: $TOOL_SCRIPT"
-    
+get_questions_for_tool() {
+    #these special keywords can appear in questions, e.g., $INSTRUCTION or $OFFSET
     INSTRUCTION="(.*)"
     OFFSET="(0[xX][0-9a-fA-F]+|[0-9]+)"
+    #echo "Here is our argument:$1"
+    local questions_array=$(jq -r '.questions[].question' $1/questions.json)
+    local transformed_questions=()
+    for question in "${questions_array[@]}"; do
+	#echo "here is the question:$question"
+	transformed_question="${question//\$INSTRUCTION/$INSTRUCTION}"
+	transformed_question="${transformed_question//\$OFFSET/$OFFSET}"
+	#echo "here is a transformed question:$transformed_question"
+	transformed_questions+=($transformed_question)
+    done
 
-    #use binary expansion to build the regex
-    REGEX="${FUBAR//\$INSTRUCTION/$INSTRUCTION}"
-    REGEX="${REGEX//\$OFFSET/$OFFSET}"
+    echo "${transformed_questions[@]}"
+}
+
+
+get_scripts_for_tool() {
+    #transformations on scripts happen when we read the cfr file
+    local scripts_array=$(jq -r '.questions[].script' $1/questions.json)
+    echo "${scripts_array[@]}"
+}
+
+
+#for efficiency reasons, we try to apply each tool to each dataset
+find ./tools/* -type d | while read -r tooldir; do
+    echo "found a tool directory: $tooldir"
+
+    #get_questions_for_tool "$tooldir"
+    questions=$(get_questions_for_tool "$tooldir")
+    echo "here are the questions:$questions"
+    scripts=$(get_scripts_for_tool "$tooldir")
+    echo "here are the scripts:$scripts"
+
+    #extract the name of the tool from the tooldir
+    tool="${tooldir##*/}"
+    echo "here is the name of the tool:$tool"
+    #start the tool
+
+    start_tool $tool
     
-    if [ -n "$json_files" ]; then
-	echo "Found cfr JSON files in $dir:"
-	echo "$json_files" | while read -r json_file; do
-	    QUESTION=$(jq -r '.question' $json_file )
-	    echo "Found a question: $QUESTION"
-	    echo "Does it match: $REGEX"
-	    if [[ $QUESTION =~ $REGEX ]]; then
-		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $json_file"
-		#probably we send the name of the tool to the process command??>
-		process_cfr_file "$json_file" "$TOOL" "$TOOL_SCRIPT"
-	    fi
-	done
-    else
-	echo "No json files found in $dir."
-    fi
+    #iterate over the datasets
+
+    find .. -type d | while read -r dir; do
+    	echo "processing directory: $dir"
+    	json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
+	if [ -n "$json_files" ]; then
+	       while read -r json_file; do
+		   cfr_question=$(jq -r '.question' $json_file )
+		   length=${#questions[@]}
+		   for (( i=0; i<length; i++ )); do
+		       question=${questions[i]}
+		       script=${scripts[i]}
+		       if [[ $question =~ $cfr_question ]]; then
+			   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $json_file"
+			   #probably we send the name of the tool to the process command??>
+			   #TODO...do we passs the tooldir or the tool name?
+			   process_cfr_file "$json_file" "$tooldir" "script"
+		       fi
+		   done
+	       done
+	fi
+    done
+
+    stop_tool $dir
+
 done
 
-docker stop running-ghidra-xrefs-tool
-docker rm running-ghidra-xrefs-tool
 
