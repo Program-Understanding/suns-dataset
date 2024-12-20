@@ -2,19 +2,21 @@
 echo "This is a proof of concept script that runs a docker container that we feed our example to"
 echo "You must build the container separate from running the analyses"
 
-#docker stop running-ghidra-xrefs-tool
-#docker rm running-ghidra-xrefs-tool
+docker stop running-ghidra-xrefs-tool
+docker rm running-ghidra-xrefs-tool
 
-#docker create --name running-ghidra-xrefs-tool ghidra-xrefs-tool
-#we now have an actual container
-#docker ps -a | grep running-ghidra-xrefs-tool
+docker create --name running-ghidra-xrefs-tool ghidra-xrefs-tool
+we now have an actual container
+docker ps -a | grep running-ghidra-xrefs-tool
 
-#docker start running-ghidra-xrefs-tool
+docker start running-ghidra-xrefs-tool
 
 process_cfr_file() {
 
     local json_file="$1"  # Get the first argument passed to the function
-
+    local tool="$3"
+    local SCRIPT="$3"
+    
     echo "this is the file to process:$json_file"
 
     #TODOconsider having only a single parent directory???
@@ -25,13 +27,15 @@ process_cfr_file() {
 
 
     #we use "-r" because we don't want the double blackslash that we had to have in our JSON to get a backslash
-    SCRIPT=$(jq -r '.script' $CFR_JSON_PATH/$CFR_JSON_FILENAME )
+    #we should look for the <tool>-cfrs.json file
+    #SCRIPT=$(jq -r '.script' $CFR_JSON_PATH/$CFR_JSON_FILENAME )
 
-    if [ "$SCRIPT" = "null" ]; then
-	echo "no script found"
-	SCRIPT= "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite",
+    #assuming there is no "crfs" file, then we use the script associated with the question
+    #if [ "$SCRIPT" = "null" ]; then
+	#echo "no script found"
+	#SCRIPT= "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite",
 
-    fi
+    #fi
     
     #use binary expansion to allow scripts to use the predefined environment variables
 
@@ -71,6 +75,7 @@ find .. -type d | while read -r dir; do
     json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
 
     FUBAR=$(jq -r '.questions[0].question' ghidra_xrefs/questions.json)
+    TOOL_SCRIPT=$(jq -r '.questions[0].script' ghidra_xrefs/questions.json)
 
     INSTRUCTION="(.*)"
     OFFSET="(0[xX][0-9a-fA-F]+|[0-9]+)"
@@ -87,7 +92,8 @@ find .. -type d | while read -r dir; do
 	    echo "Does it match: $REGEX"
 	    if [[ $QUESTION =~ $REGEX ]]; then
 		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $json_file"
-		#process_cfr_file $json_file
+		#probably we send the name of the tool to the process command??>
+		process_cfr_file $json_file $tool $TOOL_SCRIPT
 	    fi
 	done
     else
