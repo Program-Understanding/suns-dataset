@@ -30,6 +30,7 @@ process_cfr_file() {
     local json_file="$1"  # Get the first argument passed to the function
     local tool="$2"
     local SCRIPT="$3"
+    local tooldir="$4" #not needed yet, but might be?
     
     echo "this is the file to process:$json_file"
     echo "this is the tool:$tool"
@@ -61,25 +62,25 @@ process_cfr_file() {
     SCRIPT="${SCRIPT//\$CFR_JSON_FILENAME/$CFR_JSON_FILENAME}"
 
     echo "The script  is:$SCRIPT"
+    
+    docker cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" "running-$tool-tool:/control-flow-recovery/$BINARY_TO_ANALYZE_FILENAME"
+    docker cp $json_file "running-$tool-tool:/control-flow-recovery/$CFR_JSON_FILENAME"
 
-    docker cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" running-ghidra-xrefs-tool:/control-flow-recovery/$BINARY_TO_ANALYZE_FILENAME
-    docker cp $json_file running-ghidra-xrefs-tool:/control-flow-recovery/$CFR_JSON_FILENAME
+    docker ps -a | grep "running-$tool-tool"
 
-    docker ps -a | grep running-ghidra-xrefs-tool
-
-    docker exec running-ghidra-xrefs-tool /bin/bash -c "ls"
+    docker exec "running-$tool-tool" /bin/bash -c "ls"
 
     LOGFILE="$(basename $CFR_JSON_PATH)-log"
     RESULTFILE="$(basename $CFR_JSON_PATH)-results"
     
-    docker exec running-ghidra-xrefs-tool /bin/bash -c "$SCRIPT" > results/$LOGFILE
+    docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > results/$LOGFILE
 
     #now search the log file
     grep "RESULTS:" results/$LOGFILE > results/$RESULTFILE
     
-    docker exec running-ghidra-xrefs-tool /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME"
-    docker exec running-ghidra-xrefs-tool /bin/bash -c "rm $CFR_JSON_FILENAME"
-    docker exec running-ghidra-xrefs-tool /bin/bash -c "ls"
+    docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME"
+    docker exec "running-$tool-tool" /bin/bash -c "rm $CFR_JSON_FILENAME"
+    docker exec "running-$tool-tool" /bin/bash -c "ls"
 
 }
 
@@ -142,7 +143,7 @@ find ./tools/* -type d | while read -r tooldir; do
 			   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $json_file"
 			   #probably we send the name of the tool to the process command??>
 			   #TODO...do we passs the tooldir or the tool name?
-			   process_cfr_file "$json_file" "$tooldir" "script"
+			   process_cfr_file "$json_file" "$tool" "$script" "$tooldir"
 		       fi
 		   done
 	       done
