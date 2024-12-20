@@ -14,10 +14,12 @@ docker start running-ghidra-xrefs-tool
 process_cfr_file() {
 
     local json_file="$1"  # Get the first argument passed to the function
-    local tool="$3"
+    local tool="$2"
     local SCRIPT="$3"
     
     echo "this is the file to process:$json_file"
+    echo "this is the tool:$tool"
+    echo "this is the script before any substitutions:$SCRIPT"
 
     #TODOconsider having only a single parent directory???
     CFR_JSON_PATH=$(dirname "$json_file")
@@ -74,9 +76,12 @@ find .. -type d | while read -r dir; do
 
     json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
 
+    TOOL="ghidra_xrefs"
     FUBAR=$(jq -r '.questions[0].question' ghidra_xrefs/questions.json)
     TOOL_SCRIPT=$(jq -r '.questions[0].script' ghidra_xrefs/questions.json)
 
+    echo "from the questions.json file we have a script of: $TOOL_SCRIPT"
+    
     INSTRUCTION="(.*)"
     OFFSET="(0[xX][0-9a-fA-F]+|[0-9]+)"
 
@@ -93,7 +98,7 @@ find .. -type d | while read -r dir; do
 	    if [[ $QUESTION =~ $REGEX ]]; then
 		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $json_file"
 		#probably we send the name of the tool to the process command??>
-		process_cfr_file $json_file $tool $TOOL_SCRIPT
+		process_cfr_file "$json_file" "$TOOL" "$TOOL_SCRIPT"
 	    fi
 	done
     else
