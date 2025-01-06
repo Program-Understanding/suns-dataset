@@ -32,16 +32,17 @@ uses file offsets to refer to instructions in the binary.  Because file
 offsets are not intuitive, the question often include validation information,
 and by default uses capstone instruction syntax.  Thus, a sample question is:
 
-"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset 0x1297?"
+"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1297' ?"
 
-Note that tools may pattern match against this question but ignore the dissassemble they might
+Note that tools may pattern match against this question but ignore the dissassembly, e.g., they might
 not care about the 'call rax' because it is a portion of the question designed for human validation, not pattern
 matching.
 
 Perhaps tool creators will dictate the types of questions they can answer, and dataset creators will follow
 suit, or perhaps dataset creators will craft datasets and expect tools to accomadate... For now, both options
 are a possibility, though we suggest readers take a look at existing "cfr.json" files to get a sense of how this
-all might work.
+all might work.  Also look at different tools and their "questions.json" file that document the types of questions
+the tools can answer.
 
 If you add cfr files, you can validate them with a script in the "analysis" folder, simply cd into analysis and run:
 
