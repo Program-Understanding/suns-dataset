@@ -37,11 +37,29 @@ import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.symbol.Reference;
 import ghidra.program.model.symbol.ReferenceManager;
+import ghidra.program.model.mem.Memory;
+import ghidra.program.model.mem.MemoryBlock;
+import ghidra.program.model.mem.MemoryBlockSourceInfo;
 
 
 
 
 public class ReportXrefs extends GhidraScript {
+
+    public Address addressForFileOffset(long fileOffset) {
+
+	Memory memory = currentProgram.getMemory();
+	MemoryBlock[] blocks = memory.getBlocks();
+
+	for (MemoryBlock block: blocks) {
+	    for (MemoryBlockSourceInfo info: block.getSourceInfos()) {
+		if (info.containsFileOffset(fileOffset)) {
+		    return info.locateAddressForFileOffset(fileOffset);
+		}
+	    }
+	}
+	return null;
+    }
 
     // we don't want to rely on address because the ground-truth might be addresses
     // that Ghidra would not like, so we simply normalize all numbers to hex.
@@ -94,8 +112,9 @@ public class ReportXrefs extends GhidraScript {
 	    // a set... and thus the evaluation is against a set.
 	    // perhaps "EvaluationType: "set""
 	    // perhaps it is a feature of the truth?
-	    String accepted1 = "What are the targets of the targets of the instruction at virtual address";
-	    String accepted2 = "What are the targets of the instruction at virtual address";
+
+	    String accepted1 = "What are the file offsets for the instructions that are the targets of the '";
+	    String accepted2 = "What are the file offsets for the instructions that are the targets of the targets of the '";
 	    Boolean targetsOfTargets = false;
 	    String accepted = accepted2;
 
@@ -119,13 +138,24 @@ public class ReportXrefs extends GhidraScript {
 		System.exit(1);
 	    }
 
-	    String addressWithQuestion = question.substring(accepted.length()).trim();
-	    if (!addressWithQuestion.endsWith("?")) {
-		System.out.println("Question should end with an address and a question mark, instead got: " + addressWithQuestion);
+	    String instructionWithOffset = question.substring(accepted.length()).trim();
+	    if (!instructionWithOffset.endsWith("?")) {
+		System.out.println("Question should end with an instruction, an offset, and a question mark, instead got: " +
+				   instructionWithOffset);
 		System.exit(1);
 	    }
-	    String addressString = addressWithQuestion.substring(0,addressWithQuestion.length()-1);
+	    
+	    // what we have should be: $INSTRUCTION' instruction at file offset '$OFFSET' ?",
+	    // so we can fetch the instruction up to the "' instruction at file offset '
+	    String questionFragment = "' instruction at file offset '";
+	    int fragmentIndex = instructionWithOffset.indexOf(questionFragment);
+	    String instructionString = instructionWithOffset.substring(0,fragmentIndex);
+	    String offsetString = instructionWithOffset.substring(fragmentIndex + questionFragment.length());
+	    offsetString = offsetString.substring(0,offsetString.indexOf("' ?"));
+	    System.out.println("we have instruction of:" + instructionString + ":");
+	    System.out.println("we have offset of:" + offsetString + ":");
 
+	    System.exit(1);
 	    
 
 	    /*    int radix = 10;
@@ -134,7 +164,7 @@ public class ReportXrefs extends GhidraScript {
 		radix = 16;
 		}*/
 
-	    Integer address = Integer.parseInt(hexNormalize(addressString),16);
+	    Integer address = Integer.parseInt(hexNormalize(offsetString),16);
 
 	    System.out.println("Ghidra is answering the question: " + question);
 	    
