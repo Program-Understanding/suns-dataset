@@ -61,6 +61,18 @@ public class ReportXrefs extends GhidraScript {
 	return null;
     }
 
+
+    public Long addressToFileOffset(Address a) {
+	Memory memory = currentProgram.getMemory();
+	MemoryBlock block = memory.getBlock(a);
+	for (MemoryBlockSourceInfo info: block.getSourceInfos()) {
+	    if (info.contains(a)) {
+		return info.getFileBytesOffset(a);
+	    }
+	}
+	return null;
+    }
+
     // we don't want to rely on address because the ground-truth might be addresses
     // that Ghidra would not like, so we simply normalize all numbers to hex.
     public String hexNormalize(String numberString) {
@@ -102,16 +114,6 @@ public class ReportXrefs extends GhidraScript {
 		System.out.println("this tool only can perform `set` evaluations");
 		System.exit(1);
 	    }
-
-	    // TODO: Change this because we are adding a level of indirection, to our answer
-
-	    // TODO:  Using JSON, we provided our answer as a list... but is it really a set?
-	    // for some question, the answer might indeed be a list... we could insist that
-	    // answers are always lists, but this seems wrong... so, it seems like we might
-	    // need an additional flag stating something about the answer, e.g., that it is
-	    // a set... and thus the evaluation is against a set.
-	    // perhaps "EvaluationType: "set""
-	    // perhaps it is a feature of the truth?
 
 	    String accepted1 = "What are the file offsets for the instructions that are the targets of the '";
 	    String accepted2 = "What are the file offsets for the instructions that are the targets of the targets of the '";
@@ -176,7 +178,8 @@ public class ReportXrefs extends GhidraScript {
 		System.exit(1);
 	    }
 
-	    System.out.println("Ghidra has the instruction as: " + instruction);	    
+	    System.out.println("Ghidra has the instruction as:" + instruction + ":");
+	    //TODO: compare the instructionString to the Ghidra instruction???
 
 	    ReferenceManager referenceManager = currentProgram.getReferenceManager();
 
@@ -196,9 +199,12 @@ public class ReportXrefs extends GhidraScript {
 		    }
 		    Address targetsTarget = targetReferences[0].getToAddress();
 		    System.out.println(reference.getToAddress() + " which in turn has a target of " + targetsTarget );
-		    answerStringSet.add(hexNormalize(targetsTarget.toString("0x")));
+		    Long fileOffset = addressToFileOffset(targetsTarget);
+		    //answerStringSet.add(hexNormalize(targetsTarget.toString("0x")));
+		    answerStringSet.add(hexNormalize("0x" + Long.toHexString(fileOffset)));
 		} else {
-		    answerStringSet.add(hexNormalize(target.toString("0x")));
+		    Long fileOffset = addressToFileOffset(target);		    
+		    answerStringSet.add(hexNormalize("0x" + Long.toHexString(fileOffset))); //target.toString("0x")));
 		}
 	    }
 	    System.out.println("Not the question, but Ghidra has references from:");
