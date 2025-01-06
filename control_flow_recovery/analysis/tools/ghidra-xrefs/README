@@ -1,1 +1,1 @@
-docker buildx build . --build-arg BASE_IMAGE=nexus.web.sandia.gov:8083/amazoncorretto:21.0.5-alpine3.20 --build-arg HTTP_PROXY=http://proxy.sandia.gov:80 --build-arg HTTPS_PROXY=http://proxy.sandia.gov:80 -t snl-ghidra-tool
+This directory contains a tool that analyzes indirect control flow questions using ghidra cross references.
