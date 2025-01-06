@@ -115,11 +115,10 @@ public class ReportXrefs extends GhidraScript {
 
 	    String accepted1 = "What are the file offsets for the instructions that are the targets of the '";
 	    String accepted2 = "What are the file offsets for the instructions that are the targets of the targets of the '";
-	    Boolean targetsOfTargets = false;
-	    String accepted = accepted2;
+	    Boolean targetsOfTargets = null;
+	    String accepted = null;
 
 	    Set<String> truthStringSet = new HashSet<String>();
-
 
 	    JsonNode truth = node.get("groundtruth");
 	    if (truth.isArray()) {
@@ -131,9 +130,12 @@ public class ReportXrefs extends GhidraScript {
 	    }
 
 	    if (question.startsWith(accepted1)) {
-		targetsOfTargets = true;
+		targetsOfTargets = false;
 		accepted = accepted1;
-	    } else if (!question.startsWith(accepted2)) {
+	    } else if (question.startsWith(accepted2)) {
+		targetsOfTargets = true;
+		accepted = accepted2;
+	    } else {
 		System.out.println("I only understand two questions right now: " + accepted1 + " OR " + accepted2);
 		System.exit(1);
 	    }
@@ -155,26 +157,26 @@ public class ReportXrefs extends GhidraScript {
 	    System.out.println("we have instruction of:" + instructionString + ":");
 	    System.out.println("we have offset of:" + offsetString + ":");
 
-	    System.exit(1);
+	    long offsetLong = Integer.parseInt(hexNormalize(offsetString),16);
+	    System.out.println("we have offset of:" + offsetLong);
 	    
+	    Address ia = addressForFileOffset(offsetLong);
 
-	    /*    int radix = 10;
-	    if (addressString.startsWith("0x") || addressString.startsWith("0X")) {
-		addressString = addressString.substring(2);
-		radix = 16;
-		}*/
+	    System.out.println("which yielded an address of: " + ia);
 
-	    Integer address = Integer.parseInt(hexNormalize(offsetString),16);
+	    //Integer address = Integer.parseInt(hexNormalize(offsetString),16);
 
 	    System.out.println("Ghidra is answering the question: " + question);
 	    
-	    Address ia = addressFactory.getDefaultAddressSpace().getAddress(address);
+	    //Address ia = addressFactory.getDefaultAddressSpace().getAddress(address);
 	    Instruction instruction = currentProgram.getListing().getInstructionAt(ia);
 	    
 	    if (instruction == null) {
 		System.out.println("There are no instructions at specified address: " + ia);
 		System.exit(1);
 	    }
+
+	    System.out.println("Ghidra has the instruction as: " + instruction);	    
 
 	    ReferenceManager referenceManager = currentProgram.getReferenceManager();
 
