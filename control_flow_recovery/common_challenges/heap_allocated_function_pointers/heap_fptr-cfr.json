@@ -1,0 +1,9 @@
+{
+    "program":"heap_fptr-stripped",
+    "question":"What are the targets of the instruction at offset '0x11e4'?",
+    "evaluation":"set",
+    "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+    "compiler-options":"-g -O2",
+    "stripped":true
+   }
+   
