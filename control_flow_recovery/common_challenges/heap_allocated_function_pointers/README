@@ -1,1 +1,8 @@
 This directory holds examples that conform to the type of control flow recovery specified in the directories name
+
+===============
+ add1_or_mult2
+===============
+If even, adds 1; if odd, multiplies 2.
+
+Target functions are stored in a malloc'ed array.
