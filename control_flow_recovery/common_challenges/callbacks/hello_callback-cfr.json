@@ -1,0 +1,10 @@
+{
+    "program":"hello_callback-stripped",
+    "question":"What are the targets of the instruction at offset 0x117e?",
+    "groundtruth": ["0x1180"],
+    "evaluation":"set",
+    "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+    "compiler-options":"-g -O2",
+    "stripped":true
+   }
+   
