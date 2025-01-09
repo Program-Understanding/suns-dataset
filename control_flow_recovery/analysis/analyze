@@ -2,19 +2,11 @@
 echo "This is a proof of concept script that runs a docker container that we feed our example to"
 echo "You must build the container separate from running the analyses"
 
-#Doing this without the use of these two globals became quite a pain
+#Doing this without the use of these two globals became quite a pain, so I gave up
 questions_for_tool=()
 scripts_for_tool=()
 
 start_tool() {
-
-    #e.g.,
-    #docker stop running-ghidra-xrefs-tool
-    #docker rm running-ghidra-xrefs-tool
-    #docker create --name running-ghidra-xrefs-tool ghidra-xrefs-tool
-    #docker ps -a | grep running-ghidra-xrefs-tool
-    #docker start running-ghidra-xrefs-tool
-    
     local tool=$1
     docker stop "running-$tool-tool"
     docker rm "running-$tool-tool"
@@ -24,6 +16,7 @@ start_tool() {
 }
 
 stop_tool() {
+    local tool=$1
     docker stop "running-$tool-tool"
     docker rm "running-$tool-tool"
 }
@@ -38,13 +31,12 @@ process_cfr_file() {
     echo "this is the file to process:$json_file"
     echo "this is the tool:$tool"
     echo "this is the script before any substitutions:$SCRIPT"
+    echo "this is the tooldir:$tooldir"
 
-    #TODOconsider having only a single parent directory???
     CFR_JSON_PATH=$(dirname "$json_file")
     CFR_JSON_FILENAME=$(basename "$json_file")
     BINARY_TO_ANALYZE_PATH=$(dirname "$json_file")
     BINARY_TO_ANALYZE_FILENAME=$(jq -r '.program' $json_file)
-
 
     #we use "-r" because we don't want the double blackslash that we had to have in our JSON to get a backslash
     #we should look for the <tool>-cfrs.json file
@@ -73,13 +65,24 @@ process_cfr_file() {
 
     docker exec "running-$tool-tool" /bin/bash -c "ls"
 
-    LOGFILE="$(basename $CFR_JSON_PATH)-log"
-    RESULTFILE="$(basename $CFR_JSON_PATH)-results"
+    #LOGFILE="$(basename $CFR_JSON_PATH)-log"
+    #RESULTFILE="$(basename $CFR_JSON_PATH)-results"
+
+    RPATH="${CFR_JSON_PATH/../results}"
+    if [ ! -d "$RPATH" ]; then
+	mkdir -p "$RPATH"
+    fi
+
+    CFR_MODIFIED="${CFR_JSON_FILENAME/cfr.json/$tool}"
     
-    docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > results/$LOGFILE
+    LOGFILE="$RPATH/$CFR_MODIFIED-log"
+    RESULTFILE="$RPATH/$CFR_MODIFIED-results"    
+    echo "We took the logfile from the basename, can we do better? $CFR_JSON_PATH should be tool specific too $tool"
+
+    docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE
 
     #now search the log file
-    grep "RESULTS:" results/$LOGFILE > results/$RESULTFILE
+    grep "RESULTS:" $LOGFILE > $RESULTFILE
     
     docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME"
     docker exec "running-$tool-tool" /bin/bash -c "rm $CFR_JSON_FILENAME"
@@ -182,8 +185,6 @@ find ./tools/* -type d | while read -r tooldir; do
 		    if [[ $cfr_question =~ $question ]]; then
 			echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $cfr_json_file"
 			script=${scripts_for_tool[i]}
-			#probably we send the name of the tool to the process command??>
-			#TODO...do we passs the tooldir or the tool name?
 			process_cfr_file "$cfr_json_file" "$tool" "$script" "$tooldir"
 		    fi
 		done
@@ -191,7 +192,7 @@ find ./tools/* -type d | while read -r tooldir; do
 	fi
     done
 
-    stop_tool $dir
+    stop_tool $tool
 
 done
 
