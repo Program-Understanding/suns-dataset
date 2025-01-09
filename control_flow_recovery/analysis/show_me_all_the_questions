@@ -1,4 +1,4 @@
 #! /bin/bash
 for file in $(find .. -type f -name '*cfr.json'); do
-    echo "$(jq -r '.question + " in " + .program' "$file") (from $file)"
+    echo "$(jq -r '.question + "\n\t for binary " + .program' "$file") (from $file)"
 done

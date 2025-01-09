@@ -40,6 +40,9 @@ import ghidra.program.model.symbol.ReferenceManager;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
 import ghidra.program.model.mem.MemoryBlockSourceInfo;
+import ghidra.program.model.listing.Program;
+import ghidra.program.model.symbol.Symbol;
+import ghidra.program.model.symbol.SymbolTable;
 
 
 
@@ -175,6 +178,12 @@ public class ReportXrefs extends GhidraScript {
 	    
 	    if (instruction == null) {
 		System.out.println("There are no instructions at specified address: " + ia);
+		System.out.println("The current program is: " + currentProgram);
+		System.out.println("The Ghidra Listing shows there are " +
+				   currentProgram.getListing().getNumInstructions() + " instructions");
+		for (Instruction i: currentProgram.getListing().getInstructions(true)) {
+		    System.out.println(i.getAddress() + " : " + i);
+		}
 		System.exit(1);
 	    }
 

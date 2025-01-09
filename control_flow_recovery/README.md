@@ -42,7 +42,7 @@ Perhaps tool creators will dictate the types of questions they can answer, and d
 suit, or perhaps dataset creators will craft datasets and expect tools to accomadate... For now, both options
 are a possibility, though we suggest readers take a look at existing "cfr.json" files to get a sense of how this
 all might work.  Also look at different tools and their "questions.json" file that document the types of questions
-the tools can answer.
+existing tools can answer.
 
 If you add cfr files, you can validate them with a script in the "analysis" folder, simply cd into analysis and run:
 
