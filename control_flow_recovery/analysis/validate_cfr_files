@@ -1,4 +1,5 @@
 #! /bin/bash
+#Right now, this is simply json validation, if the cfr file is valid json
 find .. -name '*cfr.json' | while read -r file; do
 
     jq -re '""' "$file"
