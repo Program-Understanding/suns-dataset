@@ -1,10 +1,8 @@
 import os
 import re
-import time
 import click
 import json
-from os.path import join
-import angr, claripy
+import angr
 
 @click.command()
 @click.argument('binary_path')
@@ -84,12 +82,40 @@ def study(binary_path: str, cfrjson_path: str):
     for n in nodes_for_address:
         successors.extend(n.successors)
 
+    if question_type == "targets of targets":
+        nsuccessors = []
+        for s in successors:
+            nsuccesors.extend(s.successors)
+        successors = nsuccessors
+
     address_answers = [ s.addr for s in successors]
     offset_answers = [ project.loader.find_section_containing(a).addr_to_offset(a) for a in address_answers]
     offset_answers_hex = [ hex(oa) for oa in offset_answers]
-    print("The answer to your question is: ")
-    print(str(offset_answers_hex))
 
+    answerStringSet = set()
+    for offset in offset_answers:
+        answerStringSet.add(hex(offset))
+
+    print("RESULTS: The groundtruth is: " + str(set(groundtruth)));
+    print("RESULTS: The tool's answer is: " + str(answerStringSet));
+	    
+    matchesAnswer = set(groundtruth) == answerStringSet
+
+    matchesString = "YES" if matchesAnswer else "NO"
+    print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
+    if not matchesAnswer:
+
+        incorrect = answerStringSet - set(groundtruth)
+        missing = set(groundtruth) - answerStringSet
+
+        incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
+        missingString = str(missing) if len(missing) > 0 else "{}"
+        
+        print(f"Tool's answer includes incorrect elements: {incorrectString}")
+        print(f"Tool's answer does not include correct elements: {missingString}")
+
+
+    
 
 if __name__ == "__main__":
     study()
