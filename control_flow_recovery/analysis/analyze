@@ -147,7 +147,10 @@ get_scripts_for_tool() {
 #for efficiency reasons, we try to apply each tool to each dataset
 find ./tools/* -type d | while read -r tooldir; do
     echo "found a tool directory: $tooldir"
-
+    if [ -f $tooldir/.ignoreme ]; then
+        echo "Ignoring this directory (there is a .ignoreme file in $tooldir)"
+        continue
+    fi
     get_questions_for_tool "$tooldir"
     #echo "    There are ${#questions_for_tool[@]} questions"
     get_scripts_for_tool "$tooldir"
