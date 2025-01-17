@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 import ghidra.app.util.cparser.C.CParserUtils;
 import ghidra.app.util.cparser.C.CParserUtils.CParseResults;
@@ -76,6 +77,19 @@ public class ReportXrefs extends GhidraScript {
 	return null;
     }
 
+    public String setToString(Set<String> stringSet) {
+        Set<String> sortedSet = new TreeSet<>(stringSet);
+        StringBuilder result = new StringBuilder("{");
+        for (String element : sortedSet) {
+            result.append(element).append(", ");
+        }
+        if (!sortedSet.isEmpty()) {
+            result.setLength(result.length() - 2); // Remove last ", "
+        }
+        result.append("}");
+        return result.toString();
+    }
+
     // we don't want to rely on address because the ground-truth might be addresses
     // that Ghidra would not like, so we simply normalize all numbers to hex.
     public String hexNormalize(String numberString) {
@@ -89,6 +103,21 @@ public class ReportXrefs extends GhidraScript {
 	return Integer.toHexString(address);
     }
 
+
+    // we don't want to rely on address because the ground-truth might be addresses
+    // that Ghidra would not like, so we simply normalize all numbers to hex.
+    public String hexNormalizeWithPrefix(String numberString) {
+	//TODO...claim is we just don't specify radix and this might work
+	int radix = 10;
+	if (numberString.startsWith("0x") || numberString.startsWith("0X")) {
+	    numberString = numberString.substring(2);
+	    radix = 16;
+	}
+	Integer address = Integer.parseInt(numberString,radix);
+	return "0x" + Integer.toHexString(address);
+    }
+
+    
     @Override
     protected void run() throws Exception {
 	System.out.println("XYZZY");
@@ -128,10 +157,10 @@ public class ReportXrefs extends GhidraScript {
 	    JsonNode truth = node.get("groundtruth");
 	    if (truth.isArray()) {
 		for (int i = 0; i < truth.size(); i++) {
-		    truthStringSet.add(hexNormalize(truth.get(i).asText()));
+		    truthStringSet.add(hexNormalizeWithPrefix(truth.get(i).asText()));
 		}
 	    } else {
-		truthStringSet.add(hexNormalize(truth.asText()));
+		truthStringSet.add(hexNormalizeWithPrefix(truth.asText()));
 	    }
 
 	    if (question.startsWith(accepted1)) {
@@ -210,37 +239,42 @@ public class ReportXrefs extends GhidraScript {
 		    System.out.println(reference.getToAddress() + " which in turn has a target of " + targetsTarget );
 		    Long fileOffset = addressToFileOffset(targetsTarget);
 		    //answerStringSet.add(hexNormalize(targetsTarget.toString("0x")));
-		    answerStringSet.add(hexNormalize("0x" + Long.toHexString(fileOffset)));
+		    answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset)));
 		} else {
 		    Long fileOffset = addressToFileOffset(target);		    
-		    answerStringSet.add(hexNormalize("0x" + Long.toHexString(fileOffset))); //target.toString("0x")));
+		    answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset))); //target.toString("0x")));
 		}
 	    }
 	    System.out.println("Not the question, but Ghidra has references from:");
 	    for (Reference reference: referenceManager.getReferencesTo(ia)) {
 		System.out.println(reference.getFromAddress());
 	    }
-	    System.out.println("RESULTS: The groundtruth is: " + truthStringSet);
-	    System.out.println("RESULTS: The tool's answer is: " + answerStringSet);
+
+	    System.out.println("RESULTS: The groundtruth is: " + setToString(truthStringSet));
+	    System.out.println("RESULTS: The tool's answer is: " + setToString(answerStringSet));
 	    
 	    // do a set comparison now?
 
 	    Boolean matchesAnswer = answerStringSet.equals(truthStringSet);
 	    System.out.println("RESULTS: Tool's answer matches groundtruth? " +
 			       (matchesAnswer? "YES" : "NO"));
-	    
+
+
+	    Set<String> incorrectElements = new HashSet<String>(answerStringSet);
+	    incorrectElements.removeAll(truthStringSet);
+	    Set<String> missingElements = new HashSet<String>(truthStringSet);
+	    missingElements.removeAll(answerStringSet);
+
+	    System.out.println("RESULTS: Correctly identified " + (truthStringSet.size() - incorrectElements.size()) +
+			       " out of " + truthStringSet.size() + " elements in the answer");
+	    System.out.println("RESULTS: Incorrectly provided " + missingElements.size() + " values which are not in the answer.");
+
 	    if (!matchesAnswer) {
-
-		Set<String> incorrectElements = new HashSet<String>(answerStringSet);
-		incorrectElements.removeAll(truthStringSet);
-		Set<String> missingElements = new HashSet<String>(truthStringSet);
-		missingElements.removeAll(answerStringSet);
-
-		System.out.println("Tool's answer includes incorrect elements: " + incorrectElements);
-		System.out.println("Tool's answer does not include correct elements: " + missingElements);
-
-
+		System.out.println("RESULTS: Tool's answer includes incorrect elements: " + setToString(incorrectElements));
+		System.out.println("RESULTS: Tool's answer does not include correct elements: " + setToString(missingElements));
 	    }
+
+
 
 	    //	} catch (FileNotFoundException e) {
 	    //	    Msg.info(this,"file not found: " + fileArg);

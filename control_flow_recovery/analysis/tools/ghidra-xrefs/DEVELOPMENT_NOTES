@@ -1,0 +1,6 @@
+If you want to play around inside the container (helpful during development)
+
+docker run -d --name playground ghidra-xrefs-tool
+docker exec -it playground /bin/bash
+docker rm playground
+

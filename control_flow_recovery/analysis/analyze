@@ -10,9 +10,9 @@ start_tool() {
     local tool=$1
     docker stop "running-$tool-tool" 2> /dev/null
     docker rm "running-$tool-tool" 2> /dev/null
-    docker create --name "running-$tool-tool" "$tool-tool" 2> /dev/null
+    docker create --name "running-$tool-tool" "$tool-tool" > /dev/null
     #docker ps -a | grep "running-$tool-tool"
-    docker start "running-$tool-tool" 2> /dev/null
+    docker start "running-$tool-tool" > /dev/null
 }
 
 stop_tool() {

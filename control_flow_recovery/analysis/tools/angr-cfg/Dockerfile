@@ -1,0 +1,25 @@
+# The docker repository can optionally be specified as a build argument, for those a local nexus repository
+ARG BASE_IMAGE=python:3.9-slim
+
+FROM ${BASE_IMAGE}
+
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+
+ENV http_proxy ${HTTP_PROXY} \
+    https_proxy ${HTTPS_PROXY} \
+    HTTP_PROXY ${HTTP_PROXY} \
+    HTTPS_PROXY ${HTTPS_PROXY}
+
+RUN mkdir -p /control-flow-recovery
+
+WORKDIR /control-flow-recovery
+
+COPY requirements.txt .
+
+#RUN pip install
+RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir -r requirements.txt
+
+COPY study.py .
+
+CMD ["tail", "-f", "/dev/null"]
