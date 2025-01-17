@@ -8,17 +8,17 @@ scripts_for_tool=()
 
 start_tool() {
     local tool=$1
-    docker stop "running-$tool-tool"
-    docker rm "running-$tool-tool"
-    docker create --name "running-$tool-tool" "$tool-tool"
-    docker ps -a | grep "running-$tool-tool"
-    docker start "running-$tool-tool"
+    docker stop "running-$tool-tool" 2> /dev/null
+    docker rm "running-$tool-tool" 2> /dev/null
+    docker create --name "running-$tool-tool" "$tool-tool" 2> /dev/null
+    #docker ps -a | grep "running-$tool-tool"
+    docker start "running-$tool-tool" 2> /dev/null
 }
 
 stop_tool() {
     local tool=$1
-    docker stop "running-$tool-tool"
-    docker rm "running-$tool-tool"
+    docker stop "running-$tool-tool" 2> /dev/null
+    docker rm "running-$tool-tool" 2> /dev/null
 }
 
 process_cfr_file() {
@@ -28,10 +28,11 @@ process_cfr_file() {
     local SCRIPT="$3"
     local tooldir="$4" #not needed yet, but might be?
     
-    echo "this is the file to process:$json_file"
-    echo "this is the tool:$tool"
-    echo "this is the script before any substitutions:$SCRIPT"
-    echo "this is the tooldir:$tooldir"
+    echo "    processing $json_file using tool $tool"
+    #echo "    this is the file to process:$json_file"
+    #echo "    this is the tool:$tool"
+    #echo "    this is the script before any substitutions:$SCRIPT"
+    #echo "    this is the tooldir:$tooldir"
 
     CFR_JSON_PATH=$(dirname "$json_file")
     CFR_JSON_FILENAME=$(basename "$json_file")
@@ -56,14 +57,15 @@ process_cfr_file() {
     SCRIPT="${SCRIPT//\$CFR_JSON_PATH/$CFR_JSON_PATH}"
     SCRIPT="${SCRIPT//\$CFR_JSON_FILENAME/$CFR_JSON_FILENAME}"
 
-    echo "The script is:$SCRIPT"
+    echo "    The script is:$SCRIPT"
     
     docker cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" "running-$tool-tool:/control-flow-recovery/$BINARY_TO_ANALYZE_FILENAME"
     docker cp "$json_file" "running-$tool-tool:/control-flow-recovery/$CFR_JSON_FILENAME"
 
-    docker ps -a | grep "running-$tool-tool"
+    #docker ps -a | grep "running-$tool-tool"
 
-    docker exec "running-$tool-tool" /bin/bash -c "ls"
+    #consider providing flags to analyze to do more debuggin like this?
+    #docker exec "running-$tool-tool" /bin/bash -c "ls"
 
     #LOGFILE="$(basename $CFR_JSON_PATH)-log"
     #RESULTFILE="$(basename $CFR_JSON_PATH)-results"
@@ -77,16 +79,15 @@ process_cfr_file() {
     
     LOGFILE="$RPATH/$CFR_MODIFIED-log"
     RESULTFILE="$RPATH/$CFR_MODIFIED-results"    
-    echo "We took the logfile from the basename, can we do better? $CFR_JSON_PATH should be tool specific too $tool"
 
-    docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE
+    docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE 2>&1
 
     #now search the log file
     grep "RESULTS:" $LOGFILE > $RESULTFILE
     
-    docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME"
+    docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME" 
     docker exec "running-$tool-tool" /bin/bash -c "rm $CFR_JSON_FILENAME"
-    docker exec "running-$tool-tool" /bin/bash -c "ls"
+    #docker exec "running-$tool-tool" /bin/bash -c "ls"
 
 }
 
@@ -116,7 +117,7 @@ get_questions_for_tool() {
 
 	local transformed_question="${question//\$INSTRUCTION/$INSTRUCTION}"
 	local transformed_question="${transformed_question//\$OFFSET/$OFFSET}"
-	echo "here is the transformed question:$transformed_question"
+	#echo "    here is the transformed question:$transformed_question"
 	questions_for_tool+=("$transformed_question")
     done
 
@@ -133,8 +134,10 @@ get_scripts_for_tool() {
 	scripts+=("$script")
     done < <(echo "$json_data" | jq -r '.questions[].script')
 
+    scripts_for_tool=() #clear the global
+
     for script in "${scripts[@]}"; do
-	echo "here is the script:$script"
+	#echo "    here is the script:$script"
         scripts_for_tool+=("$script")
     done
 
@@ -145,23 +148,19 @@ get_scripts_for_tool() {
 find ./tools/* -type d | while read -r tooldir; do
     echo "found a tool directory: $tooldir"
 
-
-    #get_questions_for_tool "$tooldir"
-    #exit 1
-
     get_questions_for_tool "$tooldir"
-    echo "There are ${#questions_for_tool[@]} questions"
+    #echo "    There are ${#questions_for_tool[@]} questions"
     get_scripts_for_tool "$tooldir"
-    echo "There are ${#scripts_for_tool[@]} scripts"
+    #echo "    There are ${#scripts_for_tool[@]} scripts"
     #extract the name of the tool from the tooldir
     tool="${tooldir##*/}"
-    echo "here is the name of the tool:$tool"
+    #echo "    here is the name of the tool:$tool"
     #start the tool
 
     start_tool $tool
     
     #iterate over the datasets
-
+    
     find .. -type d | while read -r dir; do
 	if [ "$dir" == "../analysis" ]; then
 	    continue #skip the analysis directory
@@ -169,21 +168,21 @@ find ./tools/* -type d | while read -r tooldir; do
 	if [[ "$dir" == ../analysis/* ]]; then
 	    continue #skip all of the subdirectories in analysis
 	fi
-    	echo "processing directory: $dir"
+    	#echo "processing directory: $dir"
     	cfr_json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
-	echo "Here are the json files: $cfr_json_files"
+	#echo "Here are the json files: $cfr_json_files"
 	if [ -n "$cfr_json_files" ]; then
 	    echo "$cfr_json_files" | while read -r cfr_json_file; do
 		echo "fetching question from $cfr_json_file"
 		cfr_question=$(jq -r '.question' "$cfr_json_file" )
-		echo "here is the question:$cfr_question"
+		#echo "here is the question:$cfr_question"
 		length=${#questions_for_tool[@]}
-		echo "There are $length questions to compare against"
+		#echo "There are $length questions to compare against"
 		for (( i=0; i<length; i++ )); do
 		    question=${questions_for_tool[i]}
-		    echo "here is the regex #$i we are comparing to:$question"
+		    #echo "here is the regex #$i we are comparing to:$question"
 		    if [[ $cfr_question =~ $question ]]; then
-			echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $cfr_json_file"
+			#echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $cfr_json_file"
 			script=${scripts_for_tool[i]}
 			process_cfr_file "$cfr_json_file" "$tool" "$script" "$tooldir"
 		    fi
