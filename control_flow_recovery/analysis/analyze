@@ -287,11 +287,10 @@ find ./tools/* -type d | while read -r tooldir; do
     	cfr_json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
 	#echo "Here are the json files: $cfr_json_files"
 
-	if [[ $only_cfr != "*any*" ]]; then
+	if [[ $only_cfr != "*all*" ]]; then
 	    cfr_json_files=$(filter_cfr_files "$cfr_json_files")
 	fi
-	
-	#echo "Here are the json files after filtering: $cfr_json_files"
+
 	if [ -n "$cfr_json_files" ]; then
 	    echo "$cfr_json_files" | while read -r cfr_json_file; do
 		echo "fetching question from $cfr_json_file"
