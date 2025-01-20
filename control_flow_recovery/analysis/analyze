@@ -1,10 +1,23 @@
 #! /bin/bash
-echo "This is a proof of concept script that runs a docker container that we feed our example to"
-echo "You must build the container separate from running the analyses"
 
 #Doing this without the use of these two globals became quite a pain, so I gave up
 questions_for_tool=()
 scripts_for_tool=()
+only_tool="*all*"
+only_cfr="*all*"
+only_new=false
+
+function show_help {
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --only_tool TOOL    Specify a tool to run (default is all)."
+    echo "  --only_cfr CFR      Specify a cfr to analyze (default is all)."
+    echo "     CFR is either path, filename, or filename without '-cfr.json' " 
+    echo "  --only_new          If set, only run analysis that are likely new"
+    echo "  --help          Display this help message."
+    echo "CURRENT STATUS:  only_new is not yet functional!!!!!"
+}
 
 start_tool() {
     local tool=$1
@@ -144,20 +157,117 @@ get_scripts_for_tool() {
 }
 
 
+filter_cfr_files() {
+
+    local input_list="$1"
+    local filtered_list=""
+
+    # Iterate over each line in the input list
+    while IFS= read -r line; do
+        # Check if the line is not "blah"
+
+	
+        if [[ "$only_cfr" == *"/"* ]]; then
+	    #if user specified a path, match exact
+	    if [[ "$line" == "$only_cfr" ]]; then
+		filtered_list+="$line"$'\n'
+	    fi
+	else
+	    if [[ $(basename "$line") == "$only_cfr" ]]; then
+		filtered_list+="$line"$'\n'
+	    fi
+	    if [[ $(basename "$line") == "$only_cfr-cfr.json" ]]; then
+		filtered_list+="$line"$'\n'
+	    fi
+	fi
+
+	#if [[ "$line" != "blah" ]]; then
+        #    filtered_list+="$line"$'\n'
+        #fi
+    done <<< "$input_list"
+
+    # Remove the trailing newline character
+    filtered_list="${filtered_list%$'\n'}"
+
+    echo "$filtered_list"
+}
+
+
+
+
+
+#process command line arguments
+while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+        --only_tool)
+            if [[ -n "$2" && ! "$2" =~ ^-- ]]; then
+                only_tool="$2"
+                shift 2
+            else
+                echo "Error: --only_tool requires a tool name."
+                exit 1
+            fi
+            ;;
+        --only_cfr)
+            if [[ -n "$2" && ! "$2" =~ ^-- ]]; then
+                only_cfr="$2"
+                shift 2
+            else
+                echo "Error: --only_cfr requires a cfr file specification."
+                exit 1
+            fi
+            ;;
+        --only_new)
+            only_new=true
+            shift
+            ;;
+        --help)
+            show_help
+            exit 0
+            ;;
+        --*)
+            echo "Unknown option: $1"
+            show_help
+            exit 1
+            ;;
+        *)
+            echo "Analyze takes options, but no positional arguments such as: $1"
+            show_help
+            exit 1
+            ;;
+    esac
+done
+
+#echo "only_tool $only_tool"
+#echo "only_cfr $only_cfr"
+#echo "only_new $only_new"
+
+echo "This is a proof of concept script that runs a docker container that we feed our example to"
+echo "You must build the container separate from running the analyses"
+
+
+
+
 #for efficiency reasons, we try to apply each tool to each dataset
 find ./tools/* -type d | while read -r tooldir; do
     echo "found a tool directory: $tooldir"
+    #extract the name of the tool from the tooldir
+    tool="${tooldir##*/}"
+    #echo "    here is the name of the tool:$tool"
+
     if [ -f $tooldir/.ignoreme ]; then
         echo "Ignoring this directory (there is a .ignoreme file in $tooldir)"
         continue
     fi
+
+    if [[ $only_tool != "*all*" && $tool != "$only_tool" ]]; then
+	continue
+    fi
+    
     get_questions_for_tool "$tooldir"
     #echo "    There are ${#questions_for_tool[@]} questions"
     get_scripts_for_tool "$tooldir"
     #echo "    There are ${#scripts_for_tool[@]} scripts"
-    #extract the name of the tool from the tooldir
-    tool="${tooldir##*/}"
-    #echo "    here is the name of the tool:$tool"
     #start the tool
 
     start_tool $tool
@@ -168,12 +278,20 @@ find ./tools/* -type d | while read -r tooldir; do
 	if [ "$dir" == "../analysis" ]; then
 	    continue #skip the analysis directory
 	fi
+
 	if [[ "$dir" == ../analysis/* ]]; then
 	    continue #skip all of the subdirectories in analysis
 	fi
+
     	#echo "processing directory: $dir"
     	cfr_json_files=$(find "$dir" -maxdepth 1 -type f -name "*cfr.json")
 	#echo "Here are the json files: $cfr_json_files"
+
+	if [[ $only_cfr != "*any*" ]]; then
+	    cfr_json_files=$(filter_cfr_files "$cfr_json_files")
+	fi
+	
+	#echo "Here are the json files after filtering: $cfr_json_files"
 	if [ -n "$cfr_json_files" ]; then
 	    echo "$cfr_json_files" | while read -r cfr_json_file; do
 		echo "fetching question from $cfr_json_file"

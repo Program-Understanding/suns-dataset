@@ -80,7 +80,7 @@ def study(binary_path: str, cfrjson_path: str):
                     
     if len(nodes_for_address) == 0:
         print("I was not able to find a CFG node containing the address " + str(address))
-        print("Are you sure you have the right instruction?  I show it as:")
+        print("Are you sure you have the right instruction offset?  I show it as:")
         block = project.factory.block(address)
         print(block.disassembly)
         #do something to record the actual result
