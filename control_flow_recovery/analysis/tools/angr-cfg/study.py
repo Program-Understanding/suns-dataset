@@ -46,6 +46,7 @@ def study(binary_path: str, cfrjson_path: str):
         raise NotImplementedError("the question is not fully understood, perhaps spacing is off?")
     
     instruction_string = quoted_strings[0]
+
     offset_string = quoted_strings[1]
 
     if "0x" in offset_string:
@@ -62,7 +63,14 @@ def study(binary_path: str, cfrjson_path: str):
     address = project.loader.main_object.offset_to_addr(offset)
 
 
+    capstone_inst_string = (project.factory.block(address).capstone.insns[0].mnemonic + " " +
+                            project.factory.block(address).capstone.insns[0].op_str)
 
+    #will this always match?
+    if capstone_inst_string != instruction_string:
+        raise NotImplementedError("instruction don't match... question: " + instruction_string +
+                                  "whereas angr reports: " + capstone_inst_string)
+    
     nodes_for_address = []
 
     for n in cfg.nodes():
