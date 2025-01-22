@@ -55,6 +55,7 @@ def study(binary_path: str, cfrjson_path: str):
         offset = int(offset_string)
 
     project = angr.Project(binary_path,auto_load_libs=False)
+
     cfg = project.analyses.CFGEmulated(keep_state=True,
                                    context_sensitivity_level=20,
                                    resolve_indirect_jumps=True)
@@ -97,6 +98,7 @@ def study(binary_path: str, cfrjson_path: str):
         successors = nsuccessors
 
     address_answers = [ s.addr for s in successors]
+    
     offset_answers = [ project.loader.find_section_containing(a).addr_to_offset(a) for a in address_answers]
     offset_answers_hex = [ hex(oa) for oa in offset_answers]
 
