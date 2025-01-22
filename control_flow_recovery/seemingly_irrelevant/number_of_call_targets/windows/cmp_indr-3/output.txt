@@ -1,0 +1,22 @@
+[]
+Branch taken to addr: 0x401070
+  0x401070:	call	0x40107b
+[]
+Branch taken to addr: 0x40107b
+  0x40107b:	push	ebp
+  0x40107c:	mov	ebp, esp
+  0x40107e:	add	esp, -4
+  0x401081:	push	esi
+  0x401082:	push	edi
+  0x401083:	push	ebx
+  0x401084:	call	0x401005
+[]
+Branch taken to addr: 0x401005
+  0x401005:	jmp	0x401178
+[]
+Branch taken to addr: 0x401178
+  0x401178:	jmp	dword ptr [0x405000]
+[]
+Branch taken to addr: 0x500000
+  0x500000:	add	byte ptr [eax], al
+  0x500002:	add	byte ptr [eax], al

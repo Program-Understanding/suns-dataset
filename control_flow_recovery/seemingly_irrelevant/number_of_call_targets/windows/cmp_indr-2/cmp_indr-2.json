@@ -1,0 +1,1 @@
+{"assumptions":"The offsets are virtual addresses with the base set to 0x401000.","groundtruth":["0x4010EC","0x4010F9"],"justification":"truth_finder","program":"0xdc2d1cf33b744b300d99f41464817b62165a6caf12914e1733aef8b3cc9e4578","question":"What are the targets of the instruction at offset 0x4010E5?"}
