@@ -1,0 +1,10 @@
+{
+    "program":"switch_dispatch-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x115e' ?",
+    "groundtruth": ["0x12c0", "0x12d0", "0x12e0", "0x12f0", "0x1300"],
+    "evaluation":"set",
+    "compiler":"gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)",
+    "compiler-options":"-g -O2",
+    "stripped":true
+   }
+   
