@@ -14,7 +14,7 @@ def parse_graph(dotfile, vaddr):
         
         if fnmatch.fnmatch(src, f'*{vaddr}*'):
             sources.append(src)
-            destinations.append(dst)
+            destinations.append(hex(int(dst[3:-3],16)))
 
     print(f"\nDestination Nodes: [count: {len(destinations)}]")
     for node in destinations:
@@ -27,7 +27,9 @@ def main():
 
     args = parser.parse_args()
 
-    parse_graph(args.dotfile, args.source_node)
+    # clean up source node
+    src_node = args.source_node[2:]
+    parse_graph(args.dotfile, src_node)
 
 if __name__ == "__main__":
     main()
