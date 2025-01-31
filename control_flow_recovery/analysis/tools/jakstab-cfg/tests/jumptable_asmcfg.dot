@@ -1,0 +1,13 @@
+digraph G {
+node[shape=rectangle,style=filled,fillcolor=lightsteelblue,color=lightsteelblue]
+bgcolor="transparent"
+graph [label="Jakstab v0.8.4-devel   Thu Jan 30 22:27:47 CST 2025\n-m tests/jumptable.exe", labelloc=t, fontsize=35, pad=30]"0x00401000_0"[label="start\npushl %ebp\lmovl %esp, %ebp\lsubl $0x8, %esp\lmovl 0x14(%ebp), %eax\lmovl %eax, -4(%ebp)\lmovl 0x10(%ebp), %ecx\lmovsbl (%ecx), %edx\lmovl %edx, -8(%ebp)\lmovl -8(%ebp), %eax\lsubl $0x35, %eax\lmovl %eax, -8(%ebp)\lcmpl $0x45, -8(%ebp)\lja 0x0040108a\l"];
+"0x00401024_0"[label="0x00401024\nmovl -8(%ebp), %ecx\lmovzbl 0x4010c0(%ecx), %edx\l"];
+"0x0040108a_0"[label="0x0040108a\nmovl $0xffffffff, -4(%ebp)\lmovl -4(%ebp), %eax\limull $0x26e, %eax, %eax\lsubl $0x3, %eax\lmovl %ebp, %esp\lpopl %ebp\lret\l"];
+"0xface0000_0"[label="0xface0000\n",fillcolor="lightgrey",color="green",style="filled,bold"];
+"0xfee70000_0"[label="0xfee70000\n",fillcolor="lightgrey",color="orange",style="filled,bold"];
+"0x00401000_0" -> "0x0040108a_0" [color="#000000",label="T"];
+"0xface0000_0" -> "0x00401000_0" [color="#000000"];
+"0x00401000_0" -> "0x00401024_0" [color="#000000",label="F"];
+"0x0040108a_0" -> "0xfee70000_0" [color="#000000"];
+}
