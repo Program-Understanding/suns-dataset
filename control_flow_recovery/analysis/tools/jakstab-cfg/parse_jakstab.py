@@ -2,34 +2,55 @@ import pydot
 import argparse
 import fnmatch
 
-def parse_graph(dotfile, vaddr):
-    sources = []
-    destinations = []
+def parse_graph(dotfiles, vaddr):
+    destinations = set()
 
-    g = pydot.graph_from_dot_file(dotfile)[0]
+    for dotfile in dotfiles:
+        g = pydot.graph_from_dot_file(dotfile)[0]
 
-    for e in g.get_edges():
-        src = e.get_source()
-        dst = e.get_destination()
-        
-        if fnmatch.fnmatch(src, f'*{vaddr}*'):
-            sources.append(src)
-            destinations.append(hex(int(dst[3:-3],16)))
+        for e in g.get_edges():
+            src = e.get_source()
+            dst = e.get_destination()
+            
+            if fnmatch.fnmatch(src, f'*{vaddr}*'):
+                destinations.add(hex(int(dst[3:-3],16)))
+
+    if vaddr in destinations:
+        destinations.remove(vaddr)
 
     print(f"\nDestination Nodes: [count: {len(destinations)}]")
-    for node in destinations:
-        print(node)
+    for targets in destinations:
+        print(targets)
+
+def process_program_name(program):
+    # remove extension if exists
+    if ".exe" in program:
+        program = program.rsplit(".", 1)[0]
+    
+    # there should only be two dot files emitted from jakstab
+    f1 = program + "_asmcfg.dot"
+    f2 = program + "_cfa.dot"
+    dotfiles = [f1, f2]
+
+    return dotfiles
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Parse a DOT file and find destination nodes from a source.")
-    parser.add_argument('dotfile', type=str, help='Path to the DOT file')
-    parser.add_argument('source_node', type=str, help='Source node to match in the graph')
+    parser = argparse.ArgumentParser(description="Take Jakstab DOT output and find destination nodes from a source node.")
+    parser.add_argument('program', type=str, help='Filepath to program')
+    parser.add_argument('vaddr', type=str, help='Source node (virtual address) to match in the graph')
 
     args = parser.parse_args()
 
     # clean up source node
-    src_node = args.source_node[2:]
-    parse_graph(args.dotfile, src_node)
+    vaddr = args.vaddr
+    if "0x" in vaddr:
+        vaddr = vaddr[2:]
+    else:
+        raise ValueError("vaddr argument must be hex string")
+
+    program = process_program_name(args.program)
+    parse_graph(program, vaddr)
 
 if __name__ == "__main__":
     main()
