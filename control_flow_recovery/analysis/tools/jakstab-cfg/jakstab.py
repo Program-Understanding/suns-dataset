@@ -106,33 +106,54 @@ def _virtual_to_file_offset(virtual_addr, base_addr, section_offset, raw_offset)
 
 def _parse_header(filepath):
     with open(filepath, 'rb') as f:
-        # validate dos signature
+        # Validate DOS signature
         if f.read(2) != b'MZ':
             raise ValueError("Missing DOS signature")
 
-        # move to pe header offset
+        # Get the offset to the PE header
         f.seek(0x3C)
-        # read as little-endian unsigned int
-        pe_offset = struct.unpack('<I', f.read(4))[0]
-        
-        # validate PE header
-        f.seek(pe_offset)
+        pe_header_offset = struct.unpack('<I', f.read(4))[0]
+
+        # Validate PE signature
+        f.seek(pe_header_offset)
         if f.read(4) != b'PE\x00\x00':
             raise ValueError("Missing PE signature")
 
-        # get base address (usually 0x400000)
-        f.seek(pe_offset + 0x34)
-        base_addr = struct.unpack('<I', f.read(4))[0]
-        
-        # there is an assumption here that this is in the .text section, and that the .text
-        # section is the first section
-        # get section/module offset
-        section_offset = struct.unpack('<I', f.read(4))[0]
+        # Get the size of the optional header
+        f.seek(pe_header_offset + 0x14)
+        optional_header_size = struct.unpack('<H', f.read(2))[0]
 
-        # get raw offset
+        # Validate the optional header magic number (0x010B for PE32)
+        f.seek(pe_header_offset + 0x18)
+        if f.read(2) != b'\x0b\x01':
+            raise ValueError("Invalid optional header magic number")
+
+        # Move to the start of the section headers
+        section_headers_offset = pe_header_offset + 0x18 + optional_header_size
+        f.seek(section_headers_offset)
+
+        # Read the first section header (assuming .text is the first section)
+        section_name = f.read(8)
+        if section_name != b'.text\x00\x00\x00':
+            raise ValueError("This is not the .text section!!")
+
+        # Skip VirtualSize (not needed here)
+        f.seek(4, 1)
+
+        # Read VirtualAddress (RVA of the section)
+        virtual_address = struct.unpack('<I', f.read(4))[0]
+
+        # Skip SizeOfRawData (not needed here)
+        f.seek(4, 1)
+
+        # Read PointerToRawData (raw offset of the section)
         raw_offset = struct.unpack('<I', f.read(4))[0]
 
-        return base_addr, section_offset, raw_offset
+        # Get the base address (ImageBase, usually 0x400000)
+        f.seek(pe_header_offset + 0x34)
+        base_addr = struct.unpack('<I', f.read(4))[0]
+
+        return base_addr, virtual_address, raw_offset
     
 def _process_question(question):
     question_prefixes = {
