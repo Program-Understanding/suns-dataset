@@ -1,7 +1,7 @@
 {
     "program":"jumptable.exe",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at virtual address '0x40102e' ?",
-    "groundtruth": [""],
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp dword ptr [edx*4 + 0x4010a4]' instruction at file offset '0x22e' ?",
+    "groundtruth": [],
     "evaluation":"set"
-}
+   }
    
