@@ -34,8 +34,8 @@ RUN ./compile.sh
 
 RUN mkdir -p /control-flow-recovery
 WORKDIR /control-flow-recovery
-COPY jakstab.py .
 COPY requirements.txt .
 RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir -r requirements.txt
+COPY jakstab.py .
 
 CMD ["tail", "-f", "/dev/null"]

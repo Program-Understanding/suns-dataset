@@ -29,7 +29,6 @@ def main():
     else:
         foff = _virtual_to_file_offset(num, base_addr, section_offset, raw_offset)
         print(hex(foff))
-    base_addr, section_off, raw_off = _parse_header(program)
 
     # run /jakstab/jakstab -m program --cpa ocbfikrsvx
     subprocess.run(["/jakstab/jakstab", "-m", program, "--cpa", "ocbfikrsvx"])
@@ -38,17 +37,27 @@ def main():
     dotfiles = _process_program_name(program)
     destinations = _parse_graph(dotfiles, str(hex(vaddr))[2:])
 
+    # convert each dest to file offset
+    answers = set()
+    for dest in destinations:
+        dest = int(dest, 16)
+        dest = _virtual_to_file_offset(dest, base_addr, section_offset, raw_offset)
+        print(f"{dest} == {num}")
+        if dest == num:
+            continue
+        answers.add(str(hex(dest)))
+
     # do instruction sanity check
     print(f"instruction was {instr}.. assert is not implemented yet")
 
     # compare values in groundtruth to the results from parse_jakstab
     print(f"RESULTS: The groundtruth is: {groundtruth}")
-    print(f"RESULTS: The tool's answer is: {destinations}")
-    print("RESULTS: ", end='')
-    if set(groundtruth) == destinations:
-        print("YES :D")
+    print(f"RESULTS: The tool's answer is: {answers}")
+    print("RESULTS: Do they match? ", end='')
+    if set(groundtruth) == answers:
+        print("YES c:")
     else:
-        print("NO :(")
+        print("NO :c")
 
 ###################################################################
 #
@@ -174,16 +183,9 @@ def _parse_graph(dotfiles, vaddr):
         for e in g.get_edges():
             src = e.get_source()
             dst = e.get_destination()
-            
+
             if fnmatch.fnmatch(src, f'*{vaddr}*'):
                 destinations.add(hex(int(dst[3:-3],16)))
-
-    if vaddr in destinations:
-        destinations.remove(vaddr)
-
-    print(f"\nDestination Nodes: [count: {len(destinations)}]")
-    for targets in destinations:
-        print(targets)
     
     return destinations
 
