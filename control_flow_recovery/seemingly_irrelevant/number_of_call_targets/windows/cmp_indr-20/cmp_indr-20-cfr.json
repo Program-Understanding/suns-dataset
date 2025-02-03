@@ -1,0 +1,27 @@
+{
+    "program": "cmp_indr-20.exe",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call edx' instruction at file offset '0x7e2' ?",
+    "groundtruth": [
+        "0x487",
+        "0x47d",
+        "0x405",
+        "0x482",
+        "0x46e",
+        "0x414",
+        "0x446",
+        "0x428",
+        "0x45a",
+        "0x441",
+        "0x43c",
+        "0x44b",
+        "0x419",
+        "0x40a",
+        "0x432",
+        "0x469",
+        "0x41e",
+        "0x42d",
+        "0x478",
+        "0x473"
+    ],
+    "evaluation": "set"
+}

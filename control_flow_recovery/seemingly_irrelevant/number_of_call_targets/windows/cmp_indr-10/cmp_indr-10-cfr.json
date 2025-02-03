@@ -1,0 +1,17 @@
+{
+    "program": "cmp_indr-10.exe",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call edx' instruction at file offset '0x625' ?",
+    "groundtruth": [
+        "0x40f",
+        "0x450",
+        "0x42d",
+        "0x41e",
+        "0x419",
+        "0x455",
+        "0x405",
+        "0x44b",
+        "0x423",
+        "0x446"
+    ],
+    "evaluation": "set"
+}
