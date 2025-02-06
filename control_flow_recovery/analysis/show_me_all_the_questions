@@ -21,10 +21,11 @@ function get_questions_for_tool() {
 	questions+=("$question")
     done < <(echo "$json_data" | jq -r '.questions[].question')
 
+
     for question in "${questions[@]}"; do
 	local transformed_question="${question//\$INSTRUCTION/$INSTRUCTION}"
 	local transformed_question="${transformed_question//\$OFFSET/$OFFSET}"
-	echo "$transformed_question"
+	echo "     $tool: $transformed_question"
 	global_questions+=("$transformed_question")
 	global_tools+=("$tool")
 	((global_total++))
@@ -87,5 +88,6 @@ function find_cfr() {
 }
 
 #EXECUTION BEGINS HERE
+echo "Here are the questions understood by the tools"
 find_tools
 find_cfr
