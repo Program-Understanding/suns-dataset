@@ -1,7 +1,7 @@
 {
     "program":"basic_func_array-stripped",
-    "question":"What are the file offsets for the functions that are the targets of the 'call rdx' instructions at file offsets '0x1295', '0x12a0', '0x12ab', '0x12b6', '0x12c1' ?",
-    "groundtruth": ["0x1189", "0x11a8", "0x11c2", "0x11dc", "0x11a8"],
+    "question":"What is the file offset for the function that is the target of the 'call rdx' instruction at file offset '0x1295' ?",
+    "groundtruth": ["0x1189"],
     "evaluation":"set",
     "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
     "compiler-options":"",
