@@ -1,5 +1,3 @@
-//Author: Marshall (WIP)
-
 #include <stdio.h>
 
 void hello() {
