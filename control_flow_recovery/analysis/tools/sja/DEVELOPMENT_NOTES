@@ -1,0 +1,9 @@
+If you want to play around inside the container (helpful during development)
+
+docker run -d --name playground sja-tool
+docker cp conditional-5 playground:/sja
+docker cp conditional-5-cfr.json playground:/sja
+docker exec -it playground /bin/bash
+docker stop playground
+docker rm playground
+

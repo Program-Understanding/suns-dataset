@@ -249,7 +249,7 @@ echo "You must build the container separate from running the analyses"
 
 
 #for efficiency reasons, we try to apply each tool to each dataset
-find ./tools/* -type d | while read -r tooldir; do
+find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
     echo "found a tool directory: $tooldir"
     #extract the name of the tool from the tooldir
     tool="${tooldir##*/}"

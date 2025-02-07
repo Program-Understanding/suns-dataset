@@ -1,0 +1,17 @@
+#! /bin/bash
+if [ -z "$DOCKER_REPO" ]; then
+    echo "Error: please set \$DOCKER_REPO to your local repository"
+    exit 1
+fi
+
+if [-z "HTTP_PROXY" ]; then
+    echo "Error: please set \$HTTP_PROXY"
+    exit 1
+fi
+
+if [-z "HTTPS_PROXY" ]; then
+    echo "Error: please set $HTTPS_PROXY"
+    exit 1
+fi
+
+docker buildx build . --build-arg BASE_IMAGE=$DOCKER_REPO/ubuntu:22.04 --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t sja-tool
