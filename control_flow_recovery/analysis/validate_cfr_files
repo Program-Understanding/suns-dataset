@@ -1,13 +1,70 @@
-#! /bin/bash
-#Right now, this is simply json validation, if the cfr file is valid json
-find .. -name '*cfr.json' | while read -r file; do
+#!/usr/bin/env python3
+import os
+import json
 
-    jq -re '""' "$file"
+def process_file(file_path):
+    results = {
+        "file": file_path,
+        "checks": {
+            "json_valid": False,
+            "keys_exist": False,
+            "program_exists": False
+        }
+    }
 
-    #check if command failed
+    try:
+        # Attempt to read and parse the JSON file
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+        results["checks"]["json_valid"] = True
 
-    if [ $? -ne 0 ]; then
-        # Print the filename and the error message
-        echo "Error processing file: $file"
-    fi
-done
+        # Check for required keys
+        required_keys = ["program", "question", "evaluation", "groundtruth"]
+        if all(key in data for key in required_keys):
+            results["checks"]["keys_exist"] = True
+
+        # Check if the program file exists in the correct directory
+        program_path = os.path.join(os.path.dirname(file_path), data["program"])
+        if os.path.exists(program_path):
+            results["checks"]["program_exists"] = True
+
+    except (json.JSONDecodeError, FileNotFoundError):
+        pass  # Errors are implicitly handled by the failed checks
+
+    return results
+
+def main():
+    total_files = 0
+    failed_files = []
+
+    # Collect all cfr.json files
+    cfr_files = []
+    for root, dirs, files in os.walk('..'):
+        for file in files:
+            if file.endswith('cfr.json'):
+                cfr_files.append(os.path.join(root, file))
+    total_files = len(cfr_files)
+
+    # Process files with a simple progress indicator
+    for index, file_path in enumerate(cfr_files, start=1):
+        result = process_file(file_path)
+
+        # Simple progress indicator
+        print(f"Processing file {index}/{total_files}", end='\r')
+
+        # Check if all checks passed
+        if not all(result['checks'].values()):
+            failed_files.append(result)
+
+    # Print summary
+    print(f"\nTotal cfr files found: {total_files}")
+    if failed_files:
+        print(f"Failed to process the following files:")
+        for failed in failed_files:
+            print(f"- {failed['file']}")
+            print(f"  JSON Valid: {'✅' if failed['checks']['json_valid'] else '❌'}")
+            print(f"  Required Keys Exist: {'✅' if failed['checks']['keys_exist'] else '❌'}")
+            print(f"  Program Exists: {'✅' if failed['checks']['program_exists'] else '❌'}")
+
+if __name__ == "__main__":
+    main()
