@@ -1,4 +1,0 @@
-For some reason this question doesn't output a result.
-When the complete analyze script is run, the script does not output a file for this question.
-It also does not output a result file when I run it just on this program.
-The question is found by the "display all Questions" script.
