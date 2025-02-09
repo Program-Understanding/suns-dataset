@@ -30,21 +30,12 @@ def main():
     print(f"Running sja on program:{program}")
     subprocess.run(["/control-flow-recovery/sba/build/jump_table", "/control-flow-recovery/sba/build/x86_64.auto", program])
 
-    answers = []
-    with open("/tmp/sba/result","r") as file:
-        content = file.read().split('\n')
-        search = False
-        for line in content:
-            print(line)
-            if line.startswith("Jump Table Location"):
-                search = False
-            if search:
-                values = line.strip().split(" ")
-                if len(values) > 0 and len(values[0]) > 0 and int(values[0]) == num:
-                    answers = [hex(int(v)) for v in values[1:]]
-            if line.startswith("Indirect Jump Location"):
-                search = True
-            
+    jump_data = parse_jump_file("/tmp/sba/result")
+    if 'Indirect Jump Location' in jump_data and f'{hex(num)}' in jump_data['Indirect Jump Location']:
+        answers = jump_data['Indirect Jump Location'][f'{hex(num)}']
+    else:
+        answers = []
+
     # do instruction sanity check
     print(f"instruction was {instr}.. assert is not implemented yet")
 
@@ -52,12 +43,11 @@ def main():
     answers.sort()
     print(f"RESULTS: The groundtruth is: {groundtruth}")
     print(f"RESULTS: The tool's answer is: {answers}")
-	    
+    
     matchesAnswer = set(groundtruth) == set(answers)
     matchesString = "YES" if matchesAnswer else "NO"
     print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
     if not matchesAnswer:
-
         incorrect = set(answers) - set(groundtruth)
         missing = set(groundtruth) - set(answers)
 
@@ -68,9 +58,31 @@ def main():
         print(f"Tool's answer does not include correct elements: {missingString}")
 
 
+def parse_jump_file(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
 
+    parsed_data = {}
+    current_key = None
 
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
 
+        if ' --> ' in line:
+            # New section starts
+            current_key = line.split(' --> ')[0].strip()
+            parsed_data[current_key] = {}  # Initialize as a dictionary
+        elif current_key is not None:
+            # Continue adding targets to the current section
+            targets = line.split()
+            source = hex(int(targets.pop(0)))
+            hex_targets = [hex(int(target)) for target in targets]
+            parsed_data[current_key][source] = hex_targets  # Directly add to the dictionary
+    
+    print(parsed_data)
+    return parsed_data
 
         
 ###################################################################
