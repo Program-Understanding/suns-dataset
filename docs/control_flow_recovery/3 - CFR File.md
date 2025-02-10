@@ -40,10 +40,10 @@ objdump -d enya-fptr_array
    
 Since we have our function calls in main, we should check for a call to a pointer. Objdump will make this obvious, and in our case, it was `call *(%rbx)` at offset `0x11b5`.   
    
-![](../../../z-assets/Pasted%20image%2020250205180533.png)   
+![](https://cs.dg.jeok.net/z-assets/pasted-image-20250205180533.png)   
    
 The target of these calls are similarly also easy to find:   
-![](../../../z-assets/Pasted%20image%2020250205180620.png)   
+![](https://cs.dg.jeok.net/z-assets/pasted-image-20250205180620.png)   
    
 From the examples above, it is clear that they are `0x1310`, `0x1320`, and `0x1330`.   
    
