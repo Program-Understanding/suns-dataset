@@ -3,10 +3,6 @@ import re
 import click
 import json
 
-#@click.command()
-#@click.argument('binary_path')
-#@click.argument('cfrjson_path')
-
 import struct
 #import logging
 import argparse
@@ -110,6 +106,9 @@ def parse_pe_header(f, vaddr):
 
     return (vaddr - section_offset) + raw_offset
 
+@click.command()
+@click.argument('binary_path')
+@click.argument('cfrjson_path')
 def study(binary_path: str, cfrjson_path: str):
 
     with open(cfrjson_path, 'r') as cfrjson_file:
@@ -156,8 +155,10 @@ def study(binary_path: str, cfrjson_path: str):
     else:
         offset = int(offset_string)
 
-
     # 1. run frigg on binary
+    subprocess.run(["/opt/frigg/main.exe", "--xrefs-outfile", "output.xrefs", binary_path])
+    #-o output.html --coverage-outfile output.drcov --xrefs-outfile output.xrefs /share/control_flow_recovery/analysis/tools/frigg/jumptable.exe
+    
     # 2. pull in frigg's xrefs output
     answer_sets = {} # file offset of instruction in question -> set of target file offsets
     answer_sets[offset] = set()
@@ -202,4 +203,5 @@ def study(binary_path: str, cfrjson_path: str):
 
 if __name__ == "__main__":
     #study("basic_func_array-stripped", "basic_func_array-cfr.json")
-    study("jumptable.exe", "jumptable-cfr.json")
+    #study("jumptable.exe", "jumptable-cfr.json")
+    study()

@@ -1,0 +1,12 @@
+#! /bin/bash
+if [-z "HTTP_PROXY" ]; then
+    echo "Error: please set \$HTTP_PROXY"
+    exit 1
+fi
+
+if [-z "HTTPS_PROXY" ]; then
+    echo "Error: please set $HTTPS_PROXY"
+    exit 1
+fi
+
+docker buildx build . --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t frigg-tool
