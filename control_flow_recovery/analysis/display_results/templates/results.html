@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>{{ test_name }} {{ title }}</h1>
+  <ul>
+    {% set ns = namespace(count = 0, correct=0, incorrect=0, invalid=0) %}
+  {% for challenge in challenges | sort(attribute="name") %}
+  <li>
+    {% set ns.count = ns.count + 1 %}
+    {% if challenge.details | length > 1 %}
+    <span class="toggle" onclick="toggleDetails(this)">+</span>
+    {% endif %}
+
+
+    {{ challenge.name }}:  {{ challenge.score}}
+    {% if challenge.score == "YES" %}
+    🙂
+    {% endif %}
+
+    {% if challenge.score == "YES" %}
+    {% set ns.correct = ns.correct + 1 %}
+    {% elif challenge.score == "NO" %}
+    {% set ns.incorrect = ns.incorrect + 1 %}
+    {% else %}
+    {% set ns.invalid = ns.invalid + 1 %}
+    {% endif %}
+    <a href= {{ "/log/" + challenge.log }} >log</a>
+    <div class="details">
+      <ul>
+      {% for ll in challenge.details %}      
+        <li>{{ ll }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+  </li>
+  {% endfor %}
+  </ul>
+  <h2>Totals</h2>
+  Count is {{ ns.count }}
+  Correct is {{ ns.correct }}
+  Incorrect is {{ ns.incorrect }}
+  Invalid is {{ ns.invalid }}
+
+<script>
+    function toggleDetails(element) {
+        const details = element.nextElementSibling.nextElementSibling; // Get the next sibling (details div)
+        if (details.style.display === "none" || details.style.display === "") {
+            details.style.display = "block"; // Show details
+            element.textContent = "-"; // Change "+" to "-"
+        } else {
+            details.style.display = "none"; // Hide details
+            element.textContent = "+"; // Change "-" back to "+"
+        }
+    }
+</script>
+
+
+  
+{% endblock content %}
+
+

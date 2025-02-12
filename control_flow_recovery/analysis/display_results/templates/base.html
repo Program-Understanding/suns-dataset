@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+
+    <style>
+        .item {
+            margin: 10px 0;
+        }
+        .details {
+            display: none; /* Initially hide the details */
+            margin-left: 20px;
+        }
+        .toggle {
+            cursor: pointer;
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+
+  
+  <title>{% block title %}{{ title }}{% endblock title %}</title>
+  
+</head>
+
+
+<body>
+  <header>
+    {% include "_navigation.html" %}
+  </header>
+
+  {% block content %}
+    <h2>{{ title }}</h2>
+  {% endblock content %}
+
+</body>
+
+</html>
