@@ -88,6 +88,9 @@ function find_cfr() {
 }
 
 #EXECUTION BEGINS HERE
+#we should be able to run this script from anywhere, so we'll change to the
+#directory we need to be in when running this script with
+cd "$(dirname "$0")"
 echo "Here are the questions understood by the tools"
 find_tools
 find_cfr
