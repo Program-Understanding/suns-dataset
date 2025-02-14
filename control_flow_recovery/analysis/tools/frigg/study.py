@@ -7,9 +7,9 @@ import struct
 #import logging
 import argparse
 
-def vaddr_to_file_offset(filepath, vaddr):
+def vaddr_to_file_offset(filepath, log_path, vaddr):
     # Pulling image base that Frigg uses from Ghidra xml file
-    with open(filepath + ".xml", 'r') as f:
+    with open(log_path, 'r') as f:
         bytes = f.read()
         image_base = bytes[bytes.find("IMAGE_BASE=")+12:bytes.find(">", bytes.find("IMAGE_BASE="))-1]
         image_base = int(image_base, 16)
@@ -107,9 +107,10 @@ def parse_pe_header(f, vaddr):
     return (vaddr - section_offset) + raw_offset
 
 @click.command()
+@click.argument('log_path')
 @click.argument('binary_path')
 @click.argument('cfrjson_path')
-def study(binary_path: str, cfrjson_path: str):
+def study(log_path: str, binary_path: str, cfrjson_path: str):
 
     with open(cfrjson_path, 'r') as cfrjson_file:
         cfr = json.load(cfrjson_file)
@@ -155,24 +156,24 @@ def study(binary_path: str, cfrjson_path: str):
     else:
         offset = int(offset_string)
 
-    # 1. run frigg on binary
-    subprocess.run(["/opt/frigg/main.exe", "--xrefs-outfile", "output.xrefs", binary_path])
+    # 1. get frigg results
+    #subprocess.run(["/opt/frigg/main.exe", "--xrefs-outfile", "output.xrefs", binary_path])
     #-o output.html --coverage-outfile output.drcov --xrefs-outfile output.xrefs /share/control_flow_recovery/analysis/tools/frigg/jumptable.exe
     
     # 2. pull in frigg's xrefs output
     answer_sets = {} # file offset of instruction in question -> set of target file offsets
     answer_sets[offset] = set()
-    with open("output.xrefs") as f:
+    with open(log_path) as f:
         # 3. convert each xref to file offset
         for line in f.readlines():
             if line.startswith("addr"):
                 label, addr, successor_addr = line.split(" ")
-                offset_addr = vaddr_to_file_offset(binary_path, int(addr,16))
-                print(addr + " " + hex(offset_addr))
+                offset_addr = vaddr_to_file_offset(binary_path, log_path, int(addr,16))
+                #print(addr + " " + hex(offset_addr))
                 # 4. find the one from the question(s)
                 # TODO: do this differently for target of target question
                 if offset_addr in answer_sets.keys():
-                    offset_successor = vaddr_to_file_offset(binary_path, int(successor_addr,16))
+                    offset_successor = vaddr_to_file_offset(binary_path, log_path, int(successor_addr,16))
                     answer_sets[offset_addr].add(offset_successor)
     # 5. output the results
     print("RESULTS: The groundtruth is: " + str(set(groundtruth)))
@@ -197,8 +198,8 @@ def study(binary_path: str, cfrjson_path: str):
         incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
         missingString = str(missing) if len(missing) > 0 else "{}"
         
-        print(f"Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"Tool's answer does not include correct elements: {missingString}")
+        print(f"RESULTS: Tool's answer includes incorrect elements: {incorrectString}")
+        print(f"RESULTS: Tool's answer does not include correct elements: {missingString}")
 
 
 if __name__ == "__main__":
