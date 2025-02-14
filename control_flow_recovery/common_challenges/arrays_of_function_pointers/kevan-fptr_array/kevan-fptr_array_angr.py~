@@ -1,0 +1,3 @@
+import angr
+
+project = angr.project("./kevan-fptr_array.c")
