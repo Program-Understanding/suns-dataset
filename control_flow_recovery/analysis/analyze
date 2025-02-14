@@ -3,6 +3,7 @@
 #Doing this without the use of these two globals became quite a pain, so I gave up
 questions_for_tool=()
 scripts_for_tool=()
+log_processing_scripts_for_tool=()
 only_tool="*all*"
 only_cfr="*all*"
 only_new=false
@@ -39,7 +40,8 @@ process_cfr_file() {
     local json_file="$1"  # Get the first argument passed to the function
     local tool="$2"
     local SCRIPT="$3"
-    local tooldir="$4" #not needed yet, but might be?
+    local tooldir="$4" 
+    local LOG_PROCESSING_SCRIPT="$5"
     
     echo "    processing $json_file using tool $tool"
     #echo "    this is the file to process:$json_file"
@@ -95,8 +97,25 @@ process_cfr_file() {
 
     docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE 2>&1
 
-    #now search the log file
-    grep "RESULTS:" $LOGFILE > $RESULTFILE
+    # replace tooldir/logfile argument in log script
+    # these substitutions are different because they are occuring on the host, not the docker image
+    LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$BINARY_TO_ANALYZE_FILENAME/$BINARY_TO_ANALYZE_PATH\/$BINARY_TO_ANALYZE_FILENAME}"
+    LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_PATH}"
+    LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$CFR_JSON_PATH/$CFR_JSON_PATH}"
+    LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$CFR_JSON_FILENAME/$json_file}"
+    LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$LOG_FILENAME/$LOGFILE}"
+    LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$TOOL_DIR/$tooldir}"
+
+    #echo "log process script: $LOG_PROCESSING_SCRIPT"
+    # run log processing, if it exists
+    if [[ "$LOG_PROCESSING_SCRIPT" == "null" ]]; then
+	#if not just search the log file
+	grep "RESULTS:" $LOGFILE > $RESULTFILE
+	#echo "side 1"
+    else
+	$LOG_PROCESSING_SCRIPT > $RESULTFILE
+	#echo "side 2"
+    fi
     
     docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME" 
     docker exec "running-$tool-tool" /bin/bash -c "rm $CFR_JSON_FILENAME"
@@ -142,16 +161,25 @@ get_scripts_for_tool() {
     json_data=$(<$1/questions.json)
     # Initialize an empty array
     scripts=()
+    log_processing_scripts=()
     # Use jq to extract the scripts and read them into the array
     while IFS= read -r script; do
 	scripts+=("$script")
     done < <(echo "$json_data" | jq -r '.questions[].script')
+    while IFS= read -r script; do
+	log_processing_scripts+=("$script")
+    done < <(echo "$json_data" | jq -r '.questions[].processLogScript')
 
     scripts_for_tool=() #clear the global
+    log_processing_scripts_for_tool=() #clear the global
 
     for script in "${scripts[@]}"; do
 	#echo "    here is the script:$script"
         scripts_for_tool+=("$script")
+    done
+    for script in "${log_processing_scripts[@]}"; do
+	#echo "    here is the script2:$script"
+        log_processing_scripts_for_tool+=("$script")
     done
 
 }
@@ -304,7 +332,8 @@ find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
 		    if [[ $cfr_question =~ $question ]]; then
 			#echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Found a file to process: $cfr_json_file"
 			script=${scripts_for_tool[i]}
-			process_cfr_file "$cfr_json_file" "$tool" "$script" "$tooldir"
+			log_script=${log_processing_scripts_for_tool[i]}
+			process_cfr_file "$cfr_json_file" "$tool" "$script" "$tooldir" "$log_script"
 		    fi
 		done
 	    done

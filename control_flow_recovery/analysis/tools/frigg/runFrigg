@@ -1,0 +1,5 @@
+#! /bin/bash
+
+/bin/frigg --xrefs-outfile /control-flow-recovery/output.xrefs /control-flow-recovery/$1
+cat /control-flow-recovery/output.xrefs
+cat /control-flow-recovery/$1.xml
