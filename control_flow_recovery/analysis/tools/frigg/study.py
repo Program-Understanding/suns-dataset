@@ -95,13 +95,18 @@ def parse_pe_header(f, vaddr):
     # get base address (usually 0x400000)
     f.seek(pe_offset + 0x34)
     base_addr = struct.unpack('<I', f.read(4))[0]
-        
-    # there is an assumption here that this is in the .text section, and that the .text
-    # section is the first section
-    # get section/module offset
-    section_offset = struct.unpack('<I', f.read(4))[0]
 
+    # size of optional header
+    f.seek(pe_offset + 0x14) 
+    opt_hdr_size = struct.unpack('<H', f.read(2))[0]
+
+    # there is an assumption here that this is in the .text section, and that the .text
+    # virtual address of first section
+    f.seek(pe_offset + 0x18 + opt_hdr_size + 0xc)
+    section_offset = struct.unpack('<I', f.read(4))[0]
+    
     # get raw offset
+    f.seek(pe_offset + 0x18 + opt_hdr_size + 0x14)
     raw_offset = struct.unpack('<I', f.read(4))[0]
 
     return (vaddr - section_offset) + raw_offset
@@ -169,7 +174,6 @@ def study(log_path: str, binary_path: str, cfrjson_path: str):
             if line.startswith("addr"):
                 label, addr, successor_addr = line.split(" ")
                 offset_addr = vaddr_to_file_offset(binary_path, log_path, int(addr,16))
-                #print(addr + " " + hex(offset_addr))
                 # 4. find the one from the question(s)
                 # TODO: do this differently for target of target question
                 if offset_addr in answer_sets.keys():
