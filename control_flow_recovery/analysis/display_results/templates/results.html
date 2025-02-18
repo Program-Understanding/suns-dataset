@@ -26,6 +26,7 @@
     {% set ns.invalid = ns.invalid + 1 %}
     {% endif %}
     <a href= {{ "/log/" + challenge.log }} >log</a>
+    <a href= {{ "/disdecomp/" + challenge.disdecomp }} >code</a>
     <div class="details">
       <ul>
       {% for ll in challenge.details %}      

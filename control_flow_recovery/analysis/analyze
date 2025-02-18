@@ -90,7 +90,7 @@ process_cfr_file() {
 	mkdir -p "$RPATH"
     fi
 
-    CFR_MODIFIED="${CFR_JSON_FILENAME/cfr.json/$tool}"
+    CFR_MODIFIED="${CFR_JSON_FILENAME/cfr.json/-$tool}"
     
     LOGFILE="$RPATH/$CFR_MODIFIED-log"
     RESULTFILE="$RPATH/$CFR_MODIFIED-results"    

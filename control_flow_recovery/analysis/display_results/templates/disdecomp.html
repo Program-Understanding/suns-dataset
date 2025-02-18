@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .column {
+            width: 30%;
+            height: 100%;
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 10px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ question }}</h2>
+    <div class="column">
+        <h2>Disassembly</h2>
+        <p>{{ disassembly_text }}</p>
+    </div>
+    <div class="column">
+        <h2>Decompilation</h2>
+        <p>{{ decompilation_text }}</p>
+    </div>
+    <div class="column">
+      <h2>Source</h2>
+      <pre><code>{% for line in source_text %}{{ line }}{% endfor %}<code></pre>
+    </div>
+</body>
+</html>
