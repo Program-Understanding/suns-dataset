@@ -104,6 +104,8 @@ def disdecomp(subpath):
 
     
     context = {
+        "question": question,
+        "groundtruth": groundtruth,
         "disassembly_text": "disassembly goes here",
         "decompilation_text": "decompilation goes here",
         "source_text": lines,       

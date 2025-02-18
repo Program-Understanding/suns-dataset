@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code</title>
     <style>
-        body {
+        .main {
             display: flex;
             justify-content: space-between;
             margin: 0;
@@ -25,7 +25,9 @@
     </style>
 </head>
 <body>
-    <h2>{{ question }}</h2>
+  <strong>Question:</strong>{{ question }}<br>
+  <strong>Groundtruth:</strong>{{ groundtruth }}<br>
+  <div class="main">
     <div class="column">
         <h2>Disassembly</h2>
         <p>{{ disassembly_text }}</p>
@@ -38,5 +40,6 @@
       <h2>Source</h2>
       <pre><code>{% for line in source_text %}{{ line }}{% endfor %}<code></pre>
     </div>
+  </div>
 </body>
 </html>
