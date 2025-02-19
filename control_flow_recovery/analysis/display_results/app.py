@@ -110,7 +110,7 @@ def disassembly():
     run_docker_command(["docker", "cp", "running-ghidra-display-tool:/control-flow-recovery/ascii", "."])
     #run_docker_command(["docker", "rm", "running-ghidra-display-tool:/control-flow-recovery/ascii"])
     #run_docker_command(["docker", "rm", "running-ghidra-display-tool:/control-flow-recovery/" + program])
-    #run_docker_command(["docker", "cp", "running-ghidra-display-tool:/control-flow-recovery/html", "."])
+    run_docker_command(["docker", "cp", "running-ghidra-display-tool:/control-flow-recovery/cpp", "."])
     
 
     #TODO:  these files should get uuids so that this thing can support multiple users?
@@ -124,7 +124,19 @@ def disassembly():
     dlines = dlines[1:]
     dlines = dlines[:-1]
     dis = "<br>".join(dlines)
-    return jsonify({"result": dis})
+
+    with open("./cpp", 'r') as f:
+        cpplines = []
+        for line in f:
+            cpplines.append(replace_all_spaces(line))
+
+    dlines = dlines[1:]
+    dlines = dlines[:-1]
+    dis = "<br>".join(dlines)
+    cpp = "<br>".join(cpplines)
+
+
+    return jsonify({"result": dis, "decompilation": cpp})
 
     
 @app.route("/disdecomp/<path:subpath>")

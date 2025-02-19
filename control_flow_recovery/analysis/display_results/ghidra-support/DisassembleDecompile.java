@@ -25,6 +25,7 @@ import ghidra.app.util.cparser.C.CParserUtils.CParseResults;
 import ghidra.app.util.cparser.C.ParseException;
 import ghidra.app.util.exporter.AsciiExporter;
 import ghidra.app.util.exporter.HtmlExporter;
+import ghidra.app.util.exporter.CppExporter;
 import ghidra.program.model.data.DataTypeManager;
 import ghidra.program.model.data.FileDataTypeManager;
 import ghidra.program.model.data.SourceArchive;
@@ -122,6 +123,9 @@ public class DisassembleDecompile extends GhidraScript {
 
 	File ascii_file = new File("ascii");
 	new AsciiExporter().export(ascii_file, currentProgram, null, monitor);
+
+	File cpp_file = new File("cpp");
+	new CppExporter().export(cpp_file, currentProgram, null, monitor);
 
 	//File html_file = new File("html");
 	//new HtmlExporter().export(html_file, currentProgram, null, monitor);
