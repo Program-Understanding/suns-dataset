@@ -1,0 +1,8 @@
+{
+    "program":"more",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1286' ?",
+    "groundtruth": ["0x1330", "0x134a", "0x1364"],
+    "evaluation":"set",
+    "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+    "stripped":true
+   }
