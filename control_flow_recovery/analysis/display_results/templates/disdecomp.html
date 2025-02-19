@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code</title>
     <style>
+        body {
+	    font-family: 'Courier New', Courier, monospace;
+        }
         .main {
             display: flex;
             justify-content: space-between;
@@ -27,10 +30,11 @@
 <body>
   <strong>Question:</strong>{{ question }}<br>
   <strong>Groundtruth:</strong>{{ groundtruth }}<br>
+  <strong>Program:</strong>{{ program_path }}<br>
   <div class="main">
     <div class="column">
-        <h2>Disassembly</h2>
-        <p>{{ disassembly_text }}</p>
+      <h2>Disassembly</h2>
+      <div id='result'>Processing...please wait.</div>
     </div>
     <div class="column">
         <h2>Decompilation</h2>
@@ -38,8 +42,35 @@
     </div>
     <div class="column">
       <h2>Source</h2>
-      <pre><code>{% for line in source_text %}{{ line }}{% endfor %}<code></pre>
+      <pre><code>{% for line in source_text %}{{ line }}{% endfor %}</code></pre>
     </div>
   </div>
+
+
+  <script>
+    console.log("running the script...")
+    var program_path = "{{ program_path }}"
+        document.addEventListener('DOMContentLoaded', function() {
+            // Automatically make a fetch call to the Flask route when the page loads
+            fetch("/disassembly", { "method": "POST",
+				    "headers": {"Content-Type":"application/json"},
+				    "body": JSON.stringify({"program_path": program_path})})
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Render the result in the designated div
+                    document.getElementById('result').innerHTML = data.result
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = 'An error occurred while running the process.';
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+    </script>
+  
 </body>
 </html>

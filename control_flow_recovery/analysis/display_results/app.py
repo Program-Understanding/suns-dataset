@@ -1,6 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
+
 import os
 import json
+import subprocess
+import re
+
+app = Flask(__name__)
 
 def collect_result_files():
     results_paths = []
@@ -16,37 +21,28 @@ def collect_result_files():
     return results_paths
 
 
-app = Flask(__name__)
 
 @app.route("/")
 
 def home():
     return render_template("base.html", title="Jinja and Flask")
 
-max_score = 100
-test_name = "Control Flow Recovery Challenge"
 
-challenges = []
+def replace_all_spaces(text):
+    return text.replace(" ","&nbsp;")
 
-result_files = collect_result_files()
-for rf in result_files:
 
-    mr="?? invalid"
-    with open(rf,'r') as rff:
-        lines = []
-        for line in rff:
-            lines.append(line[len("RESULTS: "):])
-            matches = "RESULTS: Tool's answer matches groundtruth?"
-            if line.startswith(matches):
-                mr = line[len(matches):].strip()
-    #strip out the ".." it will get added later
-    log = rf[3:len(rf)-len("results")] + "log"
-    disdecomp = rf[3: (rf.index('--'))]
-    challenges.append({"name": rf,
-                       "score": mr,
-                       "details": lines,
-                       "log":log,
-                       "disdecomp":disdecomp})
+def replace_spaces_between_tags(text):
+    # Define a function to replace spaces in the matched groups
+    def replace_spaces(match):
+        return match.group(0).replace(' ', '&nbsp;')  # Replace spaces with &nbsp;
+
+    # Use regex to find the pattern and apply the replacement function
+    modified_text = re.sub(r'(?<=</A>)(.*?)(?=<A>)', replace_spaces, text, flags=re.DOTALL)
+    return modified_text
+
+
+
 
 
 @app.route("/results")
@@ -72,9 +68,70 @@ def log(subpath):
     return render_template("log.html", **context)
 
 
+
+def run_docker_command(command):
+    try:
+        print("attempting to run " + str(command))
+        process = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        print("Output:", process.stdout.decode())
+        
+    except subprocess.CalledProcessError as e:
+        print("An error occurred while running the Docker command:" + command[1])
+        print("Return code:", e.returncode)
+        print("Output:", e.output.decode())
+        print("Error:", e.stderr.decode())
+
+
+def start_tool():
+    run_docker_command(["docker", "stop", "running-ghidra-display-tool"])
+    run_docker_command(["docker", "rm", "running-ghidra-display-tool"])
+    run_docker_command(["docker", "create", "--name", "running-ghidra-display-tool","ghidra-display-tool"])
+    run_docker_command(["docker", "start", "running-ghidra-display-tool"])
+
+    
+@app.route("/disassembly", methods=['POST'])
+def disassembly():
+
+    data = request.get_json()
+    print("disassembly requested for:"+str(data))
+
+    program_path = data.get('program_path')
+    
+    program = os.path.basename(program_path)
+    
+
+
+    run_docker_command(["docker", "cp", program_path, "running-ghidra-display-tool:/control-flow-recovery"])
+    run_docker_command(["docker","exec","running-ghidra-display-tool","/bin/bash","-c",
+                   "/opt/ghidra/support/analyzeHeadless /control-flow-recovery project -import " +
+                        program + " -scriptPath /control-flow-recovery -postscript DisassembleDecompile.java -overwrite"])
+
+
+    run_docker_command(["docker", "cp", "running-ghidra-display-tool:/control-flow-recovery/ascii", "."])
+    #run_docker_command(["docker", "rm", "running-ghidra-display-tool:/control-flow-recovery/ascii"])
+    #run_docker_command(["docker", "rm", "running-ghidra-display-tool:/control-flow-recovery/" + program])
+    #run_docker_command(["docker", "cp", "running-ghidra-display-tool:/control-flow-recovery/html", "."])
+    
+
+    #TODO:  these files should get uuids so that this thing can support multiple users?
+    # or do we need multiple containers, one for each user?
+
+    with open("./ascii", 'r') as f:
+        dlines = []
+        for line in f:
+            dlines.append(replace_all_spaces(line))
+
+    dlines = dlines[1:]
+    dlines = dlines[:-1]
+    dis = "<br>".join(dlines)
+    return jsonify({"result": dis})
+
+    
 @app.route("/disdecomp/<path:subpath>")
 def disdecomp(subpath):
 
+
+    print("disdecomp requested for " + str(subpath))
     subpath = subpath.replace('results/','')
     cfrjson_path = "../../" +  subpath + "-cfr.json"
     base = os.path.basename("../../" + subpath)
@@ -94,6 +151,7 @@ def disdecomp(subpath):
         source = base + ".c"
     
     sourcepath = dirname + "/" + source
+    programpath = dirname + "/" + program
     
     with open(sourcepath, 'r') as f:
         lines = []
@@ -101,18 +159,41 @@ def disdecomp(subpath):
             lines.append(line)
 
     #identify the program, question, groundtruth, and construct paths
-
-    
-    context = {
-        "question": question,
-        "groundtruth": groundtruth,
-        "disassembly_text": "disassembly goes here",
-        "decompilation_text": "decompilation goes here",
-        "source_text": lines,       
-        }
-    return render_template("disdecomp.html", **context)
+    print("program_path is:"+str(programpath))
+    return render_template("disdecomp.html",
+                           question = question,
+                           groundtruth = groundtruth,
+                           decompilation_text = "decompilation_goes_here",
+                           source_text = lines,
+                           program_path = programpath
+                           )
 
 
+start_tool()
+
+test_name = "Control Flow Recovery Challenge"
+
+challenges = []
+
+result_files = collect_result_files()
+for rf in result_files:
+
+    mr="?? invalid"
+    with open(rf,'r') as rff:
+        lines = []
+        for line in rff:
+            lines.append(line[len("RESULTS: "):])
+            matches = "RESULTS: Tool's answer matches groundtruth?"
+            if line.startswith(matches):
+                mr = line[len(matches):].strip()
+    #strip out the ".." it will get added later
+    log = rf[3:len(rf)-len("results")] + "log"
+    disdecomp = rf[3: (rf.index('--'))]
+    challenges.append({"name": rf,
+                       "score": mr,
+                       "details": lines,
+                       "log":log,
+                       "disdecomp":disdecomp})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
