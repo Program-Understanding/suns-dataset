@@ -1,0 +1,6 @@
+{
+    "program":"thumb2-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'blx r0' instruction at file offset '0x10094' ?",
+    "groundtruth": ["0x100a4"],
+    "evaluation":"set"
+}
