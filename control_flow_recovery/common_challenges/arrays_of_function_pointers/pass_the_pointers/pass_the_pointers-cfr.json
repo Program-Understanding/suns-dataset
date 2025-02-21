@@ -1,5 +1,5 @@
 {
-    "program":"a.out",
+    "program":"pass_the_pointers-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x12a3' ?",
     "groundtruth": ["0x11a9", "0x11d2", "0x11ec", "0x1206", "0x1225", "0x123f"],
     "evaluation":"set",
