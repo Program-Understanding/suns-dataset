@@ -1,10 +1,15 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
+#include <string.h>
 
-void manipulate_heap_and_throw_exception(char* buffer) {
-    buffer[100] = 'A'; // This will cause a segmentation fault
-    throw std::runtime_error("An error occurred during memory manipulation!");
+/* Throw an exception with data related to the heap */
+
+void update_buffer(char* buffer, int index, char new_char) {
+  if (index > 99 || index < 0){
+    throw std::logic_error("Index out of bounds");
+  }
+  buffer[index] = new_char;
 }
 
 int main() {
@@ -14,11 +19,16 @@ int main() {
         return 1;
     }
 
-    std::strcpy(buffer, "Hello, World!");
+    strcpy(buffer, "Hello, World!");
     std::cout << "Buffer: " << buffer << std::endl;
-
+    std::cout << "Give an index to change the char of" << std::endl;
+    int index;
+    std::cin >> index;
+    std::cout << "Give a new char for the index" << std::endl;
+    char new_char;
+    std::cin >> new_char;
     try {
-        manipulate_heap_and_throw_exception(buffer);
+      update_buffer(buffer,index, new_char);
     } catch (const std::runtime_error& e) {
         std::cerr << "Caught exception: " << e.what() << std::endl;
     }
