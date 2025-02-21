@@ -1,7 +1,7 @@
 {
-    "program":"pass_the_pointers-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1263' ?",
-    "groundtruth": ["0x1169", "0x1192", "0x11ac", "0x11c6", "0x11e5", "0x11ff"],
+    "program":"a.out",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x12a3' ?",
+    "groundtruth": ["0x11a9", "0x11d2", "0x11ec", "0x1206", "0x1225", "0x123f"],
     "evaluation":"set",
     "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
     "stripped":true
