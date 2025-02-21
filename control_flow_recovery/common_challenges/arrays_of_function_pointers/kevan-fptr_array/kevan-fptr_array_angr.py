@@ -4,7 +4,7 @@ from claripy import backends
 import unicorn
 from z3 import Solver
 convert = backends.z3.convert
-project = angr.Project("./kevan-fptr_array")
+project = angr.Project("./kevan-fptr_array",auto_load_libs=False)
 start_state = project.factory.full_init_state()
 simgr = project.factory.simgr()
 
@@ -16,6 +16,12 @@ simgr = project.factory.simgr()
 #     state.memory
 
 # start_state.inspect.b('mem_write',action=my_breakpoint,when=angr.BP_AFTER)
+
+cfg = project.analyses.CFG()
+
+main = cfg.kb.functions["main"]
+for block in main.blocks:
+    block.pp()
 
 simgr.explore(find=lambda s: b"\t" in s.posix.dumps(1))
 

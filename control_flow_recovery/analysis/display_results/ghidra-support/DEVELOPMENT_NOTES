@@ -1,0 +1,13 @@
+If you want to play around inside the container (helpful during development)
+
+docker run -d --name play ghidra-display-tool
+
+docker rm play
+
+docker cp calculator play:/control-flow-recovery/
+
+docker exec -it play /bin/bash
+
+/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import calculator
+
+still saw errors
