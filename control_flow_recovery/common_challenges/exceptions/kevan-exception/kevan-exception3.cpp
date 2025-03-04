@@ -3,38 +3,36 @@
 
 /* Throw an exception from a function called by main which is caught and then thrown again to main */
 
-void even_or_odd(int index, int* array, int size) {
-  if (index < 0 || index >= size) {
-    throw std::out_of_range("Index out of range exception");
-  }
-  int value = array[index];
-  if (value % 2 == 0) {
-    std::cout << "Element at index " << index << " is even: " << value << std::endl;
-  } else {
-    std::cout << "Element at index " << index << " is odd: " << value << std::endl;
-  }
+void foo(int val) {
+  std::cout << "Foo called with val " << val << std::endl;
+  throw 1;
 }
 
-void iterate_array(int* array, int size) {
-  for (int i = 0; i < size; ++i) {
-    try {
-      even_or_odd(i, array, size);
-    } catch (const std::out_of_range& e) {
-      std::cout << "Exception caught while iterating array: " << e.what() << std::endl;
-      //throw the exception back to main
-      throw;
-    }
+void bar(int val) {
+  std::cout << "Bar called with val " << val << std::endl;
+  throw 2;
+}
+
+void fizz(int val) {
+  std::cout << "Fizz called with val " << val << std::endl;
+  throw 3;
+}
+
+void buzz(int val) {
+  std::cout << "Buzz called with val " << val << std::endl;
+}
+
+void inter(void (*funs[4])(int), int val) {
+  try {
+    funs[val](val);
+  }
+  catch (int &e) {
+    inter(funs,e);
   }
 }
 
 int main() {
-  int array[] = {1, 2, 3, 4, 5};
-  int size = sizeof(array) / sizeof(array[0]);
-  try {
-    iterate_array(array, size);
-    iterate_array(array, size + 5);
-  } catch (const std::out_of_range& e) {
-    std::cout << "Main caught: " << e.what() << std::endl;
-  }
+  void (*funs[4])(int) = {foo, bar, fizz, buzz};
+  inter(funs,0);
   return 0;
 }

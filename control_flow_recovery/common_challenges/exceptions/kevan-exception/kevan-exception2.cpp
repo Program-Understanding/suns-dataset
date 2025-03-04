@@ -1,32 +1,31 @@
 #include <iostream>
-#include <stdexcept>
 
-/* Throw an exception from a function called indirectly by main */
+/* Throw an exception if the divisir is 0, then route through array of pointers */
 
 float divide(int numerator, int denominator) {
   //separate division function
-  if (numerator == 0) {
-    throw std::runtime_error("Division by zero exception");
-  }
   return float(numerator) / float(denominator);
 }
 
-float intermediary() {
-  // intermediary function that i want to stay in the binary
+float multiply(int factor1, int factor2){
+  return float(factor1) * factor2;
+}
+
+int main() {
+  // main calls intermediary, which calls divide, which then comes back to main
   int numerator, denominator;
+  float (*f_ptr)(int, int);
   std::cout << "Input the numerator as an integer" << std::endl;
   std::cin >> numerator;
   std::cout << "Input the denominator as an integer" << std::endl;
   std::cin >> denominator;
-  return divide(numerator, denominator);
-}
-
-int main() {
-  //main calls intermediary, which calls divide, which then comes back to main
+  f_ptr = divide;
   try {
-    std::cout << "Division result is: " << intermediary() << std::endl;
-  } catch (const std::runtime_error& e) {
-    std::cout << "Exception caught in main function: " << e.what() << std::endl;
+    if (denominator == 0)
+      throw 1;
+  } catch (int &e) {
+    f_ptr = multiply;
   }
+  std::cout << "The result is " << f_ptr(numerator,denominator);
   return 0;
 }
