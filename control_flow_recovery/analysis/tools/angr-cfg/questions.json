@@ -9,7 +9,8 @@
 	  "question":"What are the file offsets for the instructions that are the targets of the targets of the '$INSTRUCTION' instruction at file offset '$OFFSET' ?",
 	  "script": "python study.py $BINARY_TO_ANALYZE_FILENAME $CFR_JSON_FILENAME"
       }
-  ]
+  ],
+  "version":"0.1.0"
 }
     
 

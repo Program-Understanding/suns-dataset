@@ -11,7 +11,8 @@
 	  "script": "./runFrigg $BINARY_TO_ANALYZE_FILENAME",
 	  "processLogScript": "python $TOOL_DIR/study.py $LOG_FILENAME $BINARY_TO_ANALYZE_FILENAME $CFR_JSON_FILENAME"
       }
-  ]
+  ],
+  "version":"1.0.0"
 }
     
 

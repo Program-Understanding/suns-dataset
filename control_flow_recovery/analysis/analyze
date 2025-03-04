@@ -15,10 +15,34 @@ function show_help {
     echo "  --only_tool TOOL    Specify a tool to run (default is all)."
     echo "  --only_cfr CFR      Specify a cfr to analyze (default is all)."
     echo "     CFR is either path, filename, or filename without '-cfr.json' " 
-    echo "  --only_new          If set, only run analysis that are likely new"
     echo "  --help          Display this help message."
-    echo "CURRENT STATUS:  only_new is not yet functional!!!!!"
 }
+
+
+dont_run_based_on_version() {
+    local version1=$1 #the tool version
+    local version2=$2 #the result version
+
+    # Split the version numbers into arrays
+    IFS='.' read -r -a v1 <<< "$version1"
+    IFS='.' read -r -a v2 <<< "$version2"
+
+    # Compare each component
+    for i in {0..2}; do
+        # If one version has fewer components, treat missing components as 0
+        local v1_component=${v1[i]:-0}
+        local v2_component=${v2[i]:-0}
+
+        if (( v1_component > v2_component )); then
+            return 1  # tool version is greater
+        elif (( v1_component < v2_component )); then
+            return 0  # likely won't occur, result version is bigger than tool version
+        fi
+    done
+    return 0  # versions are equal, so don't run
+}
+
+
 
 start_tool() {
     local tool=$1
@@ -116,6 +140,13 @@ process_cfr_file() {
 	$LOG_PROCESSING_SCRIPT > $RESULTFILE
 	#echo "side 2"
     fi
+
+    version=$(jq -r '.version' "$tooldir/questions.json" )
+
+    echo "RESULTS: Tool name:$tool" >> $RESULTFILE
+    echo "RESULTS: Tool version:$version" >> $RESULTFILE
+    echo "RESULTS:      (not the version of the underlying tool, but of the script that invokes it)" >> $RESULTFILE
+    echo "RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)" >> $RESULTFILE
     
     docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME" 
     docker exec "running-$tool-tool" /bin/bash -c "rm $CFR_JSON_FILENAME"
@@ -154,6 +185,31 @@ get_questions_for_tool() {
     done
 
 }
+
+get_version_for_result() {
+    local filepath="$1"
+    local version="0.0.0"
+
+    # Check if the file exists
+    if [[ ! -f "$filepath" ]]; then
+        echo "File not found: $filepath"
+        return 1
+    fi
+
+    # Read the file line by line
+    while IFS= read -r line; do
+        # Check if the line matches the pattern
+        if [[ $line =~ RESULTS:\ Tool\ version:([0-9]+\.[0-9]+\.[0-9]+) ]]; then
+            version="${BASH_REMATCH[1]}"  # Extract the version number
+            break  # Exit the loop once the version is found
+        fi
+    done < "$filepath"
+
+    # Return the version or "0.0.0" if not found
+    echo "$version"
+}
+
+
 
 
 get_scripts_for_tool() {
@@ -245,10 +301,6 @@ while [[ "$#" -gt 0 ]]; do
                 exit 1
             fi
             ;;
-        --only_new)
-            only_new=true
-            shift
-            ;;
         --help)
             show_help
             exit 0
@@ -283,6 +335,8 @@ find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
     tool="${tooldir##*/}"
     #echo "    here is the name of the tool:$tool"
 
+    version=$(jq -r '.version' "$tooldir/questions.json" )
+    
     if [ -f $tooldir/.ignoreme ]; then
         echo "Ignoring this directory (there is a .ignoreme file in $tooldir)"
         continue
@@ -321,9 +375,28 @@ find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
 
 	if [ -n "$cfr_json_files" ]; then
 	    echo "$cfr_json_files" | while read -r cfr_json_file; do
+
+		#skip cfr_json_file if we have results for a tool version greater than
+		#the version that we have.
+
+		CFR_JSON_PATH=$(dirname "$cfr_json_file")
+		CFR_JSON_FILENAME=$(basename "$cfr_json_file")
+		RPATH="${CFR_JSON_PATH/../results}"
+		CFR_MODIFIED="${CFR_JSON_FILENAME/cfr.json/-$tool}"
+		existing_resultfile="./$RPATH/$CFR_MODIFIED-results"    
+		
+		if [[ -f "$existing_resultfile" ]]; then
+		    existing_version=$(get_version_for_result "$existing_resultfile")
+		    if dont_run_based_on_version "$version" "$existing_version"; then
+			echo "skipping analysis because we have a recent result for $CFR_JSON_FILENAME"
+			continue
+		    fi
+		fi
+
 		echo "fetching question from $cfr_json_file"
 		cfr_question=$(jq -r '.question' "$cfr_json_file" )
 		#echo "here is the question:$cfr_question"
+
 		length=${#questions_for_tool[@]}
 		#echo "There are $length questions to compare against"
 		for (( i=0; i<length; i++ )); do
