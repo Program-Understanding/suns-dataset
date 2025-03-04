@@ -1,25 +1,37 @@
 #include <iostream>
-#include <stdexcept>
 
-/* Simple example to throw an exception from another function and catch in main*/
+/* Simple example to call either multiply or divide based upon whether we are given a divisor of 0 or not */
 
 float divide(int numerator, int denominator) {
-  if (denominator == 0) {
-    throw std::runtime_error("Division by zero exception");
-  }
   return float(numerator) / float(denominator);
+}
+
+float multiply(int factor1, int factor2){
+  return float(factor1) * factor2;
 }
 
 int main() {
   int numerator, denominator;
+  float (*f_ptr)(int, int);
+  std::cout << "Input first integer" << std::endl;
   std::cin >> numerator;
+  std::cout << "Input second integer" << std::endl;
   std::cin >> denominator;
-  float (*f_ptr)(int);
   try {
-    float result = divide(numerator,denominator);
-  } catch (const std::runtime_error &e) {
-    float result = 
+    if (denominator == 0) {
+      throw 1;
+    } else {
+      throw 2;
+    }
+  } catch (int &e) {
+    if (e == 1) {
+      f_ptr = &multiply;
+      std::cout << "Multiplication ";
+    }  else {
+      f_ptr = &divide;
+      std::cout << "Division ";
+    }
   }
-  std::cout << "Result" << &f_ptr(result);
+  std::cout << "result" << f_ptr(numerator,denominator);
   return 0;
 }
