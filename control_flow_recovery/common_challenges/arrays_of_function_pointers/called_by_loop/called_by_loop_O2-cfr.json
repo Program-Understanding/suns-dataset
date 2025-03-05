@@ -5,5 +5,6 @@
     "evaluation":"set",
     "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
     "compiler-options":"-g -O2",
-    "stripped":true
+    "stripped":true,
+    "source":"called_by_loop.c"
    }

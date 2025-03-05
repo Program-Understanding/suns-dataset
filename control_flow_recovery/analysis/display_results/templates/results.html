@@ -44,8 +44,10 @@
   Invalid is {{ ns.invalid }}
 
 <script>
-    function toggleDetails(element) {
-        const details = element.nextElementSibling.nextElementSibling; // Get the next sibling (details div)
+  function toggleDetails(element) {
+      console.log("find it")
+      console.log(element)
+        const details = element.nextElementSibling.nextElementSibling.nextElementSibling; // Get the next sibling (details div)
         if (details.style.display === "none" || details.style.display === "") {
             details.style.display = "block"; // Show details
             element.textContent = "-"; // Change "+" to "-"

@@ -4,5 +4,6 @@
     "groundtruth": ["0x11a8"],
     "evaluation":"set",
     "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
-    "stripped":true
+    "stripped":true,
+    "source":"called_by_loop.c"
    }
