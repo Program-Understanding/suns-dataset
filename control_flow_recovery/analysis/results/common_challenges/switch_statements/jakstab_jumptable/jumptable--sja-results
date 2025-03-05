@@ -1,0 +1,8 @@
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp dword ptr [edx*4 + 0x4010a4]' instruction at file offset '0x22e' ?'
+RESULTS: The groundtruth is: []
+RESULTS: The tool's answer is: []
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Tool name:sja
+RESULTS: Tool version:1.0.0
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

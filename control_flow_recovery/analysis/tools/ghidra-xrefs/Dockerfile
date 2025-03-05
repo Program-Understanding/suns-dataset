@@ -1,5 +1,5 @@
 # The docker repository can optionally be specified as a build argument, for those a local nexus repository
-ARG BASE_IMAGE=amazoncorretto:21.0.5-alpine3.20
+ARG BASE_IMAGE=eclipse-temurin:21
 
 FROM ${BASE_IMAGE}
 
@@ -16,7 +16,9 @@ ENV GHIDRA_VERSION_NAME ghidra_11.2_PUBLIC
 ENV GHIDRA_VERSION_DATE 20240926
 ENV GHIDRA_VERSION ${GHIDRA_VERSION_NAME}_${GHIDRA_VERSION_DATE}
 
-RUN apk add --allow-untrusted --no-check-certificate --no-cache unzip curl bash nano
+RUN apt update && apt install -y --no-install-recommends curl unzip bash nano
+
+RUN apt update && apt install -y --no-install-recommends fontconfig libxi6 libxrender1 libxtst6
 
 RUN curl --proto '=https' --tlsv1.2 -LO https://github.com/NationalSecurityAgency/ghidra/releases/download/${GHIDRA_RELEASE_TAG}/${GHIDRA_VERSION}.zip \
     && unzip -d ghidra ${GHIDRA_VERSION}.zip > /dev/null \

@@ -14,4 +14,4 @@ if [-z "HTTPS_PROXY" ]; then
     exit 1
 fi
 
-docker buildx build . --build-arg BASE_IMAGE=$DOCKER_REPO/amazoncorretto:21.0.5-alpine3.20 --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t ghidra-xrefs-tool
+docker buildx build . --build-arg BASE_IMAGE=$DOCKER_REPO/eclipse-temurin:21 --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t ghidra-xrefs-tool
