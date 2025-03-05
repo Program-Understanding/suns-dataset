@@ -19,13 +19,18 @@
     {% endif %}
 
     {% if challenge.score == "YES" %}
-    {% set ns.correct = ns.correct + 1 %}
+        {% set ns.correct = ns.correct + 1 %}
     {% elif challenge.score == "NO" %}
-    {% set ns.incorrect = ns.incorrect + 1 %}
+        {% set ns.incorrect = ns.incorrect + 1 %}
     {% else %}
-    {% set ns.invalid = ns.invalid + 1 %}
+        {% set ns.invalid = ns.invalid + 1 %}
     {% endif %}
-    <a href= {{ "/log/" + challenge.log }} >log</a>
+
+    {% if challenge.logexists %}
+        <a href= {{ "/log/" + challenge.log }} >log</a>
+    {% else %}
+        <span style="color: lightgray;">log not available</span>
+    {% endif %}    
     <a href= {{ "/disdecomp/" + challenge.disdecomp }} >code</a>
     <div class="details">
       <ul>

@@ -200,10 +200,12 @@ for rf in result_files:
                 mr = line[len(matches):].strip()
     #strip out the ".." it will get added later
     log = rf[3:len(rf)-len("results")] + "log"
+    logexists = os.path.exists("../"+log)
     disdecomp = rf[3: (rf.index('--'))]
     challenges.append({"name": rf,
                        "score": mr,
                        "details": lines,
+                       "logexists":logexists,
                        "log":log,
                        "disdecomp":disdecomp})
 
