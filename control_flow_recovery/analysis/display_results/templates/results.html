@@ -3,27 +3,81 @@
 {% block content %}
 
   <h1>{{ test_name }} {{ title }}</h1>
-  <ul>
-    {% set ns = namespace(count = 0, correct=0, incorrect=0, invalid=0) %}
-  {% for challenge in challenges | sort(attribute="name") %}
-  <li>
-    {% set ns.count = ns.count + 1 %}
-    {% if challenge.details | length > 1 %}
-    <span class="toggle" onclick="toggleDetails(this)">+</span>
-    {% endif %}
 
+  <form id="filterForm">
+    Datasets and tools
+    <label>
+      <input type="radio" name="filter" value="all" checked />
+      all
+    </label>
+    <br>
+    Specific Tools:
+    <label>
+      <input type="radio" name="filter" value="ghidra-xrefs"/>
+      ghidra-xrefs
+    </label>
+
+    <label>
+      <input type="radio" name="filter" value="angr-cfg"/>
+      angr-cfg
+    </label>
+
+    <label>
+      <input type="radio" name="filter" value="jakstab-cfg"/>
+      jakstab-cfg
+    </label>
+
+    <label>
+      <input type="radio" name="filter" value="sja"/>
+      sja
+    </label>
+
+    <label>
+      <input type="radio" name="filter" value="frigg"/>
+      frigg
+    </label>
+    <br>
+    Interesting Results:
+    <label>
+      <input type="radio" name="filter" value="all-tools-right"/>
+      All tools got it right
+    </label>
+    <label>
+      <input type="radio" name="filter" value="all-tools-wrong"/>
+      All tools got it wrong or invalid
+    </label>
+    <label>
+      <input type="radio" name="filter" value="one-tool-right"/>
+      Only one tool got it right
+    </label>
+    
+
+  </form>
+  <p></p>
+  Total:<span id="span_count">unknown</span>&nbsp;&nbsp;
+  Correct:<span id="span_correct" style="color:green;">unknown</span>&nbsp;&nbsp;
+  Incorrect:<span id="span_incorrect" style="color:red;">unknown</span>&nbsp;&nbsp;
+  Invalid:<span id="span_invalid" style="color:purple;">unknown</span>&nbsp;&nbsp;
+
+  {% set ns = namespace(count = 0) %}
+  <ul>
+
+  {% for challenge in challenges | sort(attribute="name") %}
+
+    <span id="row{{ ns.count }}">
+    {% set ns.count = ns.count + 1 %}
+
+    <li>
+
+    
+    {% if challenge.details | length > 1 %}
+        <span class="toggle" onclick="toggleDetails(this)">+</span>
+    {% endif %}
 
     {{ challenge.name }}:  {{ challenge.score}}
-    {% if challenge.score == "YES" %}
-    🙂
-    {% endif %}
 
     {% if challenge.score == "YES" %}
-        {% set ns.correct = ns.correct + 1 %}
-    {% elif challenge.score == "NO" %}
-        {% set ns.incorrect = ns.incorrect + 1 %}
-    {% else %}
-        {% set ns.invalid = ns.invalid + 1 %}
+    🙂
     {% endif %}
 
     {% if challenge.logexists %}
@@ -31,6 +85,7 @@
     {% else %}
         <span style="color: lightgray;">log not available</span>
     {% endif %}    
+
     <a href= {{ "/disdecomp/" + challenge.disdecomp }} >code</a>
     <div class="details">
       <ul>
@@ -39,14 +94,12 @@
       {% endfor %}
       </ul>
     </div>
-  </li>
+    </li>
+
+    </span>
   {% endfor %}
   </ul>
-  <h2>Totals</h2>
-  Count is {{ ns.count }}
-  Correct is {{ ns.correct }}
-  Incorrect is {{ ns.incorrect }}
-  Invalid is {{ ns.invalid }}
+
 
 <script>
   function toggleDetails(element) {
@@ -60,7 +113,161 @@
             details.style.display = "none"; // Hide details
             element.textContent = "+"; // Change "-" back to "+"
         }
-    }
+  }
+
+
+  // returns a list of all challenges for the same dataset but different tools
+  function other_tool_results(name, challenges) {
+      const index = name.indexOf("--")
+      if (index == -1) {
+	  alert("huh? expected '--' in " + name);
+      }
+      dataset = name.substring(0,index)
+      console.log("dataset is: " + dataset)
+      let results = []
+      challenges.forEach(challenge => {
+	  if (challenge.name.startsWith(dataset) && challenge.name != name) {
+	      results.push(challenge);
+	  }
+      });
+      return results;
+
+  }
+
+  
+  // If you add a new filter, be sure to add support for it here
+  function filter_includes(challenge, filter, challenges) {
+      if (filter == "all") {
+	  return true;
+      }
+      if (filter == "ghidra-xrefs") {
+	  return challenge.name.endsWith("--ghidra-xrefs-results");
+      }
+      if (filter == "angr-cfg") {
+	  return challenge.name.endsWith("--angr-cfg-results");
+      }
+      if (filter == "sja") {
+	  return challenge.name.endsWith("--sja-results");
+      }
+      if (filter == "jakstab-cfg") {
+	  return challenge.name.endsWith("--jakstab-cfg-results");
+      }
+      if (filter == "frigg") {
+	  return challenge.name.endsWith("--frigg-results");
+      }
+
+      if (filter == "all-tools-right") {
+	  // our result must be correct.
+	  if (challenge.score != "YES") {
+	      return false;
+	  }
+	  // all other results with same dataset must be correct
+	  result = true;
+	  other_tool_results(challenge.name,challenges).forEach(c => {
+	      if (c.score != "YES") {
+		  result = false;
+		  return;
+	      }
+	  });
+	  return result;
+      }
+
+      if (filter == "all-tools-wrong") {
+	  // our result must be wrong
+	  if (challenge.score == "YES") {
+	      return false;
+	  }
+	  result = true;
+	  // all other results with same dataset must be wrong or invalid
+	  other_tool_results(challenge.name,challenges).forEach(c => {
+	      if (c.score == "YES") {
+		  result = false
+		  return;
+	      }
+	  });
+	  return result;
+      }
+
+      if (filter == "one-tool-right") {
+	  // our results must be correct
+	  if (challenge.score != "YES") {
+	      return false;
+	  }
+	  // all other results must be wrong.
+	  result = true;
+	  other_tool_results(challenge.name,challenges).forEach(c => {
+	      if (c.score == "YES") {
+		  result = false;
+		  return;
+	      }
+	  });
+	  return result;
+      }
+
+      
+      
+      return false;
+  }
+
+  
+  function renderTotals(challenges, filter) {
+
+      let count = 0;
+      let correct = 0;
+      let incorrect = 0;
+      let invalid = 0;
+
+      let index = 0;
+      
+      challenges.forEach(challenge => {
+
+	  if (filter_includes(challenge,filter,challenges)) {
+
+	      document.getElementById("row"+index).style.display="block"; //show it
+	      console.log("show row " + index + ":" + challenge.name);
+	      count = count + 1;
+	      if (challenge.score == "YES") {
+		  correct = correct + 1;
+	      } else if (challenge.score == "NO") {
+		  incorrect = incorrect + 1;
+	      } else {
+		  invalid = invalid + 1;
+	      }
+	  } else {
+	      document.getElementById("row"+index).style.display="none";
+	      console.log("hide row " + index + ":" + challenge.name);
+	  }
+	  index = index + 1;
+      });
+
+      // now render
+      document.getElementById('span_count').textContent = count;
+      document.getElementById('span_correct').textContent = correct;
+      document.getElementById('span_incorrect').textContent = incorrect;
+      document.getElementById('span_invalid').textContent = invalid;
+      
+  }
+
+  const filterOptions = document.querySelectorAll('input[name="filter"]');
+  const challenges = {{ challenges  | sort(attribute="name") | tojson }};
+  
+  filterOptions.forEach(option => {
+      option.addEventListener('change',function() {
+	  const selectedFilter = this.value;
+	  console.log('you selected:' + selectedFilter);
+	  renderTotals(challenges,selectedFilter);
+	  // call function
+      });
+  });
+
+  renderTotals(challenges,'all');
+
+
+
+
+
+  
+
 </script>
 
 
