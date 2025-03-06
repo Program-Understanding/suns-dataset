@@ -1,0 +1,5 @@
+RESULTS: The groundtruth is: {0x11a9, 0x11b8, 0x11c7, 0x11d6, 0x11e5}
+RESULTS: The tool's answer is: {0x11a9, 0x11b8, 0x11c7, 0x11d6, 0x11e5}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 5 out of 5 elements in the answer
+RESULTS: Incorrectly provided 0 values which are not in the answer.
