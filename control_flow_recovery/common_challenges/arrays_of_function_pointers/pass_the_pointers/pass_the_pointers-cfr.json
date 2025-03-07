@@ -4,5 +4,6 @@
     "groundtruth": ["0x11a9", "0x11d2", "0x11ec", "0x1206", "0x1225", "0x123f"],
     "evaluation":"set",
     "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
-    "stripped":true
+    "stripped":true,
+    "source": "pass_the_pointers.c"
    }
