@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define N 2
+#define N 3
 
 int fun1(int a) {
     a++;
@@ -9,16 +9,15 @@ int fun1(int a) {
 
 int fun2(int b) {
     b--;
-    b = fun1(b);
     return b;
 }
 
+typedef int (*function) ( int);
 int coin = 0;
 
 int main() {
-    int count = 0;
     
-    // 100 levels of nested loops
+    // 80 levels of nested loops
     for (int a = 0; a < N; a++) {
         for (int b = 0; b < N; b++) {
             for (int c = 0; c < N; c++) {
@@ -62,6 +61,7 @@ int main() {
                                                                                                                                                                     for (int ao = 0; ao < N; ao++) {
                                                                                                                                                                         for (int ap = 0; ap < N; ap++) {
                                                                                                                                                                             for (int aq = 0; aq < N; aq++) {
+                                                                                                                                                                                function functionPointerArray[500] ={fun1, fun2} ;
                                                                                                                                                                                 for (int ar = 0; ar < N; ar++) {
                                                                                                                                                                                     for (int as = 0; as < N; as++) {
                                                                                                                                                                                         for (int at = 0; at < N; at++) {
@@ -97,7 +97,10 @@ int main() {
                                                                                                                                                                                                                                                                                                                 for (int bx = 0; bx < N; bx++) {
                                                                                                                                                                                                                                                                                                                     for (int by = 0; by < N; by++) {
                                                                                                                                                                                                                                                                                                                         for (int bz = 0; bz < N; bz++) {
-                                                                                                                                                                                                                                                                                                                            coin = fun2(bz+by+bx+bw+bv+bu+bt+bs+br+bq+bp+bo+bn+bm+bl+bk+bj+bi+bh+bg+bf+be+bd+bc+bb+ba+az+ay+ax+aw+av+au+at+as+ar+aq+ap+ao+an+am+al+ak+aj+ai+ah+ag+af+ae+ad+ac+ab);
+
+                                                                                                                                                                                                                                                                                                                                printf(" %d ", (functionPointerArray[(bz+by+bx+bw+bv+bu+bt+bs+br+bq+bp+bo+bn+bm+bl+bk+bj+bi+bh+bg+bf+be+bd+bc+bb+ba+az+ay+ax+aw+av+au+at+as+ar+aq+ap+ao+an+am+al+ak+aj+ai+ah+ag+af+ae+ad+ac+ab)%2 ])(+az+ay+ax+aw+av+au+at+as+ar+aq+ap+ao+an+am+al+ak+aj));
+                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                            }
                                                                                                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                                                                                 }
@@ -160,9 +163,7 @@ int main() {
             }
         }
      }                                                               
-    }}}}}}}}}}}}}}}}
-    
-    printf("%d\n", coin);
-    
-    return 0;
+    }}}}}}}}}}}}}}}
 }
+    
+    

@@ -1,9 +1,9 @@
 
 {
     "program":"looper-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'something' instruction at file offset '0x1175' ?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'something' instruction at file offset '0x18b3' ?",
     "evaluation":"set",
-    "groundtruth":["0x1149"],
+    "groundtruth":["0x1169", "0x117d"],
     "compiler":"gcc version 11.4.0 (Ubuntu 11.4.0-1ubuntu1~22.04)",
     "compiler-options":"-g -O0",
     "stripped":true
