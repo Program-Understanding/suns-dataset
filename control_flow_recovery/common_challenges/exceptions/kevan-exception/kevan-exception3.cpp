@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdexcept>
 
 /* Throw an exception from a function called by main which is caught and then thrown again to main */
 

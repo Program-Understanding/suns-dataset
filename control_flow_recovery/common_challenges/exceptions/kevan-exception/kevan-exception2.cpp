@@ -1,6 +1,6 @@
 #include <iostream>
 
-/* Throw an exception if the divisir is 0, then route through array of pointers */
+/* Throw an exception if the divisor is 0, similar to 1 */
 
 float divide(int numerator, int denominator) {
   //separate division function
@@ -12,19 +12,19 @@ float multiply(int factor1, int factor2){
 }
 
 int main() {
-  // main calls intermediary, which calls divide, which then comes back to main
   int numerator, denominator;
   float (*f_ptr)(int, int);
   std::cout << "Input the numerator as an integer" << std::endl;
   std::cin >> numerator;
   std::cout << "Input the denominator as an integer" << std::endl;
   std::cin >> denominator;
-  f_ptr = divide;
   try {
     if (denominator == 0)
       throw 1;
+    else
+      f_ptr = &divide;
   } catch (int &e) {
-    f_ptr = multiply;
+    f_ptr = &multiply;
   }
   std::cout << "The result is " << f_ptr(numerator,denominator);
   return 0;

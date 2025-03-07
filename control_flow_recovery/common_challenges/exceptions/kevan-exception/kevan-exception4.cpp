@@ -1,38 +1,46 @@
 #include <iostream>
-#include <stdexcept>
 #include <cstdlib>
-#include <string.h>
 
-/* Throw an exception with data related to the heap */
+/* Throw an exception with a class object */
 
-void update_buffer(char* buffer, int index, char new_char) {
-  if (index > 99 || index < 0){
-    throw std::logic_error("Index out of bounds");
+class KevClass {
+public:
+  void performOperation(int operationCode) {
+    if (operationCode == 0) {
+      throw 1;
+    } else if (operationCode == 1) {
+      throw 2;
+    } else if (operationCode == 2){
+      throw 3;
+    } else {
+      throw 4;
+    }
   }
-  buffer[index] = new_char;
-}
+};
+
 
 int main() {
-    char* buffer = (char*)malloc(100 * sizeof(char));
-    if (buffer == NULL) {
-        std::cerr << "Memory allocation failed\n";
-        return 1;
+  KevClass kev;
+  std::cout << "Enter an integer" << std::endl;
+  int user_num;
+  std::cin >> user_num;
+  try {
+    kev.performOperation(user_num);
+  } catch (int &e) {
+    switch (e) {
+    case 1:
+      std::cout << "Handling error code 1" << std::endl;
+      break;
+    case 2:
+      std::cout << "Handling error code 2" << std::endl;
+      break;
+    case 3:
+      std::cout << "Handling error code 3" << std::endl;
+      break;
+    default:
+      std::cout << "Unknown error code" << std::endl;
+      break;
     }
-
-    strcpy(buffer, "Hello, World!");
-    std::cout << "Buffer: " << buffer << std::endl;
-    std::cout << "Give an index to change the char of" << std::endl;
-    int index;
-    std::cin >> index;
-    std::cout << "Give a new char for the index" << std::endl;
-    char new_char;
-    std::cin >> new_char;
-    try {
-      update_buffer(buffer,index, new_char);
-    } catch (const std::runtime_error& e) {
-        std::cerr << "Caught exception: " << e.what() << std::endl;
-    }
-    free(buffer);
-
-    return 0;
+  }
+  return 0;
 }
