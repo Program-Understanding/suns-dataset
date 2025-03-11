@@ -68,7 +68,15 @@ public class ReportXrefs extends GhidraScript {
 
     public Long addressToFileOffset(Address a) {
 	Memory memory = currentProgram.getMemory();
+	if (memory == null) {
+	    System.out.println("the current program has no memory???");
+	    return null;
+	}
 	MemoryBlock block = memory.getBlock(a);
+	if (block == null) {
+	    System.out.println("for address " + a + " there is no memory block");
+	    return null;
+	}
 	for (MemoryBlockSourceInfo info: block.getSourceInfos()) {
 	    if (info.contains(a)) {
 		return info.getFileBytesOffset(a);
@@ -238,11 +246,14 @@ public class ReportXrefs extends GhidraScript {
 		    Address targetsTarget = targetReferences[0].getToAddress();
 		    System.out.println(reference.getToAddress() + " which in turn has a target of " + targetsTarget );
 		    Long fileOffset = addressToFileOffset(targetsTarget);
-		    //answerStringSet.add(hexNormalize(targetsTarget.toString("0x")));
-		    answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset)));
+		    if (fileOffset != null) {
+			answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset)));
+		    }
 		} else {
 		    Long fileOffset = addressToFileOffset(target);		    
-		    answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset))); //target.toString("0x")));
+		    if (fileOffset != null) {
+			answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset))); //target.toString("0x")));
+		    }
 		}
 	    }
 	    System.out.println("Not the question, but Ghidra has references from:");
@@ -260,14 +271,25 @@ public class ReportXrefs extends GhidraScript {
 			       (matchesAnswer? "YES" : "NO"));
 
 
+	    // Example:  Truth is {A,B}
+	    // Answer is {A,C}
+	    
 	    Set<String> incorrectElements = new HashSet<String>(answerStringSet);
 	    incorrectElements.removeAll(truthStringSet);
+	    // {A,C} - {A,B} = {C} which is wrong.
+	    
 	    Set<String> missingElements = new HashSet<String>(truthStringSet);
 	    missingElements.removeAll(answerStringSet);
+	    // {A,B} - {A, C} = {B} which we didn't provide
+	    
+	    Set<String> correctlyFound = new HashSet<String>(answerStringSet);
+	    correctlyFound.removeAll(incorrectElements);
+	    // {A, C} - {C} = {A}
 
-	    System.out.println("RESULTS: Correctly identified " + (truthStringSet.size() - incorrectElements.size()) +
-			       " out of " + truthStringSet.size() + " elements in the answer");
-	    System.out.println("RESULTS: Incorrectly provided " + missingElements.size() + " values which are not in the answer.");
+
+	    System.out.println("RESULTS: Correctly identified " + correctlyFound.size() + 
+			       " out of " + truthStringSet.size() + " correct answers");
+	    System.out.println("RESULTS: Incorrectly provided " + incorrectElements.size() + " values which are not in the answer.");
 
 	    if (!matchesAnswer) {
 		System.out.println("RESULTS: Tool's answer includes incorrect elements: " + setToString(incorrectElements));

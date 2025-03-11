@@ -1,9 +1,9 @@
 RESULTS: The groundtruth is: {0x40f, 0x42d}
 RESULTS: The tool's answer is: {0x40f, 0x42d}
 RESULTS: Tool's answer matches groundtruth? YES
-RESULTS: Correctly identified 2 out of 2 elements in the answer
+RESULTS: Correctly identified 2 out of 2 correct answers
 RESULTS: Incorrectly provided 0 values which are not in the answer.
 RESULTS: Tool name:ghidra-xrefs
-RESULTS: Tool version:1.0.4
+RESULTS: Tool version:1.0.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

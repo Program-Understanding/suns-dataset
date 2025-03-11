@@ -136,7 +136,11 @@
 
   
   // If you add a new filter, be sure to add support for it here
+  // We also care about how many tools there are... 5 right now
   function filter_includes(challenge, filter, challenges) {
+
+      const TOOL_COUNT = 5;
+
       if (filter == "all") {
 	  return true;
       }
@@ -162,14 +166,18 @@
 	      return false;
 	  }
 	  // all other results with same dataset must be correct
+	  others = other_tool_results(challenge.name,challenges)
+	  if (others.length != TOOL_COUNT-1 ) {
+	      return false;
+	  }
 	  result = true;
-	  other_tool_results(challenge.name,challenges).forEach(c => {
+	  others.forEach(c => {
 	      if (c.score != "YES") {
 		  result = false;
 		  return;
 	      }
 	  });
-	  return result;
+	  return result
       }
 
       if (filter == "all-tools-wrong") {
@@ -177,9 +185,13 @@
 	  if (challenge.score == "YES") {
 	      return false;
 	  }
-	  result = true;
 	  // all other results with same dataset must be wrong or invalid
-	  other_tool_results(challenge.name,challenges).forEach(c => {
+	  others = other_tool_results(challenge.name,challenges)
+	  if (others.length != TOOL_COUNT-1 ) {
+	      return false;
+	  }
+	  result = true;
+	  others.forEach(c => {
 	      if (c.score == "YES") {
 		  result = false
 		  return;
@@ -194,8 +206,12 @@
 	      return false;
 	  }
 	  // all other results must be wrong.
+	  others = other_tool_results(challenge.name,challenges)
+	  if (others.length != TOOL_COUNT-1 ) {
+	      return false;
+	  }
 	  result = true;
-	  other_tool_results(challenge.name,challenges).forEach(c => {
+	  others.forEach(c => {
 	      if (c.score == "YES") {
 		  result = false;
 		  return;
