@@ -1,31 +1,61 @@
 #include <iostream>
+#include <exception>
 
-/* Throw an exception if the divisor is 0, similar to 1 */
+/* Similar to kevan-exception1 but without the use of manually
+   created function pointers in the source code */
 
-float divide(int numerator, int denominator) {
-  //separate division function
-  return float(numerator) / float(denominator);
-}
+class CustomException : public std::exception {
+public:
+  const char *what() const noexcept override {
+    return "Standard Exception";
+  }
+  virtual float result() const noexcept {
+    return 0.0;
+  }
+};
 
-float multiply(int factor1, int factor2){
-  return float(factor1) * factor2;
+class DivideByZero : public CustomException {
+public:
+  DivideByZero(int numerator, int denominator) : numerator_(numerator), denominator_(denominator) {}
+  const char *what() const noexcept override {
+    return "Divided by zero which is illegal";
+  }
+private:
+  int numerator_,denominator_;
+};
+
+class FineException : public CustomException {
+public:
+  FineException(int numerator, int denominator) : numerator_(numerator), denominator_(denominator) {}
+  const char *what() const noexcept override {
+    return "No exception";
+  }
+  float result() const noexcept override { return (float)numerator_/(float)denominator_; }
+  private:
+  int numerator_,denominator_;
+};
+
+void exceptionRoute(bool bad, int numerator, int denominator) {
+  try {
+    if (bad) {
+      throw DivideByZero(numerator,denominator);
+    } else {
+      throw FineException(numerator,denominator);
+    }
+  } catch (CustomException &e) {
+    //either a FineException or a DivideByZero exception
+    std::cout << e.what() << std::endl;
+    std::cout << "Result is " << e.result() << std::endl;
+  }
 }
 
 int main() {
+  std::exception_ptr eptr;
   int numerator, denominator;
-  float (*f_ptr)(int, int);
-  std::cout << "Input the numerator as an integer" << std::endl;
+  std::cout << "Input first integer" << std::endl;
   std::cin >> numerator;
-  std::cout << "Input the denominator as an integer" << std::endl;
+  std::cout << "Input second integer" << std::endl;
   std::cin >> denominator;
-  try {
-    if (denominator == 0)
-      throw 1;
-    else
-      f_ptr = &divide;
-  } catch (int &e) {
-    f_ptr = &multiply;
-  }
-  std::cout << "The result is " << f_ptr(numerator,denominator);
+  exceptionRoute(denominator == 0,numerator,denominator);
   return 0;
 }
