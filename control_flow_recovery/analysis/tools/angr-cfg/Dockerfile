@@ -11,6 +11,13 @@ ENV http_proxy ${HTTP_PROXY} \
     HTTP_PROXY ${HTTP_PROXY} \
     HTTPS_PROXY ${HTTPS_PROXY}
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    emacs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+
 RUN mkdir -p /control-flow-recovery
 
 WORKDIR /control-flow-recovery

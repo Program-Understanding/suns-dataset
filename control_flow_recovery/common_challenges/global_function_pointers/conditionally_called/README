@@ -1,3 +1,7 @@
+You need to install cog using
+
+pip install cogapp
+
 Build using
 
 make n=5

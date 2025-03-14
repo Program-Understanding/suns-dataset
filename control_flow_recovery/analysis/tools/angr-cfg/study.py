@@ -57,10 +57,11 @@ def study(binary_path: str, cfrjson_path: str):
     project = angr.Project(binary_path,auto_load_libs=False)
 
     cfg = project.analyses.CFGEmulated(keep_state=True,
-                                   context_sensitivity_level=20,
+                                   context_sensitivity_level=5,
                                    resolve_indirect_jumps=True)
 
-    #cfg = project.analyses.CFGFast()
+    cfg2 = project.analyses.CFGFast()
+
     address = project.loader.main_object.offset_to_addr(offset)
 
 
@@ -72,13 +73,18 @@ def study(binary_path: str, cfrjson_path: str):
         raise NotImplementedError("instruction don't match... question: " + instruction_string +
                                   "whereas angr reports: " + capstone_inst_string)
     
-    nodes_for_address = []
+    nodes_for_address = set()
 
     for n in cfg.nodes():
         for i in n.instruction_addrs:
             if address == i:
-                nodes_for_address.append(n)
-                    
+                nodes_for_address.add(n)
+
+    for n in cfg2.nodes():
+        for i in n.instruction_addrs:
+            if address == i:
+                nodes_for_address.add(n)
+                
     if len(nodes_for_address) == 0:
         print("I was not able to find a CFG node containing the address " + str(address))
         print("Are you sure you have the right instruction offset?  I show it as:")
@@ -87,20 +93,31 @@ def study(binary_path: str, cfrjson_path: str):
         #do something to record the actual result
         return
 
-    successors = []
+    successors = set()
     for n in nodes_for_address:
-        successors.extend(n.successors)
+        if len(n.successors) > 0:
+            for ss in n.successors:
+                successors.add(ss)
 
     if question_type == "targets of targets":
-        nsuccessors = []
+        nsuccessors = set()
         for s in successors:
-            nsuccesors.extend(s.successors)
+            if len(s.successors) > 0:
+                for ss in s.successors:
+                    successors.add(ss)
+
         successors = nsuccessors
 
-    address_answers = [ s.addr for s in successors]
+    address_answers = set()
+    for s in successors:
+        address_answers.add(s.addr)
     
-    offset_answers = [ project.loader.find_section_containing(a).addr_to_offset(a) for a in address_answers]
-    offset_answers_hex = [ hex(oa) for oa in offset_answers]
+    offset_answers = set()
+
+    for a in address_answers:
+        section = project.loader.find_section_containing(a)
+        if section:
+            offset_answers.add(section.addr_to_offset(a))
 
     answerStringSet = set()
     for offset in offset_answers:

@@ -36,6 +36,12 @@
       <input type="radio" name="filter" value="frigg"/>
       frigg
     </label>
+
+    <label>
+      <input type="radio" name="filter" value="rose"/>
+      rose
+    </label>
+
     <br>
     Interesting Results:
     <label>
@@ -139,7 +145,7 @@
   // We also care about how many tools there are... 5 right now
   function filter_includes(challenge, filter, challenges) {
 
-      const TOOL_COUNT = 5;
+      const TOOL_COUNT = 6;
 
       if (filter == "all") {
 	  return true;
@@ -159,7 +165,10 @@
       if (filter == "frigg") {
 	  return challenge.name.endsWith("--frigg-results");
       }
-
+      if (filter == "rose") {
+	  return challenge.name.endsWith("--rose-results");
+      }
+      
       if (filter == "all-tools-right") {
 	  // our result must be correct.
 	  if (challenge.score != "YES") {

@@ -4,5 +4,5 @@
     "groundtruth": ["0x1620","0x1610"],
     "evaluation":"set",
     "source": "kevan-exception2.cpp",
-    "stripped":true,
+    "stripped":true
 }
