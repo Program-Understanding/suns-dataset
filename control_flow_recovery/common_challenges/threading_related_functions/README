@@ -1,1 +1,4 @@
 This directory holds examples that conform to the type of control flow recovery specified in the directories name
+
+The calculator examples is great! We could add one or two different threading patterns (like maybe consumer/producer) to have more variety.
+

@@ -1,1 +1,10 @@
 This directory holds examples that conform to the type of control flow recovery specified in the directories name
+
+The existing examples are here are good for showing code that has indirect branching with exceptions involved in it,
+but the indirect control flow we want to test is the exception handling itself (e.g. the control flow from "throw" to
+"catch.") This is tricky because exception handling is handled differently depending on the language. In C++, exceptions
+are handled through a library that does all of the "try/catch/throw" logic, and so exceptional control flow in C++ will
+actually occur inside stdlib.
+
+I'm still thinking over what we should do here. We need an example that shows exceptional control flow, but it may not
+be perfectly representable in the way we write CFG questions right now.

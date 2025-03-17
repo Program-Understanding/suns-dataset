@@ -4,3 +4,6 @@ This directory holds examples that conform to the type of control flow recovery 
  hello_callback.c
 ==================
 This program prints Hello, World!
+
+The hello_callback program is a great example of callback control flow.
+I think we should add one other example that uses OS-based callbacks.
