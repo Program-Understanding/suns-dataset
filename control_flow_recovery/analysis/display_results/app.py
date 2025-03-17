@@ -43,6 +43,18 @@ def replace_spaces_between_tags(text):
 
 
 
+@app.route("/currated_results")
+def currated_results():
+    currated_challenges = []
+    for c in challenges:
+        if c["name"].startswith("../results/simple"):
+            currated_challenges.append(c)
+    context = {
+        "title": "Results",
+        "challenges": currated_challenges,
+        "test_name": test_name
+    }
+    return render_template("results.html", **context)
 
 
 @app.route("/results")

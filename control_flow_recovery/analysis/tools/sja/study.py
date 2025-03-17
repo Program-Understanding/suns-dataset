@@ -54,8 +54,8 @@ def main():
         incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
         missingString = str(missing) if len(missing) > 0 else "{}"
         
-        print(f"Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"Tool's answer does not include correct elements: {missingString}")
+        print(f"RESULTS: Tool's answer includes incorrect elements: {incorrectString}")
+        print(f"RESULTS: Tool's answer does not include correct elements: {missingString}")
 
 
 def parse_jump_file(file_path):

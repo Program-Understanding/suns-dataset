@@ -55,11 +55,11 @@ def main():
 
                 p1 = "function call edge to function "
                 if target_line.startswith(p1):
-                    ans = target_line[len(p1):]
+                    ans = target_line[len(p1):].split(' ')[0]
                     answer_set.add(ans)
                 p2 = "normal edge to "
                 if target_line.startswith(p2):
-                    ans = target_line[len(p2):]
+                    ans = target_line[len(p2):].split(' ')[0]
                     answer_set.add(ans)
 
     answers = [hex(int(a,16)) for a in answer_set]
@@ -82,8 +82,8 @@ def main():
         incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
         missingString = str(missing) if len(missing) > 0 else "{}"
         
-        print(f"Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"Tool's answer does not include correct elements: {missingString}")
+        print(f"RESULTS: Tool's answer includes incorrect elements: {incorrectString}")
+        print(f"RESULTS: Tool's answer does not include correct elements: {missingString}")
 
 
 

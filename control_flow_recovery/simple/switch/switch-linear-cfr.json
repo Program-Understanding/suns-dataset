@@ -1,0 +1,8 @@
+{
+    "program":"switch",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11a7' ?",
+    "groundtruth": ["0x11aa", "0x11be", "0x11d2", "0x11e6", "0x11f7", "0x1208", "0x1219", "0x122a", "0x123b", "0x124c"],
+    "evaluation":"set",
+    "source":"switch.c"
+   }
+   

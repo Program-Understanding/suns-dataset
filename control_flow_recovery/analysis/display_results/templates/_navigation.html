@@ -1,5 +1,5 @@
 <nav>
-{% for menu_item in ["home", "results"] %}
+{% for menu_item in ["home", "results", "currated_results"] %}
   <a href="{{ url_for(menu_item) }}">{{ menu_item|upper }}</a>
 {% endfor %}
 </nav>

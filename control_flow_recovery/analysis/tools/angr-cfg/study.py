@@ -68,10 +68,11 @@ def study(binary_path: str, cfrjson_path: str):
     capstone_inst_string = (project.factory.block(address).capstone.insns[0].mnemonic + " " +
                             project.factory.block(address).capstone.insns[0].op_str)
 
-    #will this always match?
+    #igonore "no track"
+    capstone_inst_string = capstone_inst_string.replace("notrack","").strip()
     if capstone_inst_string != instruction_string:
-        raise NotImplementedError("instruction don't match... question: " + instruction_string +
-                                  "whereas angr reports: " + capstone_inst_string)
+        raise NotImplementedError("instructions don't match... question: " + instruction_string +
+                                  " whereas angr reports: " + capstone_inst_string)
     
     nodes_for_address = set()
 
