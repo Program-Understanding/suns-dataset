@@ -1,0 +1,7 @@
+RESULTS: The groundtruth is: ['0x40f']
+RESULTS: The tool's answer is: {'0x40f'}
+RESULTS: Do they match? YES c:
+RESULTS: Tool name:jakstab-cfg
+RESULTS: Tool version:1.0.1
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

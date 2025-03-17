@@ -1,0 +1,8 @@
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp dword ptr [edx*4 + 0x4010a4]' instruction at file offset '0x22e' ?'
+RESULTS: The groundtruth is: ['0x235', '0x23e', '0x24b', '0x256', '0x25f', '0x270', '0x28a', '0x2a4']
+RESULTS: The tool's answer is: []
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: Tool name:rose
+RESULTS: Tool version:1.0.2
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

@@ -1,0 +1,11 @@
+RESULTS: The groundtruth is: {0x1178, 0x1187, 0x1196, 0x11a5}
+RESULTS: The tool's answer is: {0x1178}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: Correctly identified 1 out of 4 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: Tool's answer includes incorrect elements: {}
+RESULTS: Tool's answer does not include correct elements: {0x1187, 0x1196, 0x11a5}
+RESULTS: Tool name:ghidra-xrefs
+RESULTS: Tool version:1.0.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

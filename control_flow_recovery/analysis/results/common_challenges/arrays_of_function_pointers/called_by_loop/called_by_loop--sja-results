@@ -1,4 +1,4 @@
-RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'lea' instruction at file offset '0x1294' ?'
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x12e3' ?'
 RESULTS: The groundtruth is: ['0x11a8']
 RESULTS: The tool's answer is: []
 RESULTS: Tool's answer matches groundtruth? NO
