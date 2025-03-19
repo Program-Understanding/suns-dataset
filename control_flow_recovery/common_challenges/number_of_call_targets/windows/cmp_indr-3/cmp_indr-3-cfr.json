@@ -6,5 +6,6 @@
         "0x40f",
         "0x432"
     ],
-    "evaluation": "set"
+    "evaluation": "set",
+    "source":"cmp_indr-3.s"
 }
