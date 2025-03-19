@@ -1,1 +1,6 @@
 This directory holds examples that conform to the type of control flow recovery specified in the directories name
+
+Looking at the examples:
+- Currently 6 valid samples with answers
+- brooke-fptr-array is missing the CFR
+- This seems like enough for what we need!
