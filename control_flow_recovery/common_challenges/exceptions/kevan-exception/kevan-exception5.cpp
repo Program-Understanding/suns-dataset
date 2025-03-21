@@ -1,51 +1,72 @@
 #include <iostream>
+#include <exception>
 
-/* Nesting exceptions to be thrown within another catch statement */
+/* Routing exceptions through a function to have catches in different spots */
 
-class OG {
+class KevException : public std::exception {
 public:
-  void throwEx(int x){
-    std::cout << "Got " << x << std::endl;
+  const char *what() const noexcept override {
+    return "Custom exception called!";
+  }
+  virtual int value() const noexcept {
+    return 0;
   }
 };
 
-class Derived : public OG {
+class KevExcption : public KevException {
 public:
-  void throwEx(int x) {
-    try {
-      if (x == 1) {
-	std::cout << "ONE" << std::endl;
-      } else {
-	throw x;
-      }
-    }
-    catch (int &e) {
-      OG::throwEx(e);
-    }
+  KevExcption(int val) : _value(val) {}
+  const char *what() const noexcept override {
+    return "Exception called";
   }
+  int value() const noexcept override {
+    return _value;
+  }
+private:
+  int _value;
 };
 
-class Derived2 : public Derived {
-public:
-  void throwEx(int x) {
-    try {
-      if (x == 2) {
-	std::cout << "TWO" << std::endl;
-      } else {
-	throw x;
-      }
-    }
-    catch (int &e) {
-      Derived::throwEx(e);
-    }
+void problematic_func(int val) {
+  if (val > 2)
+    throw KevExcption(val);
+}
+
+void different_problematic_func(int val) {
+  if (val % 4 == 0)
+    throw KevExcption(val);
+}
+
+void third_func(int val) {
+  if (val > 4)
+    throw KevExcption(val);
+}
+
+void func_dispatcher(int val) {
+  try {
+    problematic_func(val);
+  } catch (KevException &e) {
+    std::cout << e.what() << " with the value " << e.value() << std::endl;
   }
-};
- 
+  try {
+    different_problematic_func(val);
+  } catch (KevException &e) {
+    std::cout << e.what() << " given the value " << e.value() << std::endl;
+  }
+  try {
+    third_func(val);
+  } catch (KevException &e) {
+    throw;
+  }
+}
+
 int main(int argc, char *argv[]) {
-  Derived2 cls;
-  int input;
-  std::cout << "Enter an integer" << std::endl;
-  std::cin >> input;
-  cls.throwEx(input);
+  int val;
+  if (argc > 1)
+    val = atoi(argv[1]);
+  try {
+    func_dispatcher(val);
+  } catch (KevException &e) {
+    std::cout << e.what() << " from the value " << e.value() << std::endl;
+  }
   return 0;
 }
