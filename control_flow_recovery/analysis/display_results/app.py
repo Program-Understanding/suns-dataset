@@ -25,7 +25,7 @@ def collect_result_files():
 @app.route("/")
 
 def home():
-    return render_template("base.html", title="Jinja and Flask")
+    return render_template("home.html", title="Control Flow Recovery Challenge")
 
 
 def replace_all_spaces(text):
@@ -57,8 +57,8 @@ def currated_results():
     return render_template("results.html", **context)
 
 
-@app.route("/results")
-def results():
+@app.route("/all_results")
+def all_results():
     context = {
         "title": "Results",
         "challenges": challenges,
