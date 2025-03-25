@@ -6,6 +6,7 @@
     "groundtruth":[ "0x5507"],
     "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
     "compiler-options":"-g -O0",
-    "stripped":true
+    "stripped":true,
+    "slow":true
    }
    

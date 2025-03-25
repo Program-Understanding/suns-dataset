@@ -53,11 +53,9 @@ def main():
     # compare values in groundtruth to the results from parse_jakstab
     print(f"RESULTS: The groundtruth is: {groundtruth}")
     print(f"RESULTS: The tool's answer is: {answers}")
-    print("RESULTS: Do they match? ", end='')
-    if set(groundtruth) == answers:
-        print("YES c:")
-    else:
-        print("NO :c")
+    matchesString = "YES" if set(groundtruth) == answers else "NO"
+    print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
+
 
 ###################################################################
 #
