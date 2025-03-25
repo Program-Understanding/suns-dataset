@@ -1,14 +1,14 @@
 This directory holds examples that represent common control flow recovery challenges
 
 TODO list:
-- brooke-fptr-array example is missing CFR
-- one more callback example that uses OS-based callbacks
-- maybe make one exceptional control flow example, it would be very difficult though
-- move conditionally-called into the stack-allocated-function-pointer folder
-- make a new sample that uses global function pointers (allocated as global, set and used in different functions)
-- make advanced heap-allocated function pointer example where initialization and allocation happen in different functions
-- fix CFR for add1_or_mult2
-- add examples of different switch statement layouts (in binary; i.e. from different compilers)
-- additional threading example with a different programming pattern
-- fix userinput-class CFR to have just 1 question
-- add virtual function call example where type heirarchy could resolve to multiple things, but dataflow shows it can only possibly resolve to one target
+- brooke-fptr-array example is missing CFR --done
+- one more callback example that uses OS-based callbacks --done
+- maybe make one exceptional control flow example, it would be very difficult though --done 
+- move conditionally-called into the stack-allocated-function-pointer folder --done
+- make a new sample that uses global function pointers (allocated as global, set and used in different functions) --done
+- make advanced heap-allocated function pointer example where initialization and allocation happen in different functions --done
+- fix CFR for add1_or_mult2 --done
+- add examples of different switch statement layouts (in binary; i.e. from different compilers) (pending fixing the compiler library)
+- additional threading example with a different programming pattern --done
+- fix userinput-class CFR to have just 1 question --done
+- add virtual function call example where type heirarchy could resolve to multiple things, but dataflow shows it can only possibly resolve to one target --done

@@ -1,7 +1,0 @@
-{
- "program":"conditional-20",
- "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x14b9' ?",
-    "groundtruth": ["0x11a9", "0x11b8", "0x11c7", "0x11d6", "0x11e5", "0x11f4", "0x1203", "0x1212", "0x1221", "0x1230", "0x123f", "0x124e",
-		    "0x125d", "0x126c", "0x127b", "0x128a", "0x1299", "0x12a8", "0x12b7", "0x12c6"],
- "evaluation":"set"
-}

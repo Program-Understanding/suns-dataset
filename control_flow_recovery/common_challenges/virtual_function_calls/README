@@ -1,5 +1,5 @@
 This directory holds examples that conform to the type of control flow recovery specified in the directories name
 
 Three good basic examples!
-Userinput-class has a CFR with multiple questions that should be changed to just 1.
-And we should add an example where the virtual function call has only 1 possible target, if you follow dataflow.
+Userinput-class has a CFR with multiple questions that should be changed to just 1. --fixed!
+And we should add an example where the virtual function call has only 1 possible target, if you follow dataflow. --completed??
