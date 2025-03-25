@@ -1,20 +1,6 @@
 {
     "program": "userinput-classes",
-    "questions": [
-        {
-            "question": "What are the file offsets for the instructions that are the targets of the 'call *%rdx' instruction at file offset '0x272c'?",
-            "groundtruth": ["0x3812", "0x385e", "0x38aa"],
-            "evaluation": "set"
-        },
-        {
-            "question": "What are the file offsets for the instructions that are the targets of the 'call *%rdx' instruction at file offset '0x2744'?",
-            "groundtruth": ["0x3812", "0x385e", "0x38aa"],
-            "evaluation": "set"
-        },
-        {
-            "question": "What are the file offsets for the instructions that are the targets of the 'call *%rdx' instruction at file offset '0x2e2a'?",
-            "groundtruth": ["0x3812", "0x385e", "0x38aa"],
-            "evaluation": "set"
-        }
-    ]
+    "question": "What are the file offsets for the instructions that are the targets of the 'call *%rdx' instruction at file offset '0x272c'?",
+    "groundtruth": ["0x3812", "0x385e", "0x38aa"],
+    "evaluation": "set"
 }
