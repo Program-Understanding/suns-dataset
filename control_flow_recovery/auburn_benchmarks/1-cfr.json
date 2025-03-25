@@ -1,0 +1,9 @@
+{
+    "program": "1",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call' instruction at file offset '0x112d' ?",
+    "groundtruth": [
+        "0x12b0"
+    ],
+    "evaluation": "set",
+    "source": "1.cpp"
+}

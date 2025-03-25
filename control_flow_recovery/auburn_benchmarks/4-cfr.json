@@ -1,0 +1,13 @@
+{
+    "program": "4",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call' instruction at file offset '0x1185' ?",
+    "groundtruth": [
+        "0x12d0",
+        "0x1300",
+        "0x1310",
+        "0x12f0",
+        "0x12e0"
+    ],
+    "evaluation": "set",
+    "source": "4.c"
+}

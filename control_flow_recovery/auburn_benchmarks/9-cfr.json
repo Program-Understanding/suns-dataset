@@ -1,0 +1,12 @@
+{
+    "program": "9",
+    "question": "What are the file offsets for the instructions that are the targets of the 'jmp' instruction at file offset '0x1317' ?",
+    "groundtruth": [
+        "0x1330",
+        "0x1450",
+        "0x14e0",
+        "0x13c0"
+    ],
+    "evaluation": "set",
+    "source": "9.cpp"
+}
