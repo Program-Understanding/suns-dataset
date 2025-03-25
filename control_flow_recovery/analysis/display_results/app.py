@@ -47,7 +47,7 @@ def replace_spaces_between_tags(text):
 def currated_results():
     currated_challenges = []
     for c in challenges:
-        if c["name"].startswith("../results/simple"):
+        if c["name"].startswith("../results/currated/simple"):
             currated_challenges.append(c)
     context = {
         "title": "Results",
