@@ -9,4 +9,6 @@ Target functions are stored in a malloc'ed array.
 
 
 This folder has a good basic example of allocating a function pointer on the heap. We should make a more advanced version
-where the allocation / initialization happens in a different function. Also the CFR for the instruction is off.
+where the allocation / initialization happens in a different function. --added more advanced, waiting for approval
+
+Also the CFR for the instruction is off.
