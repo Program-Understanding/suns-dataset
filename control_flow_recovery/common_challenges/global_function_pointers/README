@@ -1,4 +1,4 @@
 This directory holds examples that conform to the type of control flow recovery specified in the directories name
 
-Conditionally-called is a good sample, but it doesn't use any global function pointers. We need to add an example that uses global function pointers
-and put conditionally-called in the stack-allocated folder.
+Conditionally-called is a good sample, but it doesn't use any global function pointers. --provided example (need feedback)
+ We need to add an example that uses global function pointers and put conditionally-called in the stack-allocated folder. --done

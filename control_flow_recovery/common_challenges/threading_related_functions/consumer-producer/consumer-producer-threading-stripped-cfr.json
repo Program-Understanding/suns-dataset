@@ -1,0 +1,7 @@
+{
+    "program": "consumer-producer-threading",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call *%rcx' instruction at file offset '0x1749'?",
+    "groundtruth": ["0x12e9", "0x1301", "0x1317"],
+    "evaluation": "set",
+    "stripped" : "true"
+}
