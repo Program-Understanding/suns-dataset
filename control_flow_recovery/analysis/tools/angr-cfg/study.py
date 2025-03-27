@@ -56,24 +56,25 @@ def study(binary_path: str, cfrjson_path: str):
 
     project = angr.Project(binary_path,auto_load_libs=False)
 
-    cfg = project.analyses.CFGEmulated(keep_state=True,
-                                   context_sensitivity_level=5,
-                                   resolve_indirect_jumps=True)
+    #cfg2 = project.analyses.CFGEmulated(keep_state=True,
+    #                               context_sensitivity_level=5,
+    #                               resolve_indirect_jumps=True)
 
-    cfg2 = project.analyses.CFGFast()
-
+    cfg = project.analyses.CFGFast(normalize=True)
     address = project.loader.main_object.offset_to_addr(offset)
+    capstone_mnemonic = project.factory.block(address).capstone.insns[0].mnemonic 
+    capstone_op = project.factory.block(address).capstone.insns[0].op_str
 
+    capstone_inst_string = capstone_mnemonic + " " + capstone_op
 
-    capstone_inst_string = (project.factory.block(address).capstone.insns[0].mnemonic + " " +
-                            project.factory.block(address).capstone.insns[0].op_str)
 
     #igonore "no track"
     capstone_inst_string = capstone_inst_string.replace("notrack","").strip()
     if capstone_inst_string != instruction_string:
         raise NotImplementedError("instructions don't match... question: " + instruction_string +
                                   " whereas angr reports: " + capstone_inst_string)
-    
+
+
     nodes_for_address = set()
 
     for n in cfg.nodes():
@@ -81,10 +82,10 @@ def study(binary_path: str, cfrjson_path: str):
             if address == i:
                 nodes_for_address.add(n)
 
-    for n in cfg2.nodes():
-        for i in n.instruction_addrs:
-            if address == i:
-                nodes_for_address.add(n)
+    #for n in cfg2.nodes():
+    #    for i in n.instruction_addrs:
+    #        if address == i:
+    #            nodes_for_address.add(n)
                 
     if len(nodes_for_address) == 0:
         print("I was not able to find a CFG node containing the address " + str(address))
@@ -109,10 +110,41 @@ def study(binary_path: str, cfrjson_path: str):
 
         successors = nsuccessors
 
+
     address_answers = set()
     for s in successors:
         address_answers.add(s.addr)
+
+    #needs fix for target of targets
+    try:
+
+        #assume indirection is via a register
+        register_offset = project.arch.registers[capstone_op][0]
+        register_size = project.arch.registers[capstone_op][1]
+
+        function = cfg.kb.functions.floor_func(address)
+        decompiler = project.analyses.Decompiler(function)
+        rd_analysis = project.analyses.ReachingDefinitions(
+            subject=function,
+            cc = function.calling_convention,
+            observation_points = [("insn",
+                                   address,
+                                   0)],
+            dep_graph = angr.analyses.reaching_definitions.dep_graph.DepGraph())
+        
+
+        values = rd_analysis.one_result.register_definitions.load(register_offset,
+                                                                  register_size,
+                                                                  endness=project.arch.register_endness)
+
+        for v in values[0]:
+            address_answers.add(v.v)
+            
+    except Exception as exc:
+        raise RuntimeError("Found an example where the indirection is not via register or something went wrong") from exc
     
+
+        
     offset_answers = set()
 
     for a in address_answers:
