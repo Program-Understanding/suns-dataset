@@ -113,6 +113,7 @@ def study(binary_path: str, cfrjson_path: str):
 
     address_answers = set()
     for s in successors:
+        print("adding address due to cfg successor " + hex(s.addr))
         address_answers.add(s.addr)
 
     #needs fix for target of targets
@@ -132,25 +133,30 @@ def study(binary_path: str, cfrjson_path: str):
                                    0)],
             dep_graph = angr.analyses.reaching_definitions.dep_graph.DepGraph())
         
-
+        print("ran a reaching definition analysis")
         values = rd_analysis.one_result.register_definitions.load(register_offset,
                                                                   register_size,
                                                                   endness=project.arch.register_endness)
 
         for v in values[0]:
-            address_answers.add(v.v)
+            if v.symbolic:
+                print("found a symbolic reaching value: " + str(v))
+            else:
+                print("answer added via reaching definition: " + hex(v.v))
+                address_answers.add(v.v)
             
     except Exception as exc:
         raise RuntimeError("Found an example where the indirection is not via register or something went wrong") from exc
     
-
         
     offset_answers = set()
 
     for a in address_answers:
         section = project.loader.find_section_containing(a)
         if section:
-            offset_answers.add(section.addr_to_offset(a))
+            this_offset = section.addr_to_offset(a)
+            print("for address " + hex(a) + " offset is " + hex(this_offset))
+            offset_answers.add(this_offset)
 
     answerStringSet = set()
     for offset in offset_answers:
