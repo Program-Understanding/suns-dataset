@@ -1,14 +1,31 @@
 This directory holds examples that represent common control flow recovery challenges
 
 TODO list:
-- brooke-fptr-array example is missing CFR --done
+
 - one more callback example that uses OS-based callbacks --done
-- maybe make one exceptional control flow example, it would be very difficult though --done 
-- move conditionally-called into the stack-allocated-function-pointer folder --done
+   for this example in OS-based-callback, it's a cool example but there are two problems
+   the first is, it's exceptional control flow rather than a callback; the signal handler is specifying how to handle an exception (admittedly through registering a callback, but the difficulty of handling exceptions supercedes the callback)
+   the second is, the ground truth in the CFR is not right; in fact it is pretty hard to figure out where any indirect control flow occurs in this program (because the indirect control flow flows through signal handling apparatus, which is gross and ugly). It looks like the question is pointing to call_fini
+   Let's hold off on doing anything new here until we figure out a better plan 
+   Maybe I need to come up with a good example of an os-based callback, maybe inotify?
+   Maybe we need a new kind of question like "is this file offset called from anywhere else in the program?"
+   Callbacks in higher-level programming are easier, like in mobile apps, maybe we need that...
+
+- maybe make one exceptional control flow example, it would be very difficult though --done
+  It looks like the example here (kevan-exception3/4/5) is exactly what I need: well done!
+  Did you find the address of the indirect jump to the catch using gdb or something dynamic?
+  I think the offsets in the CFR are still wrong though, because they aren't listed as offsets, they are listed as addresses (unless I'm mistaken)
+
 - make a new sample that uses global function pointers (allocated as global, set and used in different functions) --done
+  This one still seems like it is only changed locally within that function?
+
 - make advanced heap-allocated function pointer example where initialization and allocation happen in different functions --done
-- fix CFR for add1_or_mult2 --done
+  This did what I asked, but now I want to add another thing: the use of the function pointer (the call) should be in a seperate function
+  Because what we want to test is if the analysis can handle tracking heap objects across functions
+  
 - add examples of different switch statement layouts (in binary; i.e. from different compilers) (pending fixing the compiler library)
-- additional threading example with a different programming pattern --done
-- fix userinput-class CFR to have just 1 question --done
+
 - add virtual function call example where type heirarchy could resolve to multiple things, but dataflow shows it can only possibly resolve to one target --done
+  I think the compiler is optimizing the false side out of this one. You may need to try with -O0 or a more complex false predicate to get it to stick
+
+Thanks!! We are getting very close
