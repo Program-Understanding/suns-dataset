@@ -325,5 +325,6 @@
         "0x707"
     ],
     "evaluation": "set",
-    "source":"cmp_indr-321.s"
+    "source":"cmp_indr-321.s",
+    "slow": true
 }

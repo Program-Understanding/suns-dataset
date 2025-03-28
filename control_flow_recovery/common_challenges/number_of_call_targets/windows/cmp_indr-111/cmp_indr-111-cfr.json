@@ -114,5 +114,6 @@
         "0x40f",
         "0x56d"
     ],
-    "evaluation": "set"
+    "evaluation": "set",
+    "slow": true
 }
