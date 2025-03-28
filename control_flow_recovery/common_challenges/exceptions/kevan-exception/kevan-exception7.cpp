@@ -3,7 +3,6 @@
 #include <cmath>
 
 /* throw to an intermediary that then throws to main, very similar structure to kevan-exception3 */
-// TODO Make this exception more unique or different from kevan-exception3
 
 void math(float numerator, float denominator) {
   if (denominator == 0) {
@@ -21,10 +20,10 @@ void intermediary(float numerator, float denominator) {
     math(numerator, denominator);
   } catch (const std::runtime_error& e) {
     std::cout << "Caught runtime error in math: " << e.what() << std::endl;
-    throw; // Rethrow the caught exception to be handled in main
+    throw;
   } catch (const std::domain_error& e) {
     std::cout << "Caught domain error in math: " << e.what() << std::endl;
-    throw; // Rethrow the caught exception to be handled in main
+    throw;
   }
 }
 
