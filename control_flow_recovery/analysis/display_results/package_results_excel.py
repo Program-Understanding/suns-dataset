@@ -62,7 +62,7 @@ def save_to_excel():
     ws.append(['Test #', 'Tool Name', 'Sample Name', 'Full Path', 'Passed?', 'True Positives', 'False Positives', 'False Negatives', 'Note'])
 
     # iterate over results directory
-    traverse_and_add_all("results", ws)
+    traverse_and_add_all("../results", ws)
     
     wb.save("results.xlsx")
     

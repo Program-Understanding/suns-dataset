@@ -1,11 +1,14 @@
-from flask import Flask, render_template, request, jsonify
-
+from flask import Flask, render_template, request, jsonify, send_file
+import logging
 import os
 import json
 import subprocess
 import re
+from package_results_excel import save_to_excel
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def collect_result_files():
     results_paths = []
@@ -23,8 +26,8 @@ def collect_result_files():
 
 
 @app.route("/")
-
 def home():
+    logger.info("home requested")
     return render_template("home.html", title="Control Flow Recovery Challenge")
 
 
@@ -45,20 +48,38 @@ def replace_spaces_between_tags(text):
 
 @app.route("/currated_results")
 def currated_results():
+    logger.info("currated results requested")
     currated_challenges = []
     for c in challenges:
         if c["name"].startswith("../results/currated/simple"):
             currated_challenges.append(c)
     context = {
         "title": "Results",
+        "request": request.path,
         "challenges": currated_challenges,
         "test_name": test_name
     }
     return render_template("results.html", **context)
 
+@app.route("/export",methods=['POST'])
+def export():
+    export_filter_value = request.form.get('exportFilterValue')
+    export_request_value = request.form.get('exportRequestValue')
+    logger.info(f"export request {export_request_value}")
+    logger.info(f"export filter {export_filter_value}")
+
+    save_to_excel()
+    file_path = './results.xlsx'
+    
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=True)
+    else:
+        logger.info("file path not found")
+        return "File not found",404
 
 @app.route("/all_results")
 def all_results():
+    logger.info("all results requested")
     context = {
         "title": "Results",
         "challenges": challenges,

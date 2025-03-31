@@ -56,9 +56,16 @@
       <input type="radio" name="filter" value="one-tool-right"/>
       Only one tool got it right
     </label>
-    
-
   </form>
+  
+  <br>
+  <form action="{{ url_for('export') }}" method="POST" onsubmit="includeFilter()">
+    <input type="hidden" id="exportFilterValue" name="exportFilterValue">
+    <input type="hidden" id="exportRequestValue" name="exportRequestValue" value={{ request }}>
+    <button type="submit">Export ALL to Excel</button>
+  </form>
+
+  
   <p></p>
   Total:<span id="span_count">unknown</span>&nbsp;&nbsp;
   Correct:<span id="span_correct" style="color:green;">unknown</span>&nbsp;&nbsp;
@@ -107,7 +114,19 @@
   </ul>
 
 
-<script>
+  <script>
+    
+  function includeFilter() {
+      // move data to the excel submission as needed
+      const selectedValue = document.querySelector('input[name="filter"]:checked');
+      console.log("moving to export ");
+      console.log(selectedValue);
+      if (selectedValue) {
+	  document.getElementById('exportFilterValue').value = selectedValue.value;
+      }
+  }
+    
+    
   function toggleDetails(element) {
       console.log("find it")
       console.log(element)
