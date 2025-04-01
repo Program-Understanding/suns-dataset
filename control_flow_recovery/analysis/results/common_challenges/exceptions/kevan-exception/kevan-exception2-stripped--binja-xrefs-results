@@ -1,0 +1,7 @@
+RESULTS: The groundtruth is: ['0x1620', '0x1610']
+RESULTS: The tool's answer is: set()
+RESULTS: Do they match? NO :c
+RESULTS: Tool name:binja-xrefs
+RESULTS: Tool version:0.1.0
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)
