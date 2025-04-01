@@ -22,6 +22,19 @@ def main():
         num = int(offset, 16)
     else:
         num = int(offset)
+    isPE = False
+    try:
+        base_addr, section_offset, raw_offset = _parse_header(program)
+        if num < base_addr + section_offset:
+            vaddr = _file_to_virtual_address(num, base_addr, section_offset, raw_offset)
+            print(hex(vaddr))
+            num = vaddr
+            isPE = True
+        else:
+            foff = _virtual_to_file_offset(num, base_addr, section_offset, raw_offset)
+            print(hex(foff))
+    except ValueError:
+        "Not a PE file. Special parsing unnecessary."
 
     answers = set()
 
@@ -32,8 +45,16 @@ def main():
         # Check possible values for the function call target
         if hasattr(mlil_instr, 'dest'):  # Ensure it's a valid instruction
             reg_values = mlil_instr.dest.get_possible_values()
-            for i in reg_values.values:
-                answers.add(hex(i))
+            print(reg_values)
+            if hasattr(reg_values, 'values'):
+                for i in reg_values.values:
+                    answer = i
+                    if isPE:
+                        answer = _virtual_to_file_offset(answer, base_addr, section_offset, raw_offset)
+                    answers.add(hex(answer))
+            else:
+                print("Other lookups not implemented")
+                # Also try LookupTableValue
     
 
     # do instruction sanity check
@@ -85,6 +106,64 @@ def _parse_cfr(cfrpath):
 
     return program, groundtruth, instruction_string, offset
 
+def _file_to_virtual_address(file_offset, base_addr, section_offset, raw_offset):
+    virtual_addr = base_addr + section_offset - raw_offset + file_offset
+    return virtual_addr
+
+def _virtual_to_file_offset(virtual_addr, base_addr, section_offset, raw_offset):
+    file_offset = virtual_addr - base_addr - section_offset + raw_offset
+    return file_offset
+
+def _parse_header(filepath):
+    with open(filepath, 'rb') as f:
+        # Validate DOS signature
+        if f.read(2) != b'MZ':
+            raise ValueError("Missing DOS signature")
+
+        # Get the offset to the PE header
+        f.seek(0x3C)
+        pe_header_offset = struct.unpack('<I', f.read(4))[0]
+
+        # Validate PE signature
+        f.seek(pe_header_offset)
+        if f.read(4) != b'PE\x00\x00':
+            raise ValueError("Missing PE signature")
+
+        # Get the size of the optional header
+        f.seek(pe_header_offset + 0x14)
+        optional_header_size = struct.unpack('<H', f.read(2))[0]
+
+        # Validate the optional header magic number (0x010B for PE32)
+        f.seek(pe_header_offset + 0x18)
+        if f.read(2) != b'\x0b\x01':
+            raise ValueError("Invalid optional header magic number")
+
+        # Move to the start of the section headers
+        section_headers_offset = pe_header_offset + 0x18 + optional_header_size
+        f.seek(section_headers_offset)
+
+        # Read the first section header (assuming .text is the first section)
+        section_name = f.read(8)
+        if section_name != b'.text\x00\x00\x00':
+            raise ValueError("This is not the .text section!!")
+
+        # Skip VirtualSize (not needed here)
+        f.seek(4, 1)
+
+        # Read VirtualAddress (RVA of the section)
+        virtual_address = struct.unpack('<I', f.read(4))[0]
+
+        # Skip SizeOfRawData (not needed here)
+        f.seek(4, 1)
+
+        # Read PointerToRawData (raw offset of the section)
+        raw_offset = struct.unpack('<I', f.read(4))[0]
+
+        # Get the base address (ImageBase, usually 0x400000)
+        f.seek(pe_header_offset + 0x34)
+        base_addr = struct.unpack('<I', f.read(4))[0]
+
+        return base_addr, virtual_address, raw_offset
     
 def _process_question(question):
     question_prefixes = {
