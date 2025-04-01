@@ -1,0 +1,255 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.5/dist/_hyperscript_web.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+    <script>
+      results = {};
+  results["0x0000118b"] = [];
+results["0x0000118b"].push(`eax -> [0..2000]
+`);
+results["0x00001188"] = [];
+results["0x00001188"].push(`res32 -> [-999..2000]
+`);
+results["0x00001188"].push(`OF -> {0}
+`);
+results["0x00001188"].push(`SF -> Bofbool { [--..--] of size 1 }
+`);
+results["0x00001188"].push(`ZF -> Bofbool { [--..--] of size 1 }
+`);
+results["0x00001188"].push(`CF -> Bofbool { [--..--] of size 1 }
+`);
+results["0x00001188"].push(`eax -> [-999..2000]
+`);
+results["0x00001184"] = [];
+results["0x00001184"].push(`ecx -> [-2000..999]
+`);
+results["0x00001186"] = [];
+results["0x00001186"].push(`eax -> [-2000..999]
+`);
+results["0xfedcba98"] = [];
+results["0xfedcba98"].push(`esp -> {0x10004}
+`);
+
+      var dotSrc = `
+  digraph G {
+node[fillcolor=white style="filled,solid" shape=none margin=0];
+"0x00001180" -> "0x00001184";
+"0x00001184" -> "0xfedcba98_0x0000118b";
+subgraph "cluster_abs" {
+  style="filled,solid";
+  color=black;
+  fillcolor=lightgrey;
+  label="abs";"0x00001184" [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD>0x00001184</TD></TR><HR/><TR><TD>0x0000118b</TD></TR></TABLE>>];
+  "0x00001180" [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD>0x00001180</TD></TR><HR/><TR><TD>0x00001180</TD></TR></TABLE>>];
+  subgraph "cluster__end_0x0000118b" {
+    style="filled,solid";
+    color=black;
+    fillcolor=lightgrey;
+    label="_end";"0xfedcba98_0x0000118b" [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD>0xfedcba98</TD></TR><HR/><TR><TD>0xfedcba98</TD></TR></TABLE>> fillcolor=lightblue];
+    }
+}
+
+}
+      `;
+      
+      var ranges = [];
+      var repeat;
+
+          
+      function linkGraph() {
+        var graphviz = d3.select("#graph").graphviz();
+        graphviz.renderDot(dotSrc).on("end", function () {
+          var nodes = document.getElementsByClassName("node");
+          for (let i = 0; i < nodes.length; i++) {
+            repeat = undefined;
+            ranges.forEach(range => {
+              if (range[0] == nodes[i].children[2].innerHTML && range[1] == nodes[i].children[3].innerHTML) {
+                nodes[i].children[1].classList.add(range[2]);
+                repeat = range[2];
+              }
+            });
+
+            if (repeat == undefined) {
+              ranges.push([nodes[i].children[2].innerHTML, nodes[i].children[3].innerHTML, nodes[i].id]);
+              repeat = nodes[i].id;
+            }
+
+            nodes[i].setAttribute("group", repeat);
+
+            nodes[i].addEventListener('mouseover', () => {
+              if (selected == undefined || getNodeClass(selected) != nodes[i].getAttribute("group")) {
+                highlightGroup(nodes[i].getAttribute("group"), '#FED6BA');
+              }
+            });
+            nodes[i].addEventListener('mouseout', () => {
+              if (getNodeClass(selected) != nodes[i].getAttribute("group")) {
+                highlightGroup(nodes[i].getAttribute("group"), 'white');
+              }
+            });
+            nodes[i].addEventListener('click', () => {
+              if(document.getElementsByClassName(nodes[i].getAttribute("group")).length != 0) {
+                document.getElementsByClassName(nodes[i].getAttribute("group"))[0].scrollIntoView({ behavior: 'smooth', block: 'center' })
+              }
+            });
+
+          }
+          addTagsToLines();
+        });
+      }
+
+      function addTagsToLines() {
+        const lines = document.querySelectorAll('.line');
+        lines.forEach(line => {
+          range = searchRange(line.children[0].innerHTML);
+          if (range != undefined) {
+            line.classList.add(range);
+            line.style.color = "#FFF8EB";
+          }
+        });
+      }
+
+      function searchRange(element) {
+        var res = undefined;
+        element = element.trim();
+        ranges.forEach(function (range, i) {
+            if (element >= range[0] && element <= range[1]) {
+                res = range[2];
+            }
+        })
+        return res;
+      };
+
+      function paintNode(node, color) {
+        if (node != undefined) {
+          document.getElementById(node).children[1].style.fill = color;
+        }
+      }
+
+      function highlightGroup(name, color) {
+        var elements = document.getElementsByClassName(name);
+        Array.from(elements).forEach(element => {
+          if (element.tagName == "polygon") {
+            element.style.fill = color;
+          } else {
+            element.style.color = color;
+          }
+        });
+        paintNode(name, color);
+      }
+
+      function getNodeClass(node) {
+      if (node != undefined) {
+        return node.classList[2]
+      }
+    }
+
+    function loadDhunk(instructions) {
+      let res = "";
+      JSON.parse(instructions).forEach((instr, i) => {
+        res += i + ": " + dhunk[instr] + "\n";
+      })
+      return res;
+    }
+
+    let selected = undefined;
+    function loadExplanations() {
+      const lines = document.querySelectorAll('.line');
+      const explanationBox = document.querySelector('.middle-column .explanation');
+      const resultsBox = document.querySelector('.middle-column .results');
+
+      let maintain = false;
+      
+      lines.forEach(line => {
+
+        line.addEventListener('mouseover', () => {
+          if (getNodeClass(line) != getNodeClass(selected)) {
+            highlightGroup(getNodeClass(line), '#FED6BA');
+          }
+          if (!maintain){
+            explanationBox.textContent = loadDhunk(line.getAttribute('data-explanation'));
+            explanationBox.style.display = 'block';
+            var res = results[line.children[0].innerHTML.trim()];
+            if (res != undefined){
+              resultsBox.textContent = results[line.children[0].innerHTML.trim()].join("");
+              resultsBox.style.display = 'block';
+            }
+          }
+        });
+
+        line.addEventListener('mouseout', () => {
+          if (!maintain){
+            explanationBox.style.display = 'none';
+            resultsBox.style.display = 'none';
+          }
+          if (getNodeClass(line) != getNodeClass(selected)) {
+            highlightGroup(getNodeClass(line), 'white');
+          }
+        });
+
+        line.addEventListener('click', () => {
+          if (!maintain) {
+            highlightGroup(getNodeClass(line), '#FFAC70');
+            selected = line;
+            line.style.color = '#bf7947';
+            explanationBox.textContent = loadDhunk(line.getAttribute('data-explanation'));
+            explanationBox.style.display = 'block';
+            var res = results[line.children[0].innerHTML.trim()];
+            if (res != undefined){
+              resultsBox.textContent = results[line.children[0].innerHTML.trim()].join("");
+              resultsBox.style.display = 'block';
+            }
+            maintain = true;
+          } else {
+            if (selected == line) {
+              if (getNodeClass(line) != undefined) {
+                highlightGroup(getNodeClass(line), '#FED6BA');
+              } else {
+                line.style.removeProperty('color');
+              }
+              maintain = false;
+              selected = undefined;
+            } else {
+              if (getNodeClass(selected) != getNodeClass(line)) {
+                if (getNodeClass(selected) == undefined) {
+                  selected.style.removeProperty('color');
+                  highlightGroup(getNodeClass(line), '#FFAC70');
+                } else {
+                  highlightGroup(getNodeClass(selected), 'white');
+                  highlightGroup(getNodeClass(line), '#FFAC70');
+                  selected.style.color = 'white';
+                }
+              } else {
+                if (getNodeClass(selected) == undefined) {
+                  selected.style.removeProperty('color');
+                } else {
+                  selected.style.color = '#FFAC70'
+                }
+              }
+              selected = line;
+              line.style.color = '#bf7947';
+              explanationBox.textContent = loadDhunk(line.getAttribute('data-explanation'));
+              explanationBox.style.display = 'block';
+              var res = results[line.children[0].innerHTML.trim()];
+              if (res != undefined){
+                resultsBox.textContent = results[line.children[0].innerHTML.trim()].join("");
+                resultsBox.style.display = 'block';
+              } else {
+                resultsBox.textContent = "";
+                resultsBox.style.display = 'none';
+              }
+            }
+          }
+        });
+
+      });
+
+    }
+    const dhunk = {
+    }
