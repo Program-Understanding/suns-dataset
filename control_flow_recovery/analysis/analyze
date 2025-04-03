@@ -7,6 +7,7 @@ log_processing_scripts_for_tool=()
 only_tool="*all*"
 only_cfr="!all!"
 slow_ok="false"
+timeout="60"
 
 function show_help {
     echo "Usage: $0 [OPTIONS]"
@@ -17,6 +18,7 @@ function show_help {
     echo "  --only_cfr CFR      Specify a cfr to analyze (default is all)."
     echo "     CFR is either path, filename, or filename without '-cfr.json' "
     echo "     CFR can also be '*foo*' matching any file containing foo"
+    echo "  --timeout TIME      Specify a timeout in seconds for each test (default is 60)."
     echo "  --help          Display this help message."
     
 }
@@ -125,10 +127,18 @@ process_cfr_file() {
         
         # If there's a Python environment specified, use it
         if [ -n "$PYTHON_ENV" ] && [ "$PYTHON_ENV" != "true" ]; then
-            (cd "$TEMP_DIR" && source "$PYTHON_ENV" && eval "$SCRIPT") > $LOGFILE 2>&1
+	    start=`date +%s`
+            timeout "$timeout" (cd "$TEMP_DIR" && source "$PYTHON_ENV" && eval "$SCRIPT") > $LOGFILE 2>&1
+	    result_code="$?"
+	    end=`date +%s`
+	    runtime=$((end-start))
         else
             # Otherwise just run normally
-            (cd "$TEMP_DIR" && eval "$SCRIPT") > $LOGFILE 2>&1
+	    start=`date +%s`
+            timeout "$timeout" (cd "$TEMP_DIR" && eval "$SCRIPT") > $LOGFILE 2>&1
+	    result_code="$?"
+	    end=`date +%s`
+	    runtime=$((end-start))
         fi
 
         # Clean up
@@ -138,7 +148,12 @@ process_cfr_file() {
         docker cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" "running-$tool-tool:/control-flow-recovery/$BINARY_TO_ANALYZE_FILENAME"
         docker cp "$json_file" "running-$tool-tool:/control-flow-recovery/$CFR_JSON_FILENAME"
         
-        docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE 2>&1
+        #docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE 2>&1
+	start=`date +%s`
+	timeout "$timeout" docker exec "running-$tool-tool" /bin/bash -c "$SCRIPT" > $LOGFILE 2>&1
+	result_code="$?"
+	end=`date +%s`
+	runtime=$((end-start))
         
         # Clean up docker files
         docker exec "running-$tool-tool" /bin/bash -c "rm $BINARY_TO_ANALYZE_FILENAME" 
@@ -146,6 +161,7 @@ process_cfr_file() {
     fi
 
     # Process log file
+    
     # replace tooldir/logfile argument in log script
     LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$BINARY_TO_ANALYZE_FILENAME/$BINARY_TO_ANALYZE_PATH\/$BINARY_TO_ANALYZE_FILENAME}"
     LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_PATH}"
@@ -155,11 +171,18 @@ process_cfr_file() {
     LOG_PROCESSING_SCRIPT="${LOG_PROCESSING_SCRIPT//\$TOOL_DIR/$tooldir}"
 
     # run log processing, if it exists
-    if [[ "$LOG_PROCESSING_SCRIPT" == "null" ]]; then
-        # if not just search the log file
-        grep "RESULTS:" $LOGFILE > $RESULTFILE
+    if [ "$result_code" -eq 124 ]; then
+	echo "RESULTS: Timeout ($timeout seconds)" >> $RESULTFILE
     else
-        $LOG_PROCESSING_SCRIPT > $RESULTFILE
+	if [[ "$LOG_PROCESSING_SCRIPT" == "null" ]]; then
+	    #if not just search the log file
+	    grep "RESULTS:" $LOGFILE > $RESULTFILE
+	    #echo "side 1"
+	else
+	    $LOG_PROCESSING_SCRIPT > $RESULTFILE
+	    #echo "side 2"
+	fi
+	echo "RESULTS: Running time: $runtime seconds" >> $RESULTFILE
     fi
 
     version=$(jq -r '.version' "$tooldir/questions.json" )
@@ -308,6 +331,15 @@ while [[ "$#" -gt 0 ]]; do
                 shift 2
             else
                 echo "Error: --only_tool requires a tool name."
+                exit 1
+            fi
+            ;;
+        --timeout)
+            if [[ -n "$2" && "$2" =~ ^-?[0-9]+$ ]]; then
+                timeout="$2"
+                shift 2
+            else
+                echo "Error: --timeout requires a number."
                 exit 1
             fi
             ;;
