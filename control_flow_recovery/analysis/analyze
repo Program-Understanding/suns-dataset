@@ -128,14 +128,14 @@ process_cfr_file() {
         # If there's a Python environment specified, use it
         if [ -n "$PYTHON_ENV" ] && [ "$PYTHON_ENV" != "true" ]; then
 	    start=`date +%s`
-            timeout "$timeout" (cd "$TEMP_DIR" && source "$PYTHON_ENV" && eval "$SCRIPT") > $LOGFILE 2>&1
+            (cd "$TEMP_DIR" && source "$PYTHON_ENV" && timeout "$timeout" eval "$SCRIPT") > $LOGFILE 2>&1
 	    result_code="$?"
 	    end=`date +%s`
 	    runtime=$((end-start))
         else
             # Otherwise just run normally
 	    start=`date +%s`
-            timeout "$timeout" (cd "$TEMP_DIR" && eval "$SCRIPT") > $LOGFILE 2>&1
+            (cd "$TEMP_DIR" && timeout "$timeout" eval "$SCRIPT") > $LOGFILE 2>&1
 	    result_code="$?"
 	    end=`date +%s`
 	    runtime=$((end-start))

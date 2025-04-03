@@ -3,6 +3,7 @@ RESULTS: The tool's answer is: {0x405, 0x40f, 0x419, 0x41e, 0x423, 0x42d, 0x446,
 RESULTS: Tool's answer matches groundtruth? YES
 RESULTS: Correctly identified 10 out of 10 correct answers
 RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: Running time: 15 seconds
 RESULTS: Tool name:ghidra-xrefs
 RESULTS: Tool version:1.0.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
