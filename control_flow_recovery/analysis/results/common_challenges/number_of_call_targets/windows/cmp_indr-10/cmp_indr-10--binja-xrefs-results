@@ -1,6 +1,8 @@
-RESULTS: The groundtruth is: ['0x40f', '0x450', '0x42d', '0x41e', '0x419', '0x455', '0x405', '0x44b', '0x423', '0x446']
-RESULTS: The tool's answer is: {'0x450', '0x423', '0x455', '0x446', '0x44b', '0x40f', '0x42d', '0x41e', '0x419', '0x405'}
-RESULTS: Do they match? YES c:
+RESULTS: The groundtruth is: {'0x450', '0x44b', '0x455', '0x423', '0x40f', '0x41e', '0x405', '0x446', '0x42d', '0x419'}
+RESULTS: The tool's answer is: {'0x450', '0x44b', '0x423', '0x455', '0x40f', '0x41e', '0x405', '0x446', '0x42d', '0x419'}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 10 out of 10 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
 RESULTS: Tool name:binja-xrefs
 RESULTS: Tool version:0.1.0
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

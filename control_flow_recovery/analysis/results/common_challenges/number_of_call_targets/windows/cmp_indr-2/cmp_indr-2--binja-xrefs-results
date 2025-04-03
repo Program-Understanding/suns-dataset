@@ -1,6 +1,8 @@
-RESULTS: The groundtruth is: ['0x42d', '0x40f']
+RESULTS: The groundtruth is: {'0x42d', '0x40f'}
 RESULTS: The tool's answer is: {'0x42d', '0x40f'}
-RESULTS: Do they match? YES c:
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 2 out of 2 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
 RESULTS: Tool name:binja-xrefs
 RESULTS: Tool version:0.1.0
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

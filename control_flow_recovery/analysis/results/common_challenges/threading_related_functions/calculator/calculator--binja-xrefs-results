@@ -1,6 +1,6 @@
-RESULTS: The groundtruth is: ['0x1450', '0x1460', '0x1470']
-RESULTS: The tool's answer is: set()
-RESULTS: Do they match? NO :c
+RESULTS: The groundtruth is: {'0x1470', '0x1450', '0x1460'}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: Tool name:binja-xrefs
 RESULTS: Tool version:0.1.0
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

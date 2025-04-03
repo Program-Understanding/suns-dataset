@@ -61,13 +61,8 @@ def main():
     print(f"instruction was {instr}.. assert is not implemented yet")
 
     # compare values in groundtruth to the results from parse_jakstab
-    print(f"RESULTS: The groundtruth is: {groundtruth}")
-    print(f"RESULTS: The tool's answer is: {answers}")
-    print("RESULTS: Do they match? ", end='')
-    if set(groundtruth) == answers:
-        print("YES c:")
-    else:
-        print("NO :c")
+    _print_results(answers, set(groundtruth))
+
 
 ###################################################################
 #
@@ -75,7 +70,28 @@ def main():
 #
 ###################################################################
 
-def _parse_cfr(cfrpath):
+def _print_results(answer: set, groundtruth: set):
+    # if the set is empty, we need to display {} rather than set()
+    # this is because dict and set both surround elements with {}
+    if len(answer) == 0:
+        answer = {}
+    print(f"RESULTS: The groundtruth is: {groundtruth}")
+    print(f"RESULTS: The tool's answer is: {answer}")
+    print(f"RESULTS: Tool's answer matches groundtruth? ", end="")
+    if groundtruth == answer:
+        print("YES")
+    else:
+        print("NO")
+    false_positives = false_positives = answer - groundtruth
+    false_negatives = groundtruth - answer
+    gt_count = len(groundtruth)
+    c_count = gt_count - len(false_negatives)
+    fp_count = len(false_positives)
+    print(f"RESULTS: Correctly identified {c_count} out of {gt_count} correct answers")
+    print(f"RESULTS: Incorrectly provided {fp_count} values which are not in the answer.")
+
+
+def _parse_cfr(cfrpath: str):
     if not '-cfr.json' in cfrpath:
         raise FileNotFoundError("the provided filepath does not contain -cfr.json")
 
