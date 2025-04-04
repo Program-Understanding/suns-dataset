@@ -1,0 +1,23 @@
+Exceptions compiled statically, laid out as follows:
+
+# C++ Examples:
+- kevan-exception1: Indirect control flow caused by exceptions which uses function pointer
+- kevan-exception2: Indirect control flow caused by catching different subtypes of an exception, with the question being which possible subtypes' ~what()~ method can be called
+- kevan-exception[3,4,5,6]: Indirect control flow through exceptions themselves, with the question being what possible targets could be followed from the ~_Unwind_RaiseException()~ function
+
+# Rust:
+Rust uses Result<T,E> as a data type in standard practices, which doesn't result in indirect-control flow as it would look like a switch statement based upon the return value of a function. Result<T, E> is a data-type which must be unpacked/matched in order to continue.
+
+```rust
+match result_type_variable {
+      Ok(result) => {
+      // code that handles result
+      },
+      Err(error) => {
+      // code that handles error
+      }
+   }
+```
+
+# Go:
+Go doesn't handle exceptions in a manner akin to C++, but is more like Rust where it asks of the programmer to handle results directly. Go supports an "error" type which where errors are returned and handled directly.
