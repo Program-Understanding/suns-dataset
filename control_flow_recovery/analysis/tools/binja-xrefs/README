@@ -1,0 +1,6 @@
+This tool requires a commerical version of Binary Ninja due to the usage of headless scripts.
+
+In your binary ninja installation, you might find a `scripts` directory that contains `install_api.py`. Running this python script will install the necessary libraries to run headless scripts on Python.
+
+If a special environment is needed to run binary ninja (e.g. python virtual environments), you can set the contents of the .nodocker file to the path.
+
