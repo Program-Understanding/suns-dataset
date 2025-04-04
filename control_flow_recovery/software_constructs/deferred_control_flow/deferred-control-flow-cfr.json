@@ -1,9 +1,9 @@
 
 {
     "program":"deferred-control-flow-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call *%rcx' instruction at file offset '0x43cabc' ?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rcx' instruction at file offset '0x03cabc' ?",
     "evaluation":"set",
-    "groundtruth":["0x4b1ae0"],
+    "groundtruth":["0x08aba0"],
     "compiler":"go 1.24.1",
     "compiler-options":"-N -l",
     "stripped":true
