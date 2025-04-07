@@ -1,0 +1,9 @@
+{
+    "program":"basic_func_array-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1295' ?",
+    "groundtruth": ["0x1189"],
+    "evaluation":"set",
+    "compiler":"gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)",
+    "stripped":true,
+    "source": "/src/basic_func_array.c"
+   }
