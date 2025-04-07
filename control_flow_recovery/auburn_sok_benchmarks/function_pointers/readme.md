@@ -6,13 +6,11 @@ Marshall N. - I will work on this section
 
 ## TO DO -
 
-
-
-2. Create Anonymous Function Examples
+1. Create Anonymous Function Examples
     - One example can be duplicate, but compiled as PE
 
-3. Create Selector Function Examples
+2. Create Selector Function Examples
     - One example can be duplicate, but compiled as PE
 
-4. Create Callback Examples
+3. Create Callback Examples
     - One example can be duplicate, but compiled as PE
