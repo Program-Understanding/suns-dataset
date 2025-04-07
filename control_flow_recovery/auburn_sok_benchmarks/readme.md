@@ -2,6 +2,8 @@
 
 **Everything outside of other_programming_languages should be in C!**
 
+Do Not Use any library functions in your C programs. If you want user input use argc or argv
+
 ## Basic Structure
 
 1. Taxonomy Category  
