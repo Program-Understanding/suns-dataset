@@ -229,8 +229,11 @@ for rf in result_files:
         for line in rff:
             lines.append(line[len("RESULTS: "):])
             matches = "RESULTS: Tool's answer matches groundtruth?"
+            timeout = "RESULTS: Timeout"
             if line.startswith(matches):
                 mr = line[len(matches):].strip()
+            if line.startswith(timeout):
+                mr = "timeout"
     #strip out the ".." it will get added later
 
     try:

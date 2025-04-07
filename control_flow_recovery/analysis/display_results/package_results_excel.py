@@ -17,6 +17,7 @@ def traverse_and_add_all(directory, ws):
             true_positives = ""
             false_positives = ""
             false_negatives = ""
+            running_time = ""
             note = ""
 
             basename = os.path.basename(item_path)
@@ -33,11 +34,20 @@ def traverse_and_add_all(directory, ws):
             with open(item_path,'r') as rff:
                 for line in rff:
                     matches = "RESULTS: Tool's answer matches groundtruth?"
+                    timeout_match = "RESULTS: Timeout ("
+                    running_time_match = "RESULTS: Running time: "
                     fp = "RESULTS: Incorrectly provided "
                     tp = "RESULTS: Correctly identified "
                     total = " out of "
                     if line.startswith(matches):
                         passed = line[len(matches):].strip()
+                    if line.startswith(timeout_match):
+                        passed = "timeout"
+                        line = line[len(timeout_match):]
+                        running_time = line[:line.index(' ')]
+                    if line.startswith(running_time_match):
+                        line = line[len(running_time_match):]
+                        running_time = line[:line.index(' ')]                        
                     if line.startswith(fp):
                         line = line[len(fp):]
                         false_positives = line[:line.index(' ')]
@@ -48,7 +58,7 @@ def traverse_and_add_all(directory, ws):
                         total_elements = int(line[:line.index(' ')])
                         false_negatives = str(total_elements - int(true_positives))
             #print(", ".join([tool_name, sample_name, full_path, passed, true_positives, false_positives, false_negatives, note]))
-            ws.append([test_num, tool_name, sample_name, full_path, passed, true_positives, false_positives, false_negatives, note])
+            ws.append([test_num, tool_name, sample_name, full_path, passed, true_positives, false_positives, false_negatives, running_time, note])
             test_num += 1
     
 def save_to_excel():
@@ -59,7 +69,7 @@ def save_to_excel():
     test_num = 1
 
     # setup column labels
-    ws.append(['Test #', 'Tool Name', 'Sample Name', 'Full Path', 'Passed?', 'True Positives', 'False Positives', 'False Negatives', 'Note'])
+    ws.append(['Test #', 'Tool Name', 'Sample Name', 'Full Path', 'Passed?', 'True Positives', 'False Positives', 'False Negatives', 'Time (s)', 'Note'])
 
     # iterate over results directory
     traverse_and_add_all("../results", ws)

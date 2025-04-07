@@ -70,6 +70,7 @@
   Total:<span id="span_count">unknown</span>&nbsp;&nbsp;
   Correct:<span id="span_correct" style="color:green;">unknown</span>&nbsp;&nbsp;
   Incorrect:<span id="span_incorrect" style="color:red;">unknown</span>&nbsp;&nbsp;
+  Timeout:<span id="span_timeout" style="color:red;">unknown</span>&nbsp;&nbsp;
   Invalid:<span id="span_invalid" style="color:purple;">unknown</span>&nbsp;&nbsp;
 
   {% set ns = namespace(count = 0) %}
@@ -260,6 +261,7 @@
       let correct = 0;
       let incorrect = 0;
       let invalid = 0;
+      let timeout = 0;
 
       let index = 0;
       
@@ -274,6 +276,8 @@
 		  correct = correct + 1;
 	      } else if (challenge.score == "NO") {
 		  incorrect = incorrect + 1;
+	      } else if (challenge.score == "timeout") {
+		  timeout = timeout + 1;
 	      } else {
 		  invalid = invalid + 1;
 	      }
@@ -288,6 +292,7 @@
       document.getElementById('span_count').textContent = count;
       document.getElementById('span_correct').textContent = correct;
       document.getElementById('span_incorrect').textContent = incorrect;
+      document.getElementById('span_timeout').textContent = timeout;
       document.getElementById('span_invalid').textContent = invalid;
       
   }
