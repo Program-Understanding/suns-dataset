@@ -1,10 +1,11 @@
 # Auburn SOK Paper benchmarks
 
+**Everything outside of other_programming_languages should be in C!**
+
 ## Basic Structure
 
 1. Taxonomy Category  
-    Function Pointers, Object-Oriented, exceptions, etc.
-
+    C Constructs (Function Pointers, ) or Other Languages
     Example: Function Pointers
 
     1. Sub Category  

@@ -1,1 +1,0 @@
-Funtion Pointers, Callbacks, Selectors, Anonymous
