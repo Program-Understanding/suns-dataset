@@ -1,0 +1,11 @@
+This directory holds examples that conform to the type of control flow recovery specified in the directories name
+Counter - Basic counter with increment
+Logger - Accumulates state over time
+Memoization - Caches function results for performance
+Debouncer - Controls execution frequency using time
+State machine - Encapsulates internal state transitions
+Factory - Creates objects with sequential IDs
+Middleware chain - Builds processing pipelines
+Rate limiter - Controls access frequency with token bucket algorithm
+Configuration builder - Allows fluent API for setting options
+Event emitter - Manages event listeners and broadcasts
