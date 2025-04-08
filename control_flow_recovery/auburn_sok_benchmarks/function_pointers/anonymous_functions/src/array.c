@@ -37,7 +37,7 @@ int main(int argc) {
     if (a % 2)
       c = (a % 2) + 1;
     else if (b % 2)
-      c = (b % 2) + 1;
+      c = (b % 2);
     else if (i % 2)
       c = (i % 2) + 1;
     else
