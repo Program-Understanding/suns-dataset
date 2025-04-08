@@ -1,27 +1,38 @@
-#include <stdio.h>
-
 int target1(int a, int b) { return a + b; }
 int target2(int a, int b) { return a - b; }
 int target3(int a, int b) { return a * b; }
 
 typedef int (*fptr)(int, int);
 
-int main() {
+int main(int argc) {
   fptr fptr_arr[3] = { target1, target2, target3 };
 
-  char buf[64];
-  printf("Input 2 integers: ");
 
-  if (fgets(buf, sizeof(buf), stdin) == NULL) {
-    printf("Error reading input.\n");
-    return 1;
-  }
 
   int a, b, c;
-  if (sscanf(buf, "%d %d", &a, &b) != 2) {
-    printf("Invalid input. Please enter two integers.\n");
-    return 1;
+  
+  if (argc == 1) {
+    a = 1;
+    b = 1;
   }
+
+  else if (argc == 2) {
+    a = 2;
+    b = 1;
+  }
+
+  else if (argc == 3) {
+    a = 2;
+    b = 2;
+  }
+
+  else {
+    a = 0;
+    b = 0;
+  }
+
+
+
   for (int i=0; i<3; i++){
     if (a % 2)
       c = (a % 2) + 1;
@@ -30,11 +41,9 @@ int main() {
     else if (i % 2)
       c = (i % 2) + 1;
     else
-      c = (i % 2);
+      c = 0;
     int val = fptr_arr[c](a, b);
-    printf("%d\t", val);
   }
 
-  printf("\n");
   return 0;
 }
