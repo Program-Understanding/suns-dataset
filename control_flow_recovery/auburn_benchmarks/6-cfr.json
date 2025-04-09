@@ -1,6 +1,6 @@
 {
     "program": "6",
-    "question": "What are the file offsets for the instructions that are the targets of the 'call' instruction at file offset '0x10dc' ?",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call qword ptr [rbx]' instruction at file offset '0x10dc' ?",
     "groundtruth": [
         "0x11f0",
         "0x1200",

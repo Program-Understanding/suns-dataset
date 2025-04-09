@@ -1,7 +1,7 @@
 {
     "program":"poly.exe",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call' instruction at file offset '0x10f8' ?",
-    "groundtruth": ["0x1000", "0x1030", "0x1060"],
+    "question":"What are the file offsets for the instructions that are the targets of the 'call edx' instruction at file offset '0x4f8' ?",
+    "groundtruth": ["0x400", "0x430", "0x460"],
     "evaluation":"set"
 }
 

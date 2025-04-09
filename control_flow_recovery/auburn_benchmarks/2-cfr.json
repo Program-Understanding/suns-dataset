@@ -1,6 +1,6 @@
 {
     "program": "2",
-    "question": "What are the file offsets for the instructions that are the targets of the 'jmp' instruction at file offset '0x12c7' ?",
+    "question": "What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rax]' instruction at file offset '0x12c7' ?",
     "groundtruth": [
         "0x12e0",
         "0x1370"

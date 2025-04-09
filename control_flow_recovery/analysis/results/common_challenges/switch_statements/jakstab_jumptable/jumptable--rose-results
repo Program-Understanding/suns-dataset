@@ -2,7 +2,9 @@ RESULTS: For question 'What are the file offsets for the instructions that are t
 RESULTS: The groundtruth is: ['0x235', '0x23e', '0x24b', '0x256', '0x25f', '0x270', '0x28a', '0x2a4']
 RESULTS: The tool's answer is: []
 RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: Tool's answer includes incorrect elements: {}
+RESULTS: Tool's answer does not include correct elements: {'0x23e', '0x235', '0x256', '0x270', '0x24b', '0x25f', '0x2a4', '0x28a'}
 RESULTS: Tool name:rose
-RESULTS: Tool version:1.0.2
+RESULTS: Tool version:1.0.3
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

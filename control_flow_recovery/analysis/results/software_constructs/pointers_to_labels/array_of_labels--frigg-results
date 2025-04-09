@@ -1,4 +1,4 @@
-RESULTS: The groundtruth is: {'0x1320', '0x1330'}
+RESULTS: The groundtruth is: {'0x1330', '0x1320'}
 RESULTS: The tool's answer is: set()
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: Tool's answer includes incorrect elements: {}

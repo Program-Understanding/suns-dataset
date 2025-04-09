@@ -59,6 +59,5 @@
         "0x405"
     ],
     "evaluation": "set",
-    "source":"cmp_indr-55.s",
-    "slow": true
+    "source":"cmp_indr-55.s"
 }

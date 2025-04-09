@@ -6,14 +6,12 @@ scripts_for_tool=()
 log_processing_scripts_for_tool=()
 only_tool="*all*"
 only_cfr="!all!"
-slow_ok="false"
 timeout="60"
 
 function show_help {
     echo "Usage: $0 [OPTIONS]"
     echo ""
     echo "Options:"
-    echo "  --slow_ok           go ahead and analyze datasets marked as slow"
     echo "  --only_tool TOOL    Specify a tool to run (default is all)."
     echo "  --only_cfr CFR      Specify a cfr to analyze (default is all)."
     echo "     CFR is either path, filename, or filename without '-cfr.json' "
@@ -272,12 +270,6 @@ filter_cfr_files() {
     # Iterate over each line in the input list
     while IFS= read -r line; do
 
-        if jq -e '.slow == true' "$line" > /dev/null 2>&1; then
-            if [[ "$slow_ok" == "false" ]]; then
-                continue
-            fi
-        fi
-
         if [[ $only_cfr == "!all!" ]]; then
             filtered_list+="$line"$'\n'
             continue
@@ -355,9 +347,6 @@ while [[ "$#" -gt 0 ]]; do
         --help)
             show_help
             exit 0
-            ;;
-        --slow_ok)
-            slow_ok="true"
             ;;
         --*)
             echo "Unknown option: $1"

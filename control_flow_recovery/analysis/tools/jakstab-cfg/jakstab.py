@@ -22,7 +22,17 @@ def main():
     else:
         num = int(offset)
 
-    base_addr, section_offset, raw_offset = _parse_header(program)
+    try:
+        base_addr, section_offset, raw_offset = _parse_header(program)
+    except ValueError as verr:
+        if str(verr) == "Missing DOS signature":
+            print("File is not a DOS file, Jakstab cannot process it")
+            print(f"RESULTS: The groundtruth is: {groundtruth}")
+            print("RESULTS: The tool's answer is: {}")
+            print("RESULTS: Tool's answer matches groundtruth? NO")
+            return
+
+
     if num < base_addr + section_offset:
         vaddr = _file_to_virtual_address(num, base_addr, section_offset, raw_offset)
         print(hex(vaddr))

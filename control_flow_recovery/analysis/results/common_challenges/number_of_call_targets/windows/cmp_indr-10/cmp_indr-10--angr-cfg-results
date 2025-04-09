@@ -1,7 +1,7 @@
-RESULTS: The groundtruth is: {'0x44b', '0x41e', '0x405', '0x423', '0x42d', '0x446', '0x40f', '0x419', '0x455', '0x450'}
-RESULTS: The tool's answer is: {'0x419'}
+RESULTS: The groundtruth is: {'0x419', '0x423', '0x405', '0x446', '0x40f', '0x450', '0x455', '0x41e', '0x42d', '0x44b'}
+RESULTS: The tool's answer is: set()
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: Tool name:angr-cfg
-RESULTS: Tool version:0.2.0
+RESULTS: Tool version:0.3.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

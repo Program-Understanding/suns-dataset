@@ -1,6 +1,6 @@
 {
     "program": "7",
-    "question": "What are the file offsets for the instructions that are the targets of the 'call' instruction at file offset '0x1089' ?",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1089' ?",
     "groundtruth": [
         "0x11b0",
         "0x11d0",

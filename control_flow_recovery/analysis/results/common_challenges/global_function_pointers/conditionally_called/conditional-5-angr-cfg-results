@@ -1,3 +1,0 @@
-RESULTS: The groundtruth is: {'0x11a9', '0x11c7', '0x11e5', '0x11b8', '0x11d6'}
-RESULTS: The tool's answer is: {'0x11a9', '0x11e5'}
-RESULTS: Tool's answer matches groundtruth? NO

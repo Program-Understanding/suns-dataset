@@ -1238,6 +1238,5 @@
         "0x13d7"
     ],
     "evaluation": "set",
-    "source":"cmp_indr-1234.s",
-    "slow": true
+    "source":"cmp_indr-1234.s"
 }
