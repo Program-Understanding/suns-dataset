@@ -1,0 +1,10 @@
+{
+    "program":"anonymous_macro",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11d4' ?",
+    "groundtruth": ["0x7fffffffe080", "0x7fffffffe3f0"],
+    "evaluation":"set",
+    "source":"anonymous_macro.c",
+    "stripped": false,
+    "compiler":"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "compiler-options":"gcc"
+}
