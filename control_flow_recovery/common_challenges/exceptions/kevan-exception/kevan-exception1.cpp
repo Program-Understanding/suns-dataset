@@ -10,13 +10,14 @@ float multiply(int factor1, int factor2){
   return float(factor1) * factor2;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
   int numerator, denominator;
   float (*f_ptr)(int, int);
-  std::cout << "Input first integer" << std::endl;
-  std::cin >> numerator;
-  std::cout << "Input second integer" << std::endl;
-  std::cin >> denominator;
+  numerator = argc;
+  if (argc % 2 == 0)
+    denominator = 0;
+  else
+    denominator = argc * 2;
   try {
     if (denominator == 0) {
       throw 1;
