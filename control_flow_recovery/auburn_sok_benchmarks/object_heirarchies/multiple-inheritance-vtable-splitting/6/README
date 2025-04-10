@@ -1,0 +1,3 @@
+Virtual Function Classes examples that use vtable with pointers to decide which vehicle should be used at run time. 
+Introduces complexity by storing the different vehicle classes within the garage that is a vector full of pointers
+Forces handling of dynamic memory allocation to identify correct vehicle and fetch pointer for vtable for the startEngine method
