@@ -45,17 +45,17 @@ void exceptionRoute(bool bad, int numerator, int denominator) {
   } catch (CustomException &e) {
     //either a FineException or a DivideByZero exception
     std::cout << e.what() << std::endl;
-    std::cout << "Result is " << e.result() << std::endl;
   }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
   std::exception_ptr eptr;
   int numerator, denominator;
-  std::cout << "Input first integer" << std::endl;
-  std::cin >> numerator;
-  std::cout << "Input second integer" << std::endl;
-  std::cin >> denominator;
+  numerator = argc;
+  if (argc % 2 == 0)
+    denominator = 0;
+  else
+    denominator = argc * 2;
   exceptionRoute(denominator == 0,numerator,denominator);
   return 0;
 }
