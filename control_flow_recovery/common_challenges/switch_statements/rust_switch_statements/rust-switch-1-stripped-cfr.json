@@ -1,0 +1,7 @@
+{
+    "program":"rust-switch-1-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp *%rax' instruction at file offset '0x793f' ?",
+    "groundtruth": ["0x79ab","0x7a15", "0x7a7f", "0x7ae9", "0x7b53", "0x7bbd", "0x7c27", "0x7c91"],
+    "evaluation":"set",
+    "source": "rust-switch-1.rs",
+}
