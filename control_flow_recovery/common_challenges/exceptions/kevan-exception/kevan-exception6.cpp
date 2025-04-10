@@ -4,47 +4,32 @@
 
 /* nested tries and catches where the separate functions are throwing exceptions to be caught in main */
 
-float divide(int numerator, int denominator) {
-  if (denominator == 0) {
-    throw std::runtime_error("Division by zero is not allowed.");
+void is_two(int val) {
+  if (val == 2) {
+    throw std::runtime_error("Value is 1");
   }
-  return float(numerator) / float(denominator);
 }
 
-double square_root(double value) {
-  if (value < 0) {
-    throw std::invalid_argument("Square root of a negative number is not allowed.");
+void is_positive(int val) {
+  if (val > 0) {
+    throw std::invalid_argument("Value is positive");
   }
-  return std::sqrt(value);
 }
 
-int main() {
-  float numerator;
-  float denominator;
-  float squared_value;
-
-  std::cout << "Input 3 floats";
-  std::cin >> numerator;
-  std::cin >> denominator;
-  std::cin >> squared_value;
-
+int main(int argc, char *argv[]) {
+  int val = argc;
   try {
-    //divide numerator and denominator
     try {
-      double result = divide(numerator, denominator);
-      std::cout << "Division result: " << result << std::endl;
+      is_two(val);
     } catch (const std::runtime_error& e) {
       std::cout << "Caught runtime error: " << e.what() << std::endl;
-      throw std::runtime_error("Nested runtime error: Division failed.");
+      throw std::runtime_error("Nested runtime error: argc is 2");
     }
-
-    //take square root
     try {
-      double result = square_root(squared_value);
-      std::cout << "Square root result: " << result << std::endl;
+      is_positive(val);
     } catch (const std::invalid_argument& e) {
       std::cout << "Caught invalid argument: " << e.what() << std::endl;
-      throw std::invalid_argument("Nested invalid argument: Square root failed.");
+      throw std::invalid_argument("Nested invalid argument: argc is positive");
     }
 
   } catch (const std::exception& e) {

@@ -60,9 +60,7 @@ void func_dispatcher(int val) {
 }
 
 int main(int argc, char *argv[]) {
-  int val;
-  if (argc > 1)
-    val = atoi(argv[1]);
+  int val = argc;
   try {
     func_dispatcher(val);
   } catch (KevException &e) {
