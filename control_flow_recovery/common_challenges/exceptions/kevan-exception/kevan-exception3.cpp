@@ -31,9 +31,7 @@ void potential_error(int val) {
 }
 
 int main(int argc, char **argv) {
-  int val = 1;
-  if (argc > 1)
-    val = atoi(argv[1]);
+  int val = argc;
   try {
     potential_error(val);
   }
