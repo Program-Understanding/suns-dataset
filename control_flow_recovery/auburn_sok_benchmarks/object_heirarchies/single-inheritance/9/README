@@ -1,0 +1,10 @@
+# Test 9: Multiple Virtual Method Calls
+
+## Description
+Two virtual methods are called on the same object instance via a base pointer.
+
+## Indirect Control Flow
+- Both `foo()` and `bar()` are virtual and called from the same site, triggering two separate vtable lookups and indirect calls.
+
+## Why It Matters
+Tests resolution of multiple ICF sites in one scope, stressing tool precision when handling multiple vtable entries and tracking multiple targets.

@@ -1,0 +1,10 @@
+# Test 2: Virtual Call via Reference
+
+## Description
+A `Derived` object is accessed via a `Base&` reference rather than a pointer.
+
+## Indirect Control Flow
+- The call `base_ref.foo();` invokes the overridden method through a vtable.
+
+## Why It Matters
+This variation evaluates tools' ability to track vtable usage when virtual dispatch is done via a reference, which may obscure callsite semantics slightly.

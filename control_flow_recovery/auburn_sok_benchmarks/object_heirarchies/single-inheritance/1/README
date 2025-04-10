@@ -1,0 +1,11 @@
+# Test 1: Virtual Call via Base Pointer
+
+## Description
+This test uses single inheritance where a `Derived` object is accessed via a `Base*` pointer.
+The virtual method is overridden in `Derived`.
+
+## Indirect Control Flow
+- The call `base_ptr->foo();` leads to indirect control flow via the vtable.
+
+## Why It Matters
+This is a canonical virtual dispatch pattern and serves as a basic case for vtable-based ICF recognition.

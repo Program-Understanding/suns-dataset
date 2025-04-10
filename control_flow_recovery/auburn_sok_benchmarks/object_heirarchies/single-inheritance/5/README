@@ -1,0 +1,11 @@
+# Test 5: Object Array Dispatch
+
+## Description
+An array of `Base*` pointers is populated with multiple `Derived` instances.
+Each entry in the array is used to invoke a virtual method.
+
+## Indirect Control Flow
+- The call `ptrs[i]->foo();` inside a loop results in multiple ICF points from a uniform memory pattern.
+
+## Why It Matters
+This test reflects common usage in virtualized data structures (e.g., game entities, renderables). It stresses consistency of dispatch resolution across objects in memory.

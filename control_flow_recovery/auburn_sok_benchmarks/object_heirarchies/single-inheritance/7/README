@@ -1,0 +1,10 @@
+# Test 7: Inline Function Dispatch
+
+## Description
+The virtual call is made within an inline helper function, wrapping the dispatch site.
+
+## Indirect Control Flow
+- Indirect control flow is abstracted through a helper function: `callVirtual(base);`.
+
+## Why It Matters
+Inlining can obscure the dispatch origin or make the vtable callsite harder to identify. This test highlights whether tools respect callsite inlining.
