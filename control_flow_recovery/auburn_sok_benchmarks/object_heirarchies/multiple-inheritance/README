@@ -7,5 +7,3 @@ C++ source files demonstrating multiple inheritance scenarios.
 Examples showing method resolution and ambiguity handling.
 
 Purpose: To illustrate the complexities and solutions associated with multiple inheritance in C++.
-
-
