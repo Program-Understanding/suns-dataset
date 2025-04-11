@@ -2286,7 +2286,7 @@ Disassembly of section .text:
     2b09:	00 00 00 
     2b0c:	0f 1f 40 00          	nopl   0x0(%rax)
 
-    Funk2
+    Func2
     2b10:	f3 0f 1e fa          	endbr64
     2b14:	31 ed                	xor    %ebp,%ebp
     2b16:	49 89 d1             	mov    %rdx,%r9
@@ -2330,7 +2330,7 @@ Disassembly of section .text:
     2ba8:	c3                   	ret
     2ba9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
 
-    Funk3
+    Func3
     2bb0:	f3 0f 1e fa          	endbr64
     2bb4:	80 3d 85 54 00 00 00 	cmpb   $0x0,0x5485(%rip)        # 8040 <__ctype_b_loc@plt+0x59f0>
     2bbb:	75 2b                	jne    2be8 <__ctype_b_loc@plt+0x598>
@@ -2349,7 +2349,7 @@ Disassembly of section .text:
     2be8:	c3                   	ret
     2be9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
 
-    Funk4
+    Func4
     2bf0:	f3 0f 1e fa          	endbr64
     2bf4:	e9 77 ff ff ff       	jmp    2b70 <__ctype_b_loc@plt+0x520>
     2bf9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
@@ -2429,7 +2429,7 @@ Disassembly of section .text:
     2cf8:	e9 4b ff ff ff       	jmp    2c48 <__ctype_b_loc@plt+0x5f8>
     2cfd:	0f 1f 00             	nopl   (%rax)
 
-    Funk5
+    Func5
     2d00:	f3 0f 1e fa          	endbr64
     2d04:	55                   	push   %rbp
     2d05:	48 89 e5             	mov    %rsp,%rbp
@@ -2544,7 +2544,7 @@ Disassembly of section .text:
     2e7b:	00 00 00 00 
     2e7f:	90                   	nop
 
-    Funk6
+    Func6
     2e80:	f3 0f 1e fa          	endbr64
     2e84:	55                   	push   %rbp
     2e85:	48 89 e5             	mov    %rsp,%rbp
@@ -5288,6 +5288,8 @@ Disassembly of section .text:
     5a75:	eb d4                	jmp    5a4b <__ctype_b_loc@plt+0x33fb>
     5a77:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
     5a7e:	00 00 
+
+    Func7
     5a80:	f3 0f 1e fa          	endbr64
     5a84:	55                   	push   %rbp
     5a85:	48 89 e5             	mov    %rsp,%rbp
@@ -5408,6 +5410,8 @@ Disassembly of section .text:
     5c17:	5d                   	pop    %rbp
     5c18:	c3                   	ret
     5c19:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+    Func8
     5c20:	f3 0f 1e fa          	endbr64
     5c24:	55                   	push   %rbp
     5c25:	48 89 e5             	mov    %rsp,%rbp
@@ -5497,6 +5501,8 @@ Disassembly of section .text:
     5d73:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
     5d7a:	00 00 00 00 
     5d7e:	66 90                	xchg   %ax,%ax
+
+    Func9
     5d80:	f3 0f 1e fa          	endbr64
     5d84:	55                   	push   %rbp
     5d85:	48 89 e5             	mov    %rsp,%rbp
@@ -5586,6 +5592,8 @@ Disassembly of section .text:
     5ed3:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
     5eda:	00 00 00 
     5edd:	0f 1f 00             	nopl   (%rax)
+
+    Func10
     5ee0:	f3 0f 1e fa          	endbr64
     5ee4:	48 8b 15 1d 21 00 00 	mov    0x211d(%rip),%rdx        # 8008 <__ctype_b_loc@plt+0x59b8>
     5eeb:	31 f6                	xor    %esi,%esi
