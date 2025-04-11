@@ -1,0 +1,11 @@
+Overview: This directory delves into virtual inheritance in C++, a technique used to prevent multiple "instances" of a base class when using multiple inheritance. It addresses the diamond problem by ensuring a single shared base class instance.
+
+Contents:
+
+C++ source files demonstrating virtual inheritance.
+
+Examples resolving ambiguities in multiple inheritance hierarchies.
+
+Purpose: To explain how virtual inheritance can be used to manage shared base classes in complex inheritance structures.
+
+
