@@ -5,11 +5,11 @@
     1. 3 gcc
     2. 3 clang
     3. 2 icx
-    4. 0 PE
+    4. 2 PE
 
 ## Solvability
 
-3.5/8 Solve
+3.5/10 Solve
 
 ### Single
 
@@ -38,8 +38,16 @@
 
 ### Nested2
 
-- Ghidra and angr fail (address related?) icx puts addresses in like the 400000 range
+- Ghidra and angr fail (may need to fix addressing) icx puts addresses in like the 400000 range
 
 ### More_Ifs
 
-- Ghidra and angr fail (address related?)
+- Ghidra and angr fail (may need to fix addressing)
+
+### More_Ifs PE
+
+- Ghidra and angr fail (may need to fix addressing)
+
+### Nested3 PE
+
+- Ghidra and angr fail (may need to fix addressing)
