@@ -10,16 +10,13 @@ int val_b(int a) {
 }
 
 int main(int argc) {
-    
+    int csqrd = 0;
     volatile func_ptr f = square;
     
     if (argc == 1) {
         int a = argc;
         int b = val_b(argc);
         int csqrd = f(a) + f(b);
-        return csqrd;
     }
-    else {
-        return 1;
-    }
+    return csqrd;
 }
