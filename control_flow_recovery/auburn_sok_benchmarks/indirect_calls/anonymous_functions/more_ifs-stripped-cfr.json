@@ -1,0 +1,10 @@
+{
+    "program":"more_ifs-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x4011c0' ?",
+    "groundtruth": ["0x401130","0x401140","0x401150","0x401160"],
+    "evaluation":"set",
+    "source":"/src/more_ifs.c",
+    "stripped": true,
+    "compiler":"Intel(R) oneAPI DPC++/C++ Compiler 2025.1.0 (2025.1.0.20250317)",
+    "compiler-options":"icx"
+}
