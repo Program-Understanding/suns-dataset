@@ -9,7 +9,7 @@
 
 ## Solvability
 
-3.5/10 Solve
+6.5/10 Solve
 
 ### Single
 
@@ -50,6 +50,6 @@
 
 - Ghidra, angr, jakstab solve
 
-### Nested3 PE
+### Nested3 PE (I want to swap this to Array.c to see if I can make it one call to multiple possibilities)
 
 - Ghidra and angr fail (need to fix addressing)
