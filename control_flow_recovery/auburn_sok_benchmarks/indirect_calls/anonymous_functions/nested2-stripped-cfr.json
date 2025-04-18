@@ -1,7 +1,7 @@
 {
     "program":"nested1-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x401200' ?",
-    "groundtruth": ["0x401130","0x401140","0x4011c0"],
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1201' ?",
+    "groundtruth": ["0x1130","0x1140","0x11c0"],
     "evaluation":"set",
     "source":"/src/nested.c",
     "stripped": true,

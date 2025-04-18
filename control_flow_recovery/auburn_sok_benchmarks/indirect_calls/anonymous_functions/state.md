@@ -38,16 +38,18 @@
 
 ### Nested2
 
-- Ghidra and angr fail (may need to fix addressing) icx puts addresses in like the 400000 range
+- Ghidra Solve
+- angr 2/3
 
 ### More_Ifs
 
-- Ghidra and angr fail (may need to fix addressing)
+- Ghidra Solve
+- angr 2/4
 
 ### More_Ifs PE
 
-- Ghidra and angr fail (may need to fix addressing)
+- Ghidra and angr fail (need to fix addressing)
 
 ### Nested3 PE
 
-- Ghidra and angr fail (may need to fix addressing)
+- Ghidra and angr fail (need to fix addressing)
