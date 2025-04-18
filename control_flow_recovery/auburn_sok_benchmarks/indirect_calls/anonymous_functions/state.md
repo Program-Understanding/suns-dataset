@@ -48,7 +48,7 @@
 
 ### More_Ifs PE
 
-- Ghidra and angr fail (need to fix addressing)
+- Ghidra, angr, jakstab solve
 
 ### Nested3 PE
 
