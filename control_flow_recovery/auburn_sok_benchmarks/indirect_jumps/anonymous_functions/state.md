@@ -11,7 +11,7 @@
 
 ### Alternate
 
-- Ghidra and angr fail
+- Ghidra and angr Solve
 
 ### Alternate 2
 
@@ -28,4 +28,4 @@
 
 ### 3Choices C
 
-- Ghidra and angr fail
+- Ghidra and angr solve

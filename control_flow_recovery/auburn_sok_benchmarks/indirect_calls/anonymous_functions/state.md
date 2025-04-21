@@ -53,3 +53,5 @@
 ### Nested3 PE (I want to swap this to Array.c to see if I can make it one call to multiple possibilities)
 
 - Ghidra and angr fail (need to fix addressing)
+
+I want to swap the second PE to array with O2 to try and give an example of a more difficult construct in PE

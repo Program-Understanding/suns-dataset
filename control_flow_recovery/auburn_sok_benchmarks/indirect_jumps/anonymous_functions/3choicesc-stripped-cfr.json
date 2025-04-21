@@ -1,7 +1,7 @@
 {
     "program":"3choicesc-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x4011ac' ?",
-    "groundtruth": ["0x401130", "0x401140", "0x401150"],
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11ac' ?",
+    "groundtruth": ["0x1130", "0x1140", "0x1150"],
     "evaluation":"set",
     "source":"/src/3choices.c",
     "stripped": true,
