@@ -1,0 +1,10 @@
+{
+    "program":"challenging2-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rcx' instruction at file offset '0x133d' ?",
+    "groundtruth": ["0x1150","0x1160", "0x1170", "0x1180", "0x1190", "0x11a0", "0x11b0", "0x11c0", "0x11d0", "0x11e0"],
+    "evaluation":"set",
+    "source":"/src/more_ifs.c",
+    "stripped": true,
+    "compiler":"Intel(R) oneAPI DPC++/C++ Compiler 2025.1.0 (2025.1.0.20250317)",
+    "compiler-options":"icx -O2"
+}
