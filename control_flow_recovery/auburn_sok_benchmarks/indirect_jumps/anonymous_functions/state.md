@@ -2,10 +2,12 @@
 
 ## Overall
 
-    1. 2 gcc
-    2. 2 clang
+    1. 3 gcc
+    2. 3 clang
     3. 1 icx
     4. 0 PE
+
+Needed - 1 more icx, 2 PE
 
 ## Solvability
 
@@ -29,3 +31,13 @@
 ### 3Choices C
 
 - Ghidra and angr solve
+
+### Difficult 1
+
+- All fail
+
+### Difficult 2
+
+- All Fail
+
+## Difficult 3 (PE)
