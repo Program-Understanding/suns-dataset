@@ -4,7 +4,7 @@
 
     1. 3 gcc
     2. 3 clang
-    3. 1 icx
+    3. 2 icx
     4. 0 PE
 
 Needed - 1 more icx, 2 PE
@@ -32,6 +32,10 @@ Needed - 1 more icx, 2 PE
 
 - Ghidra and angr solve
 
+### Simple
+
+- Ghidra and Angr fail 3/1 return three targets when only one target
+
 ### Difficult 1
 
 - All fail
@@ -40,4 +44,6 @@ Needed - 1 more icx, 2 PE
 
 - All Fail
 
-## Difficult 3 (PE)
+### Difficult 3 (PE)
+
+### Simple PE
