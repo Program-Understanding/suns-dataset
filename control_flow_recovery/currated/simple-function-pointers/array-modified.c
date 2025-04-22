@@ -8,7 +8,7 @@ int func5() { return 5;}
 
 int (*fp_array[5])() = {func1,func2,func3,func4,func5};
 
-int swap(int (**x)(), int (**y)()) {
+void swap(int (**x)(), int (**y)()) {
   int (*tmp)() = *x;
   *x = *y;
   *y = tmp;
