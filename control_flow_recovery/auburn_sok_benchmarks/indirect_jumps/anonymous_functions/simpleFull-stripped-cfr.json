@@ -6,6 +6,6 @@
     "source":"/src/simple.c",
     "stripped": true,
     "compiler":"Visual Studio 2022 v17.13.5",
-    "compiler-options":"cl /Zi /Od /GS- /c",
-    "linker-options": "link /Entry:main /SUBSYSTEM:CONSOLE"
+    "compiler-options":"cl /O2 /MT /Zi /Ob0 /c",
+    "linker-options": "link /INCREMENTAL:NO /OPT:REF /OPT:ICF"
 }
