@@ -5,7 +5,7 @@
     1. 3 gcc
     2. 3 clang
     3. 2 icx
-    4. 1 PE
+    4. 2 PE
 
 ## Solvability
 
@@ -50,3 +50,5 @@
 - All fail
 
 ### Challenging 3 (PE)
+
+- All fail

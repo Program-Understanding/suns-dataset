@@ -5,9 +5,7 @@
     1. 3 gcc
     2. 3 clang
     3. 2 icx
-    4. 0 PE
-
-Needed - 1 more icx, 2 PE
+    4. 2 PE
 
 ## Solvability
 
@@ -44,6 +42,12 @@ Needed - 1 more icx, 2 PE
 
 - All Fail
 
-### Difficult 3 (PE)
-
 ### Simple PE
+
+- angr solve
+- Ghidra fail
+
+### Simple Full PE
+
+- angr solve
+- Ghidra fail
