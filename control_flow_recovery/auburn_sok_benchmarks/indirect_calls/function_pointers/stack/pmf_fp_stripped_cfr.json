@@ -1,0 +1,14 @@
+{
+    "program":"simple_fp_stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1183' ?",
+    "groundtruth": ["0x1169"],
+    "evaluation":"set",
+    "source":"/src/malloc_single.c",
+    "stripped": true,
+    "compiler":"gcc",
+    "compiler-options":"gcc -O0"
+}
+
+cl /Od /Zi pmf_fp.cpp
+strip pmf_fp.exe    ← (or use editbin to strip symbols)
+dumpbin /DISASM pmf_fp.exe

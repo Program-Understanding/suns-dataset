@@ -1,0 +1,10 @@
+{
+    "program":"global_array_stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call qword ptr [RAX + RBX*0x1]' instruction at file offset '0x1217' ?",
+    "groundtruth": ["0x11d0", "0x11e0"],
+    "evaluation":"set",
+    "source":"/src/.c",
+    "stripped": true,
+    "compiler":"gcc",
+    "compiler-options":"gcc -O0"
+}

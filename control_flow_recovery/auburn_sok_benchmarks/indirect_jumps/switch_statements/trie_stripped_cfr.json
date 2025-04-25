@@ -1,0 +1,11 @@
+{
+    "program":"trie_stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '13c4' ?",
+    "groundtruth": ["0x1345", "0x13d0", "0x13e0", "0x14d8", "0x1600", "0x1b50"],
+    "evaluation":"set",
+    "compiler":"",
+    "compiler-options":"",
+    "stripped":true,
+    "slow":""
+   }
+   

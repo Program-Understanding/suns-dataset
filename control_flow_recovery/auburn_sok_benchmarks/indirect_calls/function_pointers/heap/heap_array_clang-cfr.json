@@ -1,0 +1,10 @@
+{
+    "program":"heap_array_clang_stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax, rcx, 8' instruction at file offset '0x11d0' ?",
+    "groundtruth": ["0x1150", "0x1160"],
+    "evaluation":"set",
+    "source":"/src/heap_array.c",
+    "stripped": true,
+    "compiler":"clang",
+    "compiler-options":""
+}

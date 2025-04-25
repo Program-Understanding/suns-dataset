@@ -1,0 +1,10 @@
+{
+    "program":"separate_funcs_clang_stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x120a' ?",
+    "groundtruth": ["0x1160"],
+    "evaluation":"set",
+    "source":"/src/separate_funcs.c",
+    "stripped": true,
+    "compiler":"clang",
+    "compiler-options":""
+}
