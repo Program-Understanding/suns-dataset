@@ -2,10 +2,10 @@
 
 ## Overall
 
-    1. 2 gcc
-    2. 2 clang
-    3. 1 icx
-    4. 0 PE
+    1. 3 gcc
+    2. 3 clang
+    3. 2 icx
+    4. 2 PE
 
 ## Solvability
 
@@ -29,3 +29,25 @@
 ### 3Choices C
 
 - Ghidra and angr solve
+
+### Simple
+
+- Ghidra and Angr fail 3/1 return three targets when only one target
+
+### Difficult 1
+
+- All fail
+
+### Difficult 2
+
+- All Fail
+
+### Simple PE
+
+- angr solve
+- Ghidra fail
+
+### Simple Full PE
+
+- angr solve
+- Ghidra fail

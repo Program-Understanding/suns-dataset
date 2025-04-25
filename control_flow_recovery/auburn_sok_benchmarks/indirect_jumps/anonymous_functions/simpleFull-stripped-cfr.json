@@ -1,0 +1,11 @@
+{
+    "program":"SimpleFull-stripped.exe",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp eax' instruction at file offset '0x43e' ?",
+    "groundtruth": ["0x400"],
+    "evaluation":"set",
+    "source":"/src/simple.c",
+    "stripped": true,
+    "compiler":"Visual Studio 2022 v17.13.5",
+    "compiler-options":"cl /O2 /MT /Zi /Ob0 /c",
+    "linker-options": "link /INCREMENTAL:NO /OPT:REF /OPT:ICF"
+}

@@ -1,0 +1,11 @@
+{
+    "program":"more_ifs.exe",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call ecx' instruction at file offset '0x5d1' ?",
+    "groundtruth": ["0x400", "0x410", "0x420", "0x430", "0x440", "0x450", "0x460", "0x470", "0x480", "0x490"],
+    "evaluation":"set",
+    "source":"/src/challenging.c",
+    "stripped": true,
+    "compiler":"Visual Studio 2022 v17.13.5",
+    "compiler-options":"cl /Od /MT /Zi /GS /c",
+    "linker-options": "link /INCREMENTAL:NO /OPT:REF /OPT:ICF"
+}
