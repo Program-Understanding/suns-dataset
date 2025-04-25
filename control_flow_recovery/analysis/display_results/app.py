@@ -46,12 +46,12 @@ def replace_spaces_between_tags(text):
 
 
 
-@app.route("/currated_results")
-def currated_results():
-    logger.info("currated results requested")
+@app.route("/snl_currated_results")
+def snl_currated_results():
+    logger.info("snl_currated results requested")
     currated_challenges = []
     for c in challenges:
-        if c["name"].startswith("../results/currated/simple"):
+        if c["name"].startswith("../results/snl_currated"):
             currated_challenges.append(c)
     context = {
         "title": "Results",

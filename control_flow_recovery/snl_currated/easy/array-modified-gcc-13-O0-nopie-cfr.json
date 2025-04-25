@@ -1,0 +1,7 @@
+{
+    "program":"array-modified-gcc-13-O0-nopie",
+    "source":"array-modified.c",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x121e' ?",
+    "groundtruth": ["0x1154"],
+    "evaluation":"set"
+}

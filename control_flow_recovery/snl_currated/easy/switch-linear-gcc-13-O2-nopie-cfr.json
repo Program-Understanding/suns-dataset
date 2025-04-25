@@ -1,0 +1,7 @@
+{
+    "program":"switch-linear-gcc-13-O2-nopie",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rdi*8 + 0x402058]' instruction at file offset '0x1061' ?",
+    "groundtruth": ["0x108b","0x1097","0x10a3","0x10af","0x10bb","0x10c7","0x10d3","0x10df","0x1068","0x107f"],
+    "evaluation":"set"
+   }
+   

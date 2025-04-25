@@ -146,7 +146,7 @@ def study(binary_path: str, cfrjson_path: str):
                 address_answers.add(v.v)
             
     except Exception as exc:
-        raise RuntimeError("Found an example where the indirection is not via register or something went wrong") from exc
+        print("Not able to do reaching definition analysis which for now only works if the target is a simple register")
     
         
     offset_answers = set()

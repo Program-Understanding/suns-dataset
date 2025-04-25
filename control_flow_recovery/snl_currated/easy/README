@@ -1,0 +1,19 @@
+The examples that are here, and why they are here:
+
+switch-linear-no-pie-o2    -- as a no PIE, the table contains addresses
+
+switch-disparate-bounded-pie-O2   -- as a PIE, the table contains offsets, the table is large
+
+switch-consecutive -- there are two indirect branches that use the same table, tools should not get confused
+
+array0.c
+
+array-loop.c
+
+array-modified.c  (but bring the swap in)
+
+if-else-block.c
+
+
+(consider different architectures or optimization levels?)
+

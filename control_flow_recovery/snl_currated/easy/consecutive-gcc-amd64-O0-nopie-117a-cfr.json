@@ -1,0 +1,8 @@
+{
+    "program":"consecutive-gcc-amd64-O0-nopie.exe",
+    "source":"consecutive.c",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x117a' ?",
+    "groundtruth": ["0x117d", "0x1189", "0x1195", "0x11a1"],
+    "evaluation":"set"
+}
+   

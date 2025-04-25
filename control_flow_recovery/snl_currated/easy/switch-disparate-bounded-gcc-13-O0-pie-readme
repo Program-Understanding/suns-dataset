@@ -1,0 +1,56 @@
+In this example the table is large, but the actual number of targets are not.
+expect looking at the source code.
+
+/usr/bin/gcc-13 -g -O0 -fcf-protection=none switch-disparate-bounded.c -o switch-disparate-bounded-gcc-13-O0-pie
+
+
+The implementation is:
+
+    1149:       55                      push   %rbp
+    114a:       48 89 e5                mov    %rsp,%rbp
+    114d:       48 83 ec 10             sub    $0x10,%rsp
+    1151:       89 7d fc                mov    %edi,-0x4(%rbp)
+    1154:       48 89 75 f0             mov    %rsi,-0x10(%rbp)
+    1158:       83 7d fc 15             cmpl   $0x15,-0x4(%rbp)
+    115c:       0f 87 9a 00 00 00       ja     11fc <main+0xb3>
+    1162:       8b 45 fc                mov    -0x4(%rbp),%eax
+    1165:       48 8d 14 85 00 00 00    lea    0x0(,%rax,4),%rdx
+    116c:       00
+    116d:       48 8d 05 cc 0e 00 00    lea    0xecc(%rip),%rax        # 2040 <_IO_stdin_used+0x40>
+    1174:       8b 04 02                mov    (%rdx,%rax,1),%eax
+    1177:       48 98                   cltq
+    1179:       48 8d 15 c0 0e 00 00    lea    0xec0(%rip),%rdx        # 2040 <_IO_stdin_used+0x40>
+    1180:       48 01 d0                add    %rdx,%rax
+    1183:       ff e0                   jmp    *%rax
+
+Note that the upper bound is 0x15 (21) 
+
+$ hexdump -s 0x02040 -n 88 -v -e '1/4 "%08x\n"' switch-disparate-bounded-gcc-13-O0-pie
+
+fffff1bc
+fffff145
+fffff156
+fffff167
+fffff1bc
+fffff178
+fffff1bc
+fffff1bc
+fffff189
+fffff1bc
+fffff1bc
+fffff1bc
+fffff1bc
+fffff19a
+fffff1bc
+fffff1bc
+fffff1bc
+fffff1bc
+fffff1bc
+fffff1bc
+fffff1bc
+fffff1ab
+
+
+The table is not addresses, but offsets, with the most common offset being fffff1bc for the default
+
+More to do to fully understand the offsets and the code

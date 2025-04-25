@@ -1,0 +1,103 @@
+# 0 "README"
+# 0 "<built-in>"
+# 0 "<command-line>"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 0 "<command-line>" 2
+# 1 "README"
+Whether a binary is position independent or not can affect the type of optimization that can be performed.
+
+We spent time with https:
+discovered it was because they are compiling no-pie even without one requesting such.
+
+E.g., for x86-64 gcc 14.2 with only optimization showing as -O2, their version of "main" for the linear switch:
+
+        sub rsp, 8
+        cmp edi, 9
+        ja .L2
+        mov edi, edi
+        jmp [QWORD PTR .L4[0+rdi*8]]
+
+whereas:
+
+/usr/bin/gcc-13 -g -O2 -fno-pie -no-pie -fcf-protection=none switch-linear.c -o switch-linear-gcc-13-O2-nopie
+
+
+
+yields:
+
+  401050: 50 push %rax
+  401051: 58 pop %rax
+  401052: 48 83 ec 08 sub $0x8,%rsp
+  401056: 83 ff 09 cmp $0x9,%edi
+  401059: 0f 87 8c 00 00 00 ja 4010eb <main+0x9b>
+  40105f: 89 ff mov %edi,%edi
+  401061: ff 24 fd 58 20 40 00 jmp *0x402058(,%rdi,8)
+
+The jump table contains actual addresses:
+
+readelf -l switch-linear-gcc-13-O2-nopie
+
+is used to find the offset for the section containing 0x402058
+
+  LOAD 0x0000000000002000 0x0000000000402000 0x0000000000402000
+
+hexdump -s 0x02058 -n 80 -e '1/8 "%016x\n"' switch-linear-gcc-13-O2-nopie | awk '{for(i=NF;i>0;i--) printf "%s ", $i; print ""}'
+
+000000000040108b 0
+0000000000401097 1
+00000000004010a3 2
+00000000004010af 3
+00000000004010bb 4
+00000000004010c7 5
+00000000004010d3 6
+00000000004010df 7
+0000000000401068 8
+000000000040107f 9
+
+Each of the addresses above is to a MOV instruction that is moving
+a string address into edi and then calling puts
+
+
+401068: bf 3c 20 40 00 mov $0x40203c,%edi
+40107f: bf 43 20 40 00 mov $0x402043,%edi
+...
+40108b: bf 04 20 40 00 mov $0x402004,%edi
+401097: bf 0b 20 40 00 mov $0x40200b,%edi
+...
+4010df: bf 35 20 40 00 mov $0x402035,%edi
+
+we can see the strings at these locations:
+
+strings -t x switch-linear-gcc-13-O2-nopie | grep "case"
+   2004 case 0
+   200b case 1
+   2012 case 2
+   2019 case 3
+   2020 case 4
+   2027 case 5
+   202e case 6
+   2035 case 7
+   203c case 8
+   2043 case 9
+
+
+
+So, to generalize:
+
+How many tables are there?
+  -- one for simple linear switch
+  -- one for disparate switch that contains extra targets for all values that are default... e.g.,
+     it makes up numerous other "cases" to cover the default so that it can use a simple table.
+
+  -- two for disparate data? Need to try and generate
+
+
+What is in the tables?
+  -- addresses of instructions
+  -- offsets of instructions
+
+What instruction is used to transfer control based on data in table?
+(depends on architecture, but from simple to complex)
+
+  -- need to find example where it uses binary search.
+  --
