@@ -1,9 +1,9 @@
 {
-    "program":"3choicesc-stripped",
+    "program":"simple-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11a0' ?",
     "groundtruth": ["0x1150"],
     "evaluation":"set",
-    "source":"/src/3choices.c",
+    "source":"/src/simple.c",
     "stripped": true,
     "compiler":"Intel(R) oneAPI DPC++/C++ Compiler 2025.1.0 (2025.1.0.20250317)",
     "compiler-options":"icx -O2"

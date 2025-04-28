@@ -3,3 +3,5 @@
 control_flow_recovery/analysis/results/**/*log*
 *~
 .vscode/
+.gitignore
+results/
