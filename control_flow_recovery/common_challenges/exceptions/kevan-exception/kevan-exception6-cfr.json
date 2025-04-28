@@ -1,8 +1,0 @@
-{
-    "program":"kevan-exception6-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'jmp *%rcx' instruction at file offset '0xb2de5' ?",
-    "groundtruth": ["0x5a79", "0x5b39", "0x599f", "0x5a5f"],
-    "evaluation":"set",
-    "source": "kevan-exception6.cpp",
-    "stripped":true,
-}
