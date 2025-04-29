@@ -1,3 +1,5 @@
+Note that our easy emphasizes x86_64 for linux.  This is essentially an "arbitrary" choice to make things easier
+
 The examples that are here, and why they are here:
 
 switch-linear-no-pie-o2    -- as a no PIE, the table contains addresses
