@@ -1,11 +1,11 @@
 Exceptions compiled statically, laid out as follows:
 
 # C++ Examples:
-- kevan-exception1: Indirect control flow caused by exceptions which uses function pointer
-- kevan-exception2: Indirect control flow caused by catching different subtypes of an exception, with the question being which possible subtypes' ~what()~ method can be called
-- kevan-exception[3,4,5,6]: Indirect control flow through exceptions themselves, with the question being what possible targets could be followed from the ~_Unwind_RaiseException()~ function
-- kevan-excepion[7,8]: Indirect control flow as 3-6, but with some catches made in the source code that aren't meant to be hit in the binary
-
+- exception1: Indirect control flow caused by exceptions which uses function pointer
+- exception2: Indirect control flow caused by catching different subtypes of an exception, with the question being which possible subtypes' ~what()~ method can be called
+- exception[3,4,5,6]: Indirect control flow through exceptions themselves, with the question being what possible targets could be followed from the ~_Unwind_RaiseException()~ function
+- exception[3,4]-[clang,icpx]: Exceptions 3 and 4 compiled with clang and icc respectively
+- exception[7,8]: Indirect control flow as 3-6, but with some catches made in the source code that aren't meant to be hit in the binary
 
 # Rust:
 Rust uses Result<T,E> as a data type in standard practices, which doesn't result in indirect-control flow as it would look like a switch statement based upon the return value of a function. Result<T, E> is a data-type which must be unpacked/matched in order to continue.
