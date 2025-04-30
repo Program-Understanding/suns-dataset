@@ -1,5 +1,7 @@
 #! /bin/bash
 
-/bin/frigg -l /share/frigg/windefs/win32.defs --analysis-scope=all-functions --xrefs-outfile /control-flow-recovery/output.xrefs /control-flow-recovery/$1
+/bin/frigg -l /share/frigg/windefs/win32.defs --analysis-scope=all-functions --xrefs-outfile /control-flow-recovery/output.xrefs -o /control-flow-recovery/$1.html /control-flow-recovery/$1
 cat /control-flow-recovery/output.xrefs
+#sed -nr 's/(IMAGE_BASE=.*)/\1/p' /control-flow-recovery/$1.xml
+#head -n 600 /control-flow-recovery/$1.xml | tail -n 400
 cat /control-flow-recovery/$1.xml
