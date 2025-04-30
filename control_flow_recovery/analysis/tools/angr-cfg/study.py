@@ -158,12 +158,19 @@ def study(binary_path: str, cfrjson_path: str):
             print("for address " + hex(a) + " offset is " + hex(this_offset))
             offset_answers.add(this_offset)
 
-    answerStringSet = set()
-    for offset in offset_answers:
-        answerStringSet.add(hex(offset))
 
-    print("RESULTS: The groundtruth is: " + str(set(groundtruth)));
-    print("RESULTS: The tool's answer is: " + str(answerStringSet));
+    answerStringSet = set()
+    answerStringList = []
+
+    offset_answers_sorted = list(offset_answers)
+    offset_answers_sorted.sort()
+    
+    for offset in offset_answers_sorted:
+        answerStringSet.add(hex(offset))
+        answerStringList.append(hex(offset))
+
+    print("RESULTS: The groundtruth is: {" + ", ".join(groundtruth) + "}")
+    print("RESULTS: The tool's answer is: {" + ", ".join(answerStringList) + "}");
 	    
     matchesAnswer = set(groundtruth) == answerStringSet
 

@@ -3,42 +3,43 @@
 #include <string.h>
 
 int main(int argc, char *argv[]) {
+  char* f = "none";
   switch (argc) {
-  case 0:
-    printf("case 0\n");
-    break;
   case 1:
-    printf("case 1\n");
+    f = "case 0\n";
     break;
   case 2:
-    printf("case 2\n");
+    f = "case 1\n";
     break;
   case 3:
-    printf("case 3\n");
+    f = "case 2\n";
     break;
   case 4:
-    printf("case 4\n");
+    f = "case 3\n";
+    break;
+  case 5:
+    f = "case 4\n";
     break;
   }
 
   switch (argc) {
   case 5:
-    printf("case 5\n");
+    printf("%s case 5\n", f);
     break;
   case 6:
-    printf("case 6\n");
+    printf("%s case 6\n", f);
     break;
   case 7:
-    printf("case 7\n");
+    printf("%s case 7\n", f);
     break;
   case 8:
-    printf("case 8\n");
+    printf("%s case 8\n", f);
     break;
   case 9:
-    printf("case 9\n");
+    printf("%s case 9\n", f);
     break;
   default:
-    printf("default\n");
+    printf("%s default\n", f);
   }
 
   exit(0);
