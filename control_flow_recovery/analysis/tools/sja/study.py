@@ -122,8 +122,8 @@ def main():
 
     print(f"RESULTS: For question '{question}'")
     answers.sort()
-    print(f"RESULTS: The groundtruth is: {groundtruth}")
-    print(f"RESULTS: The tool's answer is: {answers}")
+    print("RESULTS: The groundtruth is: {" + ", ".join(groundtruth) + "}")
+    print("RESULTS: The tool's answer is: {" + ", ".join(answers) + "}")
     
     matchesAnswer = set(groundtruth) == set(answers)
     matchesString = "YES" if matchesAnswer else "NO"
