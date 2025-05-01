@@ -1,5 +1,11 @@
 #! /bin/bash
 
-/bin/frigg -l /share/frigg/windefs/win32.defs --analysis-scope=all-functions --xrefs-outfile /control-flow-recovery/output.xrefs /control-flow-recovery/$1
+/bin/frigg -l /share/frigg/windefs/win32.defs --analysis-scope=all-functions --xrefs-outfile /control-flow-recovery/output.xrefs -o /control-flow-recovery/$1.html /control-flow-recovery/$1
 cat /control-flow-recovery/output.xrefs
-cat /control-flow-recovery/$1.xml
+#sed -nr 's/(IMAGE_BASE=.*)/\1/p' /control-flow-recovery/$1.xml
+#head -n 600 /control-flow-recovery/$1.xml | tail -n 400
+while IFS= read -r line; do
+    if [[ "$line" =~ "IMAGE_BASE" ]]; then
+	echo "$line"
+    fi
+done < "/control-flow-recovery/$1.xml"

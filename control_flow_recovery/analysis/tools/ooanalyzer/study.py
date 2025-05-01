@@ -167,24 +167,29 @@ def study(binary_path: str, cfrjson_path: str):
         offset = int(offset_string)
 
     # 1. run ooanalyzer
-    subprocess.run(["ooanalyzer", "--json=output.json", binary_path])
-    
+    comp_proc = subprocess.run(["ooanalyzer", "--json=output.json", binary_path], capture_output=True)
+
     # 2. pull in ooanalyzer's json output    
-    answer_sets = {} # file offset of instruction in question -> set of target file offsets
-    answer_sets[offset] = set()
-    with open("output.json") as f:
-        # 3. convert each xref to file offset
-        for line in f.readlines():
-            if "targets" in line:
-                part1, part2, part3 = line.split(":")
-                call_addr = part1[part1.index("\"")+1:part1.rindex("\"")]
-                target_addr = part3[part3.index("\"")+1:part3.rindex("\"")]
-                offset_addr = vaddr_to_file_offset(binary_path, int(call_addr, 16))
-                print(call_addr + " translated to " + hex(offset_addr))
-                # 4. find the one from the question(s)
-                if offset_addr in answer_sets.keys():
-                    offset_target = vaddr_to_file_offset(binary_path, int(target_addr,16))
-                    answer_sets[offset_addr].add(offset_target)
+    if 'Windows Portable' in str(comp_proc.stdout):
+        # No result for this error
+        answer_sets = {} # file offset of instruction in question -> set of target file offsets
+        answer_sets[offset] = set()
+    else:
+        answer_sets = {} # file offset of instruction in question -> set of target file offsets
+        answer_sets[offset] = set()
+        with open("output.json") as f:
+            # 3. convert each xref to file offset
+            for line in f.readlines():
+                if "targets" in line:
+                    part1, part2, part3 = line.split(":")
+                    call_addr = part1[part1.index("\"")+1:part1.rindex("\"")]
+                    target_addr = part3[part3.index("\"")+1:part3.rindex("\"")]
+                    offset_addr = vaddr_to_file_offset(binary_path, int(call_addr, 16))
+                    print(call_addr + " translated to " + hex(offset_addr))
+                    # 4. find the one from the question(s)
+                    if offset_addr in answer_sets.keys():
+                        offset_target = vaddr_to_file_offset(binary_path, int(target_addr,16))
+                        answer_sets[offset_addr].add(offset_target)
 
     # 5. output the results
     print("RESULTS: The groundtruth is: " + str(set(groundtruth)))

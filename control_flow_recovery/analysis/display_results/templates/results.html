@@ -42,6 +42,11 @@
       rose
     </label>
 
+    <label>
+      <input type="radio" name="filter" value="ooanalyzer"/>
+      ooanalyzer
+    </label>
+
     <br>
     Interesting Results:
     <label>
@@ -165,7 +170,7 @@
   // We also care about how many tools there are... 5 right now
   function filter_includes(challenge, filter, challenges) {
 
-      const TOOL_COUNT = 6;
+      const TOOL_COUNT = 7;
 
       if (filter == "all") {
 	  return true;
@@ -188,6 +193,9 @@
       if (filter == "rose") {
 	  return challenge.name.endsWith("--rose-results");
       }
+      if (filter == "ooanalyzer") {
+	  return challenge.name.endsWith("--ooanalyzer-results");
+      }
       
       if (filter == "all-tools-right") {
 	  // our result must be correct.
@@ -196,9 +204,10 @@
 	  }
 	  // all other results with same dataset must be correct
 	  others = other_tool_results(challenge.name,challenges)
-	  if (others.length != TOOL_COUNT-1 ) {
-	      return false;
-	  }
+	  // Taking away the requirement that we have data for ALL tools
+	  //if (others.length != TOOL_COUNT-1 ) {
+	  //    return false;
+	  //}
 	  result = true;
 	  others.forEach(c => {
 	      if (c.score != "YES") {
@@ -216,9 +225,10 @@
 	  }
 	  // all other results with same dataset must be wrong or invalid
 	  others = other_tool_results(challenge.name,challenges)
-	  if (others.length != TOOL_COUNT-1 ) {
-	      return false;
-	  }
+	  // Taking away the requirement that we have data for ALL tools
+	  //if (others.length != TOOL_COUNT-1 ) {
+	  //    return false;
+	  //}
 	  result = true;
 	  others.forEach(c => {
 	      if (c.score == "YES") {
@@ -236,9 +246,10 @@
 	  }
 	  // all other results must be wrong.
 	  others = other_tool_results(challenge.name,challenges)
-	  if (others.length != TOOL_COUNT-1 ) {
-	      return false;
-	  }
+	  // Taking away the requirement that we have data for ALL tools
+	  //if (others.length != TOOL_COUNT-1 ) {
+	  //    return false;
+	  //}
 	  result = true;
 	  others.forEach(c => {
 	      if (c.score == "YES") {
