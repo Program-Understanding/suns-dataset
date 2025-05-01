@@ -4,4 +4,8 @@
 cat /control-flow-recovery/output.xrefs
 #sed -nr 's/(IMAGE_BASE=.*)/\1/p' /control-flow-recovery/$1.xml
 #head -n 600 /control-flow-recovery/$1.xml | tail -n 400
-cat /control-flow-recovery/$1.xml
+while IFS= read -r line; do
+    if [[ "$line" =~ "IMAGE_BASE" ]]; then
+	echo "$line"
+    fi
+done < "/control-flow-recovery/$1.xml"
