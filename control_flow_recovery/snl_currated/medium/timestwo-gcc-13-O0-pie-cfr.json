@@ -1,0 +1,7 @@
+{
+    "program":"timestwo-gcc-13-O0-pie",
+    "source":"timestwo.c",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x124c' ?",
+    "groundtruth": ["0x114f"],
+    "evaluation":"set"
+}
