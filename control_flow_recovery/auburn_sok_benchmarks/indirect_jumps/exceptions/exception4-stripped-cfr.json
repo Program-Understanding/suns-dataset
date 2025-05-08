@@ -4,5 +4,5 @@
     "groundtruth": ["0x597a", "0x5a2d"],
     "evaluation":"set",
     "source": "exception4.cpp",
-    "stripped":true,
+    "stripped":true
 }

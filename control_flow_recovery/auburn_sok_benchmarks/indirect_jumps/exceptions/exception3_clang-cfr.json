@@ -4,5 +4,5 @@
     "groundtruth": ["0x52ba","0x5349"],
     "evaluation":"set",
     "source": "kevan-exception3.cpp",
-    "stripped":true,
+    "stripped":true
 }
