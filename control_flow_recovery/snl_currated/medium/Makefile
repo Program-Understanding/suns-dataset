@@ -1,4 +1,4 @@
-all:array-modified-func-gcc-13-O0-pie timestwo-gcc-13-O0-pie inc-dec-gcc-13-O0-stripped-pie
+all:array-modified-func-gcc-13-O0-pie timestwo-gcc-13-O0-pie inc-dec-gcc-13-O0-stripped-pie switch-dead-gcc-13-O0-nopie
 
 
 array-modified-func-gcc-13-O0-pie: array-modified-func.c 
@@ -9,6 +9,11 @@ timestwo-gcc-13-O0-pie: timestwo.c
 
 inc-dec-gcc-13-O0-stripped-pie: inc-dec.c
 	/usr/bin/gcc-13 -g -O0 -fcf-protection=none inc-dec.c -o inc-dec-gcc-13-O0-pie ; strip inc-dec-gcc-13-O0-pie
+
+switch-dead-gcc-13-O0-nopie: switch-dead.c
+	/usr/bin/gcc-13 -g -O0 -fno-pie -no-pie -fcf-protection=none switch-dead.c -o switch-dead-gcc-13-O0-nopie
+
+
 
 # Clean up build files
 clean:
