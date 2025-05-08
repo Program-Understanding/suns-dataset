@@ -1,0 +1,7 @@
+{
+    "program":"exception1-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call *%rcx' instruction at file offset '0x59ec' ?",
+    "groundtruth": ["0x5875","0x589b"],
+    "evaluation":"set",
+    "source": "exception1.cpp"
+}
