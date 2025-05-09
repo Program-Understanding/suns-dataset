@@ -1,0 +1,3 @@
+Switch statements written in Rust. The names are relative to an increase in terms of number of cases. rust-switch-1 has the fewest cases, rust-switch-2 has more cases, rust-switch-3 has more cases, etc. 
+
+The overall structure is the same, there is a main which uses a standard rust library to get argc, which is then used in a switch statement with a varying number of cases that all go to different print statements.
