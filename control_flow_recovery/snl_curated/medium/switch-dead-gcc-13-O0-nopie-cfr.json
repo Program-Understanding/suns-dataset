@@ -2,6 +2,6 @@
     "program":"switch-dead-gcc-13-O0-nopie",
     "source":"switch-dead.c",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1170' ?",
-    "groundtruth": ["0x1172", "0x117e", "0x118a", "0x1196", "0x11a2", "0x11ae", "0x11ba", "0x11c6"],
+    "groundtruth": ["0x1196", "0x11a2", "0x11ae", "0x11ba"],
     "evaluation":"set"
 }

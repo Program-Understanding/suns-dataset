@@ -46,17 +46,17 @@ def replace_spaces_between_tags(text):
 
 
 
-@app.route("/snl_currated_results")
-def snl_currated_results():
-    logger.info("snl_currated results requested")
-    currated_challenges = []
+@app.route("/snl_curated_results")
+def snl_curated_results():
+    logger.info("snl_curated results requested")
+    curated_challenges = []
     for c in challenges:
-        if c["name"].startswith("../results/snl_currated"):
-            currated_challenges.append(c)
+        if c["name"].startswith("../results/snl_curated"):
+            curated_challenges.append(c)
     context = {
         "title": "Results",
         "request": request.path,
-        "challenges": currated_challenges,
+        "challenges": curated_challenges,
         "test_name": test_name
     }
     return render_template("results.html", **context)
