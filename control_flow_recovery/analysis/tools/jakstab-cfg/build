@@ -1,2 +1,2 @@
 #! /bin/bash
-docker buildx build . -t jakstab-cfg-tool
+docker buildx build --build-context tools=../../tools . -t jakstab-cfg-tool

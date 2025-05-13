@@ -1,21 +1,15 @@
-import argparse
+import os
 import json
 import re
 import subprocess
 import fnmatch
 import struct
 import pydot
+import click
+import cfr_helper
 
-
-def main():
-    parser = argparse.ArgumentParser(description='Jakstab runner')
-    parser.add_argument("cfrpath", help="filepath to a *-cfr.sjon file")
-    args = parser.parse_args()
+def study_targets(question, program, groundtruth, instruction_string, offset):
     
-    program, groundtruth, instr, offset = _parse_cfr(args.cfrpath)
-    
-    # run addr_to_offset.py with arguments program and offset to get virt addr
-    # check if string input is given in hex
     num = 0
     if "0x" in offset:
         num = int(offset, 16)
@@ -27,9 +21,7 @@ def main():
     except ValueError as verr:
         if str(verr) == "Missing DOS signature":
             print("File is not a DOS file, Jakstab cannot process it")
-            print(f"RESULTS: The groundtruth is: {groundtruth}")
-            print("RESULTS: The tool's answer is: {}")
-            print("RESULTS: Tool's answer matches groundtruth? NO")
+            cfr_helper.set_evaluation(question, groundtruth, [])
             return
 
 
@@ -43,7 +35,6 @@ def main():
     # run /jakstab/jakstab -m program --cpa ocbfikrsvx
     subprocess.run(["/jakstab/jakstab", "-m", program, "--cpa", "ocbfikrsvx"])
 
-    # run parse_jakstab.py with arguments program and virtaddr
     dotfiles = _process_program_name(program)
     destinations = _parse_graph(dotfiles, str(hex(vaddr))[2:])
 
@@ -57,14 +48,10 @@ def main():
             continue
         answers.add(str(hex(dest)))
 
-    # do instruction sanity check
-    print(f"instruction was {instr}.. assert is not implemented yet")
+    answers_list = list(answers)
+    answers_list.sort()
 
-    # compare values in groundtruth to the results from parse_jakstab
-    print(f"RESULTS: The groundtruth is: {groundtruth}")
-    print(f"RESULTS: The tool's answer is: {answers}")
-    matchesString = "YES" if set(groundtruth) == answers else "NO"
-    print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
+    cfr_helper.set_evaluation(question, groundtruth, answers_list)
 
 
 ###################################################################
@@ -72,37 +59,6 @@ def main():
 # Internal functions
 #
 ###################################################################
-
-def _parse_cfr(cfrpath):
-    if not '-cfr.json' in cfrpath:
-        raise FileNotFoundError("the provided filepath does not contain -cfr.json")
-
-    with open(cfrpath, 'r') as f:
-        cfr = json.load(f)
-
-    if (not 'program' in cfr or
-        not 'groundtruth' in cfr or
-        not 'evaluation' in cfr or
-        not 'question' in cfr):
-        raise NotImplementedError("the cfr file does not have needed elements")
-
-    program = cfr['program']
-    groundtruth = cfr['groundtruth']
-    evaluation = cfr['evaluation']
-    question = cfr['question']
-
-    # validate question is a set
-    assert evaluation == "set"
-
-    # parse question (ideally we can recognize that this is a cfr question
-    # to avoid string regex, but for now, this is what we have
-    q_type, q_arr = _process_question(question)
-    if q_type == "targets" or q_type == "targets of targets":
-        instruction_string = q_arr[0]
-        offset = q_arr[1]
-
-
-    return program, groundtruth, instruction_string, offset
 
 def _file_to_virtual_address(file_offset, base_addr, section_offset, raw_offset):
     virtual_addr = base_addr + section_offset - raw_offset + file_offset
@@ -163,34 +119,6 @@ def _parse_header(filepath):
 
         return base_addr, virtual_address, raw_offset
     
-def _process_question(question):
-    question_prefixes = {
-        "What are the file offsets for the instructions that are the targets of the": "targets",
-        "What are the file offsets for the instructions that are the targets of the targets of the": "targets of targets"
-    }
-
-    # Identify the matching prefix
-    question_type = None
-    for prefix, q_type in question_prefixes.items():
-        if question.startswith(prefix):
-            question_type = q_type
-            question_end = question[len(prefix):]
-            break
-    else:
-        raise NotImplementedError("Question format not recognized")
-
-    # Extract quoted values
-    quoted_strings = re.findall(r"'(.*?)'", question_end)
-
-    # Validate remaining structure after removing quotes
-    cleaned_question = re.sub(r"'(.*?)'", '', question_end).strip()
-    expected_suffix = "instruction at file offset  ?"
-    
-    if cleaned_question != expected_suffix:
-        raise NotImplementedError("The question is not fully understood, perhaps spacing is off?")
-
-    return question_type, quoted_strings
-
 def _process_program_name(program):
     # remove extension if exists
     if ".exe" in program:
@@ -218,5 +146,20 @@ def _parse_graph(dotfiles, vaddr):
     
     return destinations
 
+@click.command()
+@click.argument('cfrjson_path')
+def study(cfrjson_path: str):
+    cfr = cfr_helper.parse_cfr(cfrjson_path, os.path.join(os.getcwd(),'questions.json'))
+    if re.match(r"What are the file offsets for the instructions that are the targets"
+                " of the '(.*?)' instruction at file offset '(.*?)' ?", cfr['question']):
+        if cfr["evaluation"] != "set":
+            raise NotImplementedError("the question you asked requires evaluation of 'set'")
+        study_targets(cfr["question"],
+                      cfr["program"],
+                      cfr["groundtruth"],
+                      cfr["$INSTRUCTION"],
+                      cfr["$OFFSET"]
+                      )
+
 if __name__ == "__main__":
-    main()
+    study()
