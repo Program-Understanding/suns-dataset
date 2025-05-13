@@ -4,50 +4,9 @@ import click
 import json
 import angr
 
-@click.command()
-@click.argument('binary_path')
-@click.argument('cfrjson_path')
+import cfr_helper
 
-def study(binary_path: str, cfrjson_path: str):
-
-    with open(cfrjson_path, 'r') as cfrjson_file:
-        cfr = json.load(cfrjson_file)
-
-    if (not 'program' in cfr or
-        not 'groundtruth' in cfr or
-        not 'evaluation' in cfr or
-        not 'question' in cfr):
-        raise NotImplementedError("the cfr file does not have needed elements")
-
-    program = cfr['program']
-    #could assert it matches the binary_path
-
-    evaluation = cfr['evaluation']
-    groundtruth = cfr['groundtruth']
-    question = cfr['question']
-
-    understood1 = "What are the file offsets for the instructions that are the targets of the"
-    understood2 = "What are the file offsets for the instructions that are the targets of the targets of the"
-    
-    if question.startswith(understood1):
-        question_type = "targets"
-        question_end = question[len(understood1):]
-    elif question.startswith(understood2):
-        question_type = "targets of targets"
-        question_end = question[len(understood2):]
-
-    # Use a regular expression to find all quoted strings
-    quoted_strings = re.findall(r"'(.*?)'", question_end)
-
-    # Remove the quoted strings from the original string
-    remaining_string = re.sub(r"'(.*?)'", '', question_end).strip()
-
-    if remaining_string != "instruction at file offset  ?":
-        raise NotImplementedError("the question is not fully understood, perhaps spacing is off?")
-    
-    instruction_string = quoted_strings[0]
-
-    offset_string = quoted_strings[1]
+def study_targets(question, binary_path, groundtruth, instruction_string, offset_string):
 
     if "0x" in offset_string:
         offset = int(offset_string,16)
@@ -55,18 +14,11 @@ def study(binary_path: str, cfrjson_path: str):
         offset = int(offset_string)
 
     project = angr.Project(binary_path,auto_load_libs=False)
-
-    #cfg2 = project.analyses.CFGEmulated(keep_state=True,
-    #                               context_sensitivity_level=5,
-    #                               resolve_indirect_jumps=True)
-
     cfg = project.analyses.CFGFast(normalize=True)
     address = project.loader.main_object.offset_to_addr(offset)
     capstone_mnemonic = project.factory.block(address).capstone.insns[0].mnemonic 
     capstone_op = project.factory.block(address).capstone.insns[0].op_str
-
     capstone_inst_string = capstone_mnemonic + " " + capstone_op
-
 
     #igonore "no track"
     capstone_inst_string = capstone_inst_string.replace("notrack","").strip()
@@ -82,11 +34,6 @@ def study(binary_path: str, cfrjson_path: str):
             if address == i:
                 nodes_for_address.add(n)
 
-    #for n in cfg2.nodes():
-    #    for i in n.instruction_addrs:
-    #        if address == i:
-    #            nodes_for_address.add(n)
-                
     if len(nodes_for_address) == 0:
         print("I was not able to find a CFG node containing the address " + str(address))
         print("Are you sure you have the right instruction offset?  I show it as:")
@@ -101,24 +48,12 @@ def study(binary_path: str, cfrjson_path: str):
             for ss in n.successors:
                 successors.add(ss)
 
-    if question_type == "targets of targets":
-        nsuccessors = set()
-        for s in successors:
-            if len(s.successors) > 0:
-                for ss in s.successors:
-                    successors.add(ss)
-
-        successors = nsuccessors
-
-
     address_answers = set()
     for s in successors:
         print("adding address due to cfg successor " + hex(s.addr))
         address_answers.add(s.addr)
 
-    #needs fix for target of targets
     try:
-
         #assume indirection is via a register
         register_offset = project.arch.registers[capstone_op][0]
         register_size = project.arch.registers[capstone_op][1]
@@ -158,7 +93,7 @@ def study(binary_path: str, cfrjson_path: str):
             print("for address " + hex(a) + " offset is " + hex(this_offset))
             offset_answers.add(this_offset)
 
-
+    
     answerStringSet = set()
     answerStringList = []
 
@@ -169,26 +104,28 @@ def study(binary_path: str, cfrjson_path: str):
         answerStringSet.add(hex(offset))
         answerStringList.append(hex(offset))
 
-    print("RESULTS: The groundtruth is: {" + ", ".join(groundtruth) + "}")
-    print("RESULTS: The tool's answer is: {" + ", ".join(answerStringList) + "}");
-	    
-    matchesAnswer = set(groundtruth) == answerStringSet
+    cfr_helper.set_evaluation(question, groundtruth, answerStringList)
 
-    matchesString = "YES" if matchesAnswer else "NO"
-    print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
-    if not matchesAnswer:
+@click.command()
+@click.argument('binary_path')
+@click.argument('cfrjson_path')
+def study(binary_path: str, cfrjson_path: str):
 
-        incorrect = answerStringSet - set(groundtruth)
-        missing = set(groundtruth) - answerStringSet
+    print(f"study requested for binary:{binary_path} with cfr:{cfrjson_path}")
+    cfr = cfr_helper.parse_cfr(cfrjson_path, os.path.join(os.getcwd(),'questions.json'))
 
-        incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
-        missingString = str(missing) if len(missing) > 0 else "{}"
-        
-        print(f"Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"Tool's answer does not include correct elements: {missingString}")
+    if re.match(r"What are the file offsets for the instructions that are the targets"
+                " of the '(.*?)' instruction at file offset '(.*?)' ?", cfr['question']):
 
+        if cfr["evaluation"] != "set":
+            raise NotImplementedError("the question you asked requires evaluation of 'set'")
 
-    
+        study_targets(cfr["question"],
+                      binary_path,
+                      cfr["groundtruth"],
+                      cfr["$INSTRUCTION"],
+                      cfr["$OFFSET"]
+                      )
 
 if __name__ == "__main__":
     study()

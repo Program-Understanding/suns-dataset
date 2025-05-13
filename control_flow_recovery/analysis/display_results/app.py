@@ -61,6 +61,24 @@ def snl_curated_results():
     }
     return render_template("results.html", **context)
 
+
+@app.route("/jakstab_curated_results")
+def jakstab_curated_results():
+    logger.info("jakstab_curated results requested")
+    curated_challenges = []
+    for c in challenges:
+        if c["name"].startswith("../results/jakstab_curated"):
+            curated_challenges.append(c)
+    context = {
+        "title": "Results",
+        "request": request.path,
+        "challenges": curated_challenges,
+        "test_name": test_name
+    }
+    return render_template("results.html", **context)
+
+
+
 @app.route("/export",methods=['POST'])
 def export():
     export_filter_value = request.form.get('exportFilterValue')

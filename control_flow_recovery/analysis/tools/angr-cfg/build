@@ -1,2 +1,2 @@
 #! /bin/bash
-docker buildx build . -t angr-cfg-tool
+docker buildx build --build-context tools=../../tools . -t angr-cfg-tool

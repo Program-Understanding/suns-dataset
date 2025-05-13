@@ -14,4 +14,4 @@ if [-z "HTTPS_PROXY" ]; then
     exit 1
 fi
 
-docker buildx build . --build-arg BASE_IMAGE=$DOCKER_REPO/python:3.9-slim --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t angr-cfg-tool
+docker buildx build --build-context tools=../../tools . --build-arg BASE_IMAGE=$DOCKER_REPO/python:3.9-slim --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t angr-cfg-tool
