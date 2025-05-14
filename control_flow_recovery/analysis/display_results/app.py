@@ -239,19 +239,26 @@ test_name = "Control Flow Recovery Challenge"
 challenges = []
 
 result_files = collect_result_files()
+
+matches = "RESULTS: Tool's answer matches groundtruth?"
+timeout = "RESULTS: Timeout"
+summary_string = "RESULTS: SUMMARY: "
+
 for rf in result_files:
 
     mr="?? invalid"
+    summary="?? no summary"
     with open(rf,'r') as rff:
         lines = []
         for line in rff:
             lines.append(line[len("RESULTS: "):])
-            matches = "RESULTS: Tool's answer matches groundtruth?"
-            timeout = "RESULTS: Timeout"
             if line.startswith(matches):
                 mr = line[len(matches):].strip()
             if line.startswith(timeout):
                 mr = "timeout"
+            if line.startswith(summary_string):
+                summary = line[len(summary_string):].strip()
+                
     #strip out the ".." it will get added later
 
     try:
@@ -259,11 +266,12 @@ for rf in result_files:
         logexists = os.path.exists("../"+log)
         disdecomp = rf[3: (rf.index('--'))]
         challenges.append({"name": rf,
-                       "score": mr,
-                       "details": lines,
-                       "logexists":logexists,
-                       "log":log,
-                       "disdecomp":disdecomp})
+                           "score": mr,
+                           "summary": summary,
+                           "details": lines,
+                           "logexists":logexists,
+                           "log":log,
+                           "disdecomp":disdecomp})
     except:
         pass
 
