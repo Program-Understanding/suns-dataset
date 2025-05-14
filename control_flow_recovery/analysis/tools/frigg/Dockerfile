@@ -17,7 +17,7 @@ RUN mkdir -p /control-flow-recovery
 
 WORKDIR /control-flow-recovery
 
-COPY study.py .
+#COPY study.py .
 
 COPY runFrigg .
 RUN chmod +x runFrigg

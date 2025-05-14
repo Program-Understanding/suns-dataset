@@ -78,7 +78,9 @@ def set_evaluation(question, groundtruth:List[str], answers:List[str]):
     matchesString = "YES" if matchesAnswer else "NO"
     print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
 
-    if not matchesAnswer:
+    if len(answers) == 0:
+        print("RESULTS: SUMMARY: EMPTY")
+    elif not matchesAnswer:
 
         incorrect = set_answers - set_groundtruth
         missing = set_groundtruth - set_answers

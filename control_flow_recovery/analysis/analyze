@@ -370,12 +370,12 @@ find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
     #extract the name of the tool from the tooldir
     tool="${tooldir##*/}"
 
-    version=$(jq -r '.version' "$tooldir/questions.json" )
-    
     if [ -f $tooldir/.ignoreme ]; then
         echo "Ignoring this directory (there is a .ignoreme file in $tooldir)"
         continue
     fi
+    
+    version=$(jq -r '.version' "$tooldir/questions.json" )
 
     if [[ $only_tool != "*all*" && $tool != "$only_tool" ]]; then
         continue

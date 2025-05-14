@@ -5,7 +5,7 @@ import json
 
 import struct
 #import logging
-import argparse
+import cfr_helper
 
 def vaddr_to_file_offset(filepath, log_path, vaddr):
     # Pulling image base that Frigg uses from Ghidra xml file
@@ -111,50 +111,7 @@ def parse_pe_header(f, vaddr):
 
     return (vaddr - section_offset) + raw_offset
 
-@click.command()
-@click.argument('log_path')
-@click.argument('binary_path')
-@click.argument('cfrjson_path')
-def study(log_path: str, binary_path: str, cfrjson_path: str):
-
-    with open(cfrjson_path, 'r') as cfrjson_file:
-        cfr = json.load(cfrjson_file)
-
-    if (not 'program' in cfr or
-        not 'groundtruth' in cfr or
-        not 'evaluation' in cfr or
-        not 'question' in cfr):
-        raise NotImplementedError("the cfr file does not have needed elements")
-
-    program = cfr['program']
-    #could assert it matches the binary_path
-
-    evaluation = cfr['evaluation']
-    groundtruth = cfr['groundtruth']
-    question = cfr['question']
-
-    understood1 = "What are the file offsets for the instructions that are the targets of the"
-    understood2 = "What are the file offsets for the instructions that are the targets of the targets of the"
-    
-    if question.startswith(understood1):
-        question_type = "targets"
-        question_end = question[len(understood1):]
-    elif question.startswith(understood2):
-        question_type = "targets of targets"
-        question_end = question[len(understood2):]
-
-    # Use a regular expression to find all quoted strings
-    quoted_strings = re.findall(r"'(.*?)'", question_end)
-
-    # Remove the quoted strings from the original string
-    remaining_string = re.sub(r"'(.*?)'", '', question_end).strip()
-
-    if remaining_string != "instruction at file offset  ?":
-        raise NotImplementedError("the question is not fully understood, perhaps spacing is off?")
-    
-    instruction_string = quoted_strings[0]
-
-    offset_string = quoted_strings[1]
+def study_targets(question, binary_path, log_path, groundtruth, instruction_string, offset_string):
 
     if "0x" in offset_string:
         offset = int(offset_string,16)
@@ -179,32 +136,46 @@ def study(log_path: str, binary_path: str, cfrjson_path: str):
                 if offset_addr in answer_sets.keys():
                     offset_successor = vaddr_to_file_offset(binary_path, log_path, int(successor_addr,16))
                     answer_sets[offset_addr].add(offset_successor)
-    # 5. output the results
-    print("RESULTS: The groundtruth is: " + str(set(groundtruth)))
 
     answerStringSet = set()
     for result in answer_sets.values():
         for addr in result:
             answerStringSet.add(hex(addr))
+    answerStringList = list(answerStringSet)
+    answerStringList.sort()
 
-    print("RESULTS: The tool's answer is: " + str(answerStringSet))
-    
-    
-    matchesAnswer = set(groundtruth) == answerStringSet
+    # 5. output the results
+    cfr_helper.set_evaluation(question, groundtruth, answerStringList)
 
-    matchesString = "YES" if matchesAnswer else "NO"
-    print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
-    if not matchesAnswer:
+@click.command()
+@click.argument('log_path')
+@click.argument('binary_path')
+@click.argument('cfrjson_path')
+def study(log_path: str, binary_path: str, cfrjson_path: str):
 
-        incorrect = answerStringSet - set(groundtruth)
-        missing = set(groundtruth) - answerStringSet
+    print(f"study requested for binary:{binary_path} with cfr:{cfrjson_path}")
 
-        incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
-        missingString = str(missing) if len(missing) > 0 else "{}"
-        
-        print(f"RESULTS: Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"RESULTS: Tool's answer does not include correct elements: {missingString}")
+    if os.path.basename(os.path.normpath(os.getcwd())) != "analysis":
+        raise RuntimeError("you must run the analysis from the `analysis` folder")
 
+    if not os.path.exists(os.path.join(os.getcwd(),"tools","frigg")):
+        raise RuntimeError("expected frigg tool to be in ./tools/frigg")
+
+    cfr = cfr_helper.parse_cfr(cfrjson_path, os.path.join(os.getcwd(),"tools","frigg",'questions.json'))
+
+    if re.match(r"What are the file offsets for the instructions that are the targets"
+                " of the '(.*?)' instruction at file offset '(.*?)' ?", cfr['question']):
+
+        if cfr["evaluation"] != "set":
+            raise NotImplementedError("the question you asked requires evaluation of 'set'")
+
+        study_targets(cfr["question"],
+                      binary_path,
+                      log_path,
+                      cfr["groundtruth"],
+                      cfr["$INSTRUCTION"],
+                      cfr["$OFFSET"]
+                      )
 
 if __name__ == "__main__":
     #study("basic_func_array-stripped", "basic_func_array-cfr.json")

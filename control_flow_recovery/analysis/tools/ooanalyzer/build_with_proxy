@@ -14,4 +14,4 @@ if [-z "HTTPS_PROXY" ]; then
     exit 1
 fi
 
-docker buildx build . --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t ooanalyzer-tool
+docker buildx build --build-context tools=../../tools . --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t ooanalyzer-tool

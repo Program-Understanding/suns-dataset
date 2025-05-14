@@ -22,4 +22,5 @@ tool in question... and won't run the generic script...otherwise, it checks to s
 tool if the tool is willing to answer the question, and then if so, uses a generic script
 for that question.
 
-Wait to see the details...it will make more sense when this is all concrete
+If you have any local tools that don't run inside a docker container, you may need to
+manually install the package in tools/cfr_helper if you are using it.
