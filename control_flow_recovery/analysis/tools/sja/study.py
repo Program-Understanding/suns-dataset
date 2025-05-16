@@ -3,95 +3,11 @@ import click
 import json
 import re
 import subprocess
-
 import cfr_helper
-
-def is_elf_file(file_path):
-    try:
-        # Run the 'file' command on the specified file
-        result = subprocess.run(['file', file_path], capture_output=True, text=True, check=True)
-        
-        # Check the output for the presence of 'ELF'
-        if 'ELF' in result.stdout:
-            return True
-        else:
-            return False
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred while checking the file: {e}")
-        return False
-
-def get_program_headers(file_path):
-    """Call readelf to get program headers and parse the output."""
-    try:
-        # Call readelf command
-        result = subprocess.run(['readelf', '-lW', file_path], capture_output=True, text=True, check=True)
-        output = result.stdout
-        
-        # Parse the output
-        headers = []
-        lines = output.splitlines()
-        for line in lines:
-            # Match the header lines
-            match = re.match(r'^\s*(\w+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+0x([0-9a-f]+)\s+([REW]*)(\s+0x([0-9a-f]+))?', line)
-            if match:
-                header = {
-                    'type': match.group(1),
-                    'offset': int(match.group(2), 16),
-                    'virtAddr': int(match.group(3), 16),
-                    'physAddr': int(match.group(4), 16),
-                    'fileSiz': int(match.group(5), 16),
-                    'memSiz': int(match.group(6), 16),
-                    'flags': match.group(7),
-                    'align': int(match.group(9), 16) if match.group(9) else None
-                }
-                headers.append(header)
-        return headers
-    except subprocess.CalledProcessError as e:
-        print(f"Error calling readelf: {e}")
-        return []
-    
-def file_offset_to_virtual_address(headers, file_offset):
-    """Convert file offset to virtual address."""
-    
-    for header in headers:
-        if header['offset'] <= file_offset < header['offset'] + header['fileSiz']:
-            # Calculate the virtual address
-            virtual_address = header['virtAddr'] + (file_offset - header['offset'])
-            return virtual_address
-    
-    print("File offset not found in any segment.")
-    return None
-
-
-def virtual_address_to_file_offset(headers, virtual_address):
-    """Convert virtual address to file offset."""
-    for header in headers:
-        if header['virtAddr'] <= virtual_address < header['virtAddr'] + header['memSiz']:
-            # Calculate the file offset
-            file_offset = header['offset'] + (virtual_address - header['virtAddr'])
-            return file_offset
-    
-    print("Virtual address not found in any segment.")
-    return None
 
 def study_targets(question, program, groundtruth, instruction_string, offset):
     
-    # run addr_to_offset.py with arguments program and offset to get virt addr
-    # check if string input is given in hex
-    num = 0
-    if "0x" in offset:
-        num = int(offset, 16)
-    else:
-        num = int(offset)
-
-    if is_elf_file(program):
-        headers = get_program_headers(program)
-        virtual_address = file_offset_to_virtual_address(headers, num)
-        if virtual_address is None:
-            print("Unable to retrieve the virtual address for the file offset")
-            exit(1)
-    else: #can we handle anything else?  Not sure SJA is dependent on ELF
-        virtual_address = num
+    virtual_address = cfr_helper.file_offset_to_address(program, offset)
         
     #we don't tell SJA which jump we care about, it analyzes all of them
     print(f"Running sja on program:{program}")
@@ -105,7 +21,7 @@ def study_targets(question, program, groundtruth, instruction_string, offset):
         address_answers = []
 
     print("The virtual address answers are " + str(address_answers))
-    answers = [ virtual_address_to_file_offset(headers,int(x,16)) for x in address_answers]
+    answers = [ cfr_helper.address_to_file_offset(program,int(x,16)) for x in address_answers]
 
     #now strip any None
     answers = [ x for x in answers if x is not None]
@@ -140,14 +56,6 @@ def parse_jump_file(file_path):
     
     print(parsed_data)
     return parsed_data
-
-def _file_to_virtual_address(file_offset, base_addr, section_offset, raw_offset):
-    virtual_addr = base_addr + section_offset - raw_offset + file_offset
-    return virtual_addr
-
-def _virtual_to_file_offset(virtual_addr, base_addr, section_offset, raw_offset):
-    file_offset = virtual_addr - base_addr - section_offset + raw_offset
-    return file_offset
 
 @click.command()
 @click.argument('cfrjson_path')

@@ -1,2 +1,2 @@
 #! /bin/bash
-docker buildx build . -t rose-tool
+docker buildx build --build-context tools=../../tools . -t rose-tool

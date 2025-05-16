@@ -14,4 +14,4 @@ if [-z "HTTPS_PROXY" ]; then
     exit 1
 fi
 
-docker buildx build . --build-arg BASE_IMAGE=$DOCKER_REPO/ubuntu:20.04 --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t rose-tool
+docker buildx build --build-context tools=../../tools . --build-arg BASE_IMAGE=$DOCKER_REPO/ubuntu:20.04 --build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY -t rose-tool

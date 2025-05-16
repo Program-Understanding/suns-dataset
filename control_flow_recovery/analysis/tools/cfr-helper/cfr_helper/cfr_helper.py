@@ -1,6 +1,174 @@
 import json
 import re
-from typing import List, Set
+from typing import List, Set, Union
+import struct
+
+from elftools.elf.elffile import ELFFile
+import pefile
+from macholib.MachO import MachO
+
+# It is better to use the API from the tools you are using
+# to convert between offsets and addresses, but a generic
+# approach is possible and usually will not conflict with
+# the choices that tools make
+
+def get_executable_type(file_path:str)->str:
+    with open(file_path, 'rb') as f:
+        # Read the first few bytes to identify the file type
+        header = f.read(64)  # Read enough bytes to cover all formats
+
+        # Check for ELF header
+        if header.startswith(b'\x7fELF'):
+            return 'ELF'
+
+        # Check for PE header
+        # PE files start with the DOS stub, followed by 'PE\0\0' at offset 0x3C
+        if header[0:2] == b'MZ':
+            f.seek(0x3C)  # Seek to the offset of the PE header
+            pe_offset = struct.unpack('<I', f.read(4))[0]  # Read the PE header offset
+            f.seek(pe_offset)
+            if f.read(4) == b'PE\x00\x00':
+                return 'PE'
+
+        # Check for Mach-O header
+        # Mach-O files have specific magic numbers
+        magic_numbers = {
+            b'\xFE\xED\xFA\xCE': 'Mach-O 64-bit',
+            b'\xFE\xED\xFA\xCF': 'Mach-O 64-bit (little-endian)',
+            b'\xFE\xED\xFA\xBE': 'Mach-O 32-bit',
+            b'\xFE\xED\xFA\xBF': 'Mach-O 32-bit (little-endian)',
+        }
+        for magic, format_name in magic_numbers.items():
+            if header.startswith(magic):
+                return 'MACHO' #could return format_name
+
+    return None
+
+
+def file_offset_to_address(file_path:str, file_offset:Union[str,int]):
+
+    if isinstance(file_offset,str):
+        if "0x" in file_offset:
+            file_offset = int(file_offset,16)
+        else:
+            file_offset = int(file_offset)
+
+    def to_address_PE(pe_file_path,file_offset):
+
+        with open(elf_file_path, 'rb') as f:        
+            pe = pefile.PE(f)
+            for section in pe.sections:
+                section_offset = section.PointerToRawData
+                section_size = section.SizeOfRawData
+                if section_offset <= file_offset < section_offset + section_size:
+                    offset_within_section = file_offset - section_offset
+                    virtual_address = section.VirtualAddress
+                    final_address = virtual_address + offset_within_section
+                    return final_address
+        return None  # Return None if the offset is not found in any section
+        
+    def to_address_ELF(elf_file_path, file_offset):
+
+        with open(elf_file_path, 'rb') as f:
+            elf = ELFFile(f)
+            for section in elf.iter_sections():
+                section_offset = section['sh_offset']
+                section_size = section['sh_size']
+                if section_offset <= file_offset < section_offset + section_size:
+                    offset_within_section = file_offset - section_offset
+                    virtual_address = section['sh_addr']
+                    final_address = virtual_address + offset_within_section
+                    return final_address
+        return None
+
+    def to_address_MACHO(macho_file_path, file_offset):
+
+        with open(macho_file_path, 'rb') as f:        
+            macho = MachO(f)
+            for header in macho.headers:
+                for segment in header.commands:
+                    if segment.cmd == 'LC_SEGMENT' or segment.cmd == 'LC_SEGMENT_64':
+                        for section in segment.sections:
+                            section_offset = section.offset
+                            section_size = section.size
+                            if section_offset <= file_offset < section_offset + section_size:
+                                offset_within_section = file_offset - section_offset
+                                virtual_address = section.addr
+                                final_address = virtual_address + offset_within_section
+                                return final_address
+
+        return None
+
+            
+    executable_type = get_executable_type(file_path)
+    if executable_type is None:
+        return None
+    elif executable_type is 'PE':
+        return to_address_PE(file_path, file_offset)
+    elif executable_type is 'ELF':
+        return to_address_ELF(file_path, file_offset)
+    elif executable_type is 'MACHO':
+        return to_address_MACHO(file_path, file_offset)
+
+
+
+def address_to_file_offset(file_path, address):
+
+    def to_offset_PE(pe_file_path, virtual_address):
+        with open(elf_file_path, 'rb') as f:        
+            pe = pefile.PE(f)
+            for section in pe.sections:
+                section_virtual_address = section.VirtualAddress
+                section_size = section.Misc_VirtualSize
+                if section_virtual_address <= virtual_address < section_virtual_address + section_size:
+                    offset_within_section = virtual_address - section_virtual_address
+                    section_file_offset = section.PointerToRawData
+                    final_file_offset = section_file_offset + offset_within_section
+                    return final_file_offset
+        return None
+
+    def to_offset_ELF(elf_file_path, virtual_address):
+        with open(elf_file_path, 'rb') as f:
+            elf = ELFFile(f)
+            for section in elf.iter_sections():
+                section_virtual_address = section['sh_addr']
+                section_size = section['sh_size']
+                if section_virtual_address <= virtual_address < section_virtual_address + section_size:
+                    offset_within_section = virtual_address - section_virtual_address
+                    section_file_offset = section['sh_offset']
+                    final_file_offset = section_file_offset + offset_within_section
+                    return final_file_offset
+        return None
+
+            
+    def to_offset_MACHO(macho_file_path, virtual_address):        
+        with open(macho_file_path, 'rb') as f:        
+            macho = MachO(f)
+            for header in macho.headers:
+                for segment in header.commands:
+                    if segment.cmd == 'LC_SEGMENT' or segment.cmd == 'LC_SEGMENT_64':
+                        for section in segment.sections:
+                            section_virtual_address = section.addr
+                            section_size = section.size
+                            if section_virtual_address <= virtual_address < section_virtual_address + section_size:
+                                offset_within_section = virtual_address - section_virtual_address
+                                section_file_offset = section.offset
+                                final_file_offset = section_file_offset + offset_within_section
+                                return final_file_offset
+
+        return None
+
+    
+    executable_type = get_executable_type(file_path)
+    if executable_type is None:
+        return None
+    elif executable_type is 'PE':
+        return to_offset_PE(file_path, address)
+    elif executable_type is 'ELF':
+        return to_offset_ELF(file_path, address)
+    elif executable_type is 'MACHO':
+        return to_offset_MACHO(file_path, address)
+
 
 def matches_question(input_string, questions):
     # Iterate through each question in the questions list

@@ -25,6 +25,8 @@ def main():
                              "--mode", "global",
                              "--show-insns",
                              "--use-semantics",
+                             "--icf:enable",
+                             "--no-naive-jump-tables",
                              program],
                             stdout=subprocess.PIPE,text=True)
 
@@ -35,6 +37,11 @@ def main():
     rose_instr = ""
     line_count = len(lines)
     answer_set = set()
+
+    print("ALL OF ROSE OUTPUT:")
+    for i in range(line_count):
+        print(lines[i])
+
     for i in range(line_count):
         line = lines[i]
         if line.startswith("      0x") and ":" in line[8:]:
