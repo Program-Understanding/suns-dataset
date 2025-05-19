@@ -19,7 +19,7 @@ def vaddr_to_file_offset(filepath, log_path, vaddr):
         f.seek(0)
         if f.read(4) == b'\x7fELF':
             return parse_elf_header(f, vaddr - image_base)
-        raise ValueError("Unknown executable file format")
+        raise RuntimeError("Unknown executable file format")
 
 def parse_elf_header(f, vaddr):
     # Using https://en.wikipedia.org/wiki/Executable_and_Linkable_Format    
@@ -52,7 +52,7 @@ def parse_elf_header(f, vaddr):
                 offset_in_entry = vaddr - entry_vaddr
                 return offset_in_entry + entry_file_offset
 
-        raise ValueError("Conversion to file offset failed; unable to find matching header entry")
+        raise ValueError("Conversion of " + hex(vaddr) + " to file offset failed; unable to find matching header entry")
     else:
         # This is a 64-bit ELF
         # Get the program header info
@@ -79,7 +79,7 @@ def parse_elf_header(f, vaddr):
                 offset_in_entry = vaddr - entry_vaddr
                 return offset_in_entry + entry_file_offset
 
-        raise ValueError("Conversion to file offset failed; unable to find matching header entry")
+        raise ValueError("Conversion of " + hex(vaddr) + " to file offset failed; unable to find matching header entry")
     
 def parse_pe_header(f, vaddr):
     # move to pe header offset
@@ -130,11 +130,19 @@ def study_targets(question, binary_path, log_path, groundtruth, instruction_stri
         for line in f.readlines():
             if line.startswith("addr"):
                 label, addr, successor_addr = line.split(" ")
-                offset_addr = vaddr_to_file_offset(binary_path, log_path, int(addr,16))
+                try:
+                    offset_addr = vaddr_to_file_offset(binary_path, log_path, int(addr,16))
+                except ValueError as e:
+                    print(f"Error: {e}")
+                    continue
                 # 4. find the one from the question(s)
                 # TODO: do this differently for target of target question
                 if offset_addr in answer_sets.keys():
-                    offset_successor = vaddr_to_file_offset(binary_path, log_path, int(successor_addr,16))
+                    try:
+                        offset_successor = vaddr_to_file_offset(binary_path, log_path, int(successor_addr,16))
+                    except ValueError as e:
+                        print(f"Error: {e}")
+                        continue
                     answer_sets[offset_addr].add(offset_successor)
 
     answerStringSet = set()
@@ -180,4 +188,8 @@ def study(log_path: str, binary_path: str, cfrjson_path: str):
 if __name__ == "__main__":
     #study("basic_func_array-stripped", "basic_func_array-cfr.json")
     #study("jumptable.exe", "jumptable-cfr.json")
-    study()
+    try:
+        study()
+    except RuntimeError as e:
+        print(f"Error: {e}")
+        
