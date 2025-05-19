@@ -1,0 +1,5 @@
+click
+pyelftools
+macholib
+pefile
+

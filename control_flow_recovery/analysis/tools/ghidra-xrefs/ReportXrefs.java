@@ -291,15 +291,27 @@ public class ReportXrefs extends GhidraScript {
 			       " out of " + truthStringSet.size() + " correct answers");
 	    System.out.println("RESULTS: Incorrectly provided " + incorrectElements.size() + " values which are not in the answer.");
 
-	    if (!matchesAnswer) {
+	    if (answerStringSet.size() == 0) {
+		System.out.println("RESULTS: SUMMARY: EMPTY");
+	    }
+	    else if (!matchesAnswer) {
 		System.out.println("RESULTS: Tool's answer includes incorrect elements: " + setToString(incorrectElements));
 		System.out.println("RESULTS: Tool's answer does not include correct elements: " + setToString(missingElements));
+
+		if (missingElements.size() == 0 && incorrectElements.size() > 0) {
+		    System.out.println("RESULTS: SUMMARY: OVER+" + incorrectElements.size());
+		} else if (incorrectElements.size() == 0 && missingElements.size() > 0) {
+		    System.out.println("RESULTS: SUMMARY: UNDER-" + missingElements.size());
+		} else if (missingElements.size() == truthStringSet.size()) {
+		    System.out.println("RESULTS: SUMMARY: WRONG+" + incorrectElements.size());
+		} else {
+		    System.out.println("RESULTS: SUMMARY: MIXED+" + incorrectElements.size() + "-" + missingElements.size());
+		}
+
+	    } else {
+		System.out.println("RESULTS: SUMMARY: RIGHT");
 	    }
 
-
-
-	    //	} catch (FileNotFoundException e) {
-	    //	    Msg.info(this,"file not found: " + fileArg);
 	} catch (JsonProcessingException e) {
 	    throw new RuntimeException(e);
 	}
