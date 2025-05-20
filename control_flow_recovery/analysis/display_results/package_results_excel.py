@@ -1,6 +1,20 @@
 from openpyxl import Workbook
 import os
 
+def splitall(path):
+    allparts = []
+    while 1:
+        parts = os.path.split(path)
+        if parts[0] == path:  # sentinel for absolute paths
+            allparts.insert(0, parts[0])
+            break
+        elif parts[1] == path: # sentinel for relative paths
+            allparts.insert(0, parts[1])
+            break
+        else:
+            path = parts[0]
+            allparts.insert(0, parts[1])
+    return allparts
 
 def traverse_and_add_all(directory, ws):
     global test_num
@@ -11,9 +25,12 @@ def traverse_and_add_all(directory, ws):
             traverse_and_add_all(item_path, ws)
         else:
             tool_name = ""
+            category = ""
+            sub_category = ""
             sample_name = ""
             full_path = ""
             passed = "invalid"
+            summary = ""
             true_positives = ""
             false_positives = ""
             false_negatives = ""
@@ -28,6 +45,15 @@ def traverse_and_add_all(directory, ws):
                 print('skipping invalid file: ' + item_path)
                 continue
             #print('adding results file: ' + item_path)
+
+            subpaths = splitall(item_path)
+            assert(subpaths[0] == "..")
+            assert(subpaths[1] == "results")
+            if(len(subpaths) > 3):
+                category = subpaths[2]
+            if(len(subpaths) > 4):
+                sub_category = subpaths[3]
+            
             tool_name = basename[basename.index('--')+2:basename.index('-results')]
             sample_name = basename[:basename.index('--')]
             full_path = item_path
@@ -38,7 +64,10 @@ def traverse_and_add_all(directory, ws):
                     running_time_match = "RESULTS: Running time: "
                     fp = "RESULTS: Incorrectly provided "
                     tp = "RESULTS: Correctly identified "
+                    summary_string = "RESULTS: SUMMARY: "
                     total = " out of "
+                    if line.startswith(summary_string):
+                        summary = line[len(summary_string):].strip()
                     if line.startswith(matches):
                         passed = line[len(matches):].strip()
                     if line.startswith(timeout_match):
@@ -58,7 +87,9 @@ def traverse_and_add_all(directory, ws):
                         total_elements = int(line[:line.index(' ')])
                         false_negatives = str(total_elements - int(true_positives))
             #print(", ".join([tool_name, sample_name, full_path, passed, true_positives, false_positives, false_negatives, note]))
-            ws.append([test_num, tool_name, sample_name, full_path, passed, true_positives, false_positives, false_negatives, running_time, note])
+            ws.append([test_num, tool_name, category, sub_category, sample_name, passed, summary, running_time, note])
+            # the commented one here is ALL the fields we've ever pulled out, but some seem unnecessary now
+            #ws.append([test_num, tool_name, category, sub_category, sample_name, full_path, passed, summary, true_positives, false_positives, false_negatives, running_time, note])
             test_num += 1
     
 def save_to_excel():
@@ -69,7 +100,7 @@ def save_to_excel():
     test_num = 1
 
     # setup column labels
-    ws.append(['Test #', 'Tool Name', 'Sample Name', 'Full Path', 'Passed?', 'True Positives', 'False Positives', 'False Negatives', 'Time (s)', 'Note'])
+    ws.append(['Test #', 'Tool Name', 'Category', 'Sub Category', 'Sample Name', 'Passed?', 'Summary', 'Time (s)', 'Note'])
 
     # iterate over results directory
     traverse_and_add_all("../results", ws)
