@@ -1,22 +1,11 @@
-import argparse
+import os
+import click
 import json
 import re
 import subprocess
+import cfr_helper
 
-def main():
-    parser = argparse.ArgumentParser(description='sja runner')
-    parser.add_argument("cfrpath", help="filepath to a *-cfr.sjon file")
-    args = parser.parse_args()
-    
-    program, groundtruth, instr, offset, question = _parse_cfr(args.cfrpath)
-    
-    # run addr_to_offset.py with arguments program and offset to get virt addr
-    # check if string input is given in hex
-    num = 0
-    if "0x" in offset:
-        num = int(offset, 16)
-    else:
-        num = int(offset)
+def study_targets(question, program, groundtruth, instruction_string, offset):
 
     #we don't tell ROSE which jump we care about, it analyzes all of them
     print(f"Running Rose bat-cfg on program:{program}")
@@ -30,148 +19,103 @@ def main():
                              program],
                             stdout=subprocess.PIPE,text=True)
 
+    virtual_address = cfr_helper.file_offset_to_address(program, offset)
+
     lines = result.stdout.split("\n")
-    #for line in lines:
-    #    print(line)
 
     rose_instr = ""
     line_count = len(lines)
     answer_set = set()
 
-    print("ALL OF ROSE OUTPUT:")
-    for i in range(line_count):
-        print(lines[i])
-
+    #print("ALL OF ROSE OUTPUT BELOW:")
+    #for i in range(line_count):
+    #    print(lines[i])
+    #print("virtual_address is: " + hex(virtual_address))
+    #print("ALL OF ROSE OUTPUT ABOVE:")
+    
     for i in range(line_count):
         line = lines[i]
         if line.startswith("      0x") and ":" in line[8:]:
             address = line[8:line.index(':')]
             numa = int(address,16)
-            if numa == num:
+            if numa == virtual_address:
                 rose_instr = line[line.index(':'):]
                 print("****** extract result from the following***")
                 print(lines[i-1])
                 print(lines[i])
                 print(lines[i+1])
                 print(lines[i+2])
+                print(lines[i+3])
+                print(lines[i+4])
+                print(lines[i+5])
+                print(lines[i+6])
+                print(lines[i+7])
+                print(lines[i+8])
+                print(lines[i+9])
+                print(lines[i+10])
+                print(lines[i+11])
+                print(lines[i+12])
+                print(lines[i+13])
+                print(lines[i+14])
+                print("...")
                 print("****** extract result from the above***")
-                if "indeterminate" in lines[i+2]:
-                    continue
 
-                target_line=lines[i+2][4:]
+                #if "indeterminate" in lines[i+2]:
+                #    continue
 
-                p1 = "function call edge to function "
-                if target_line.startswith(p1):
-                    ans = target_line[len(p1):].split(' ')[0]
-                    answer_set.add(ans)
-                p2 = "normal edge to "
-                if target_line.startswith(p2):
-                    ans = target_line[len(p2):].split(' ')[0]
-                    answer_set.add(ans)
+                keep_looking = True
+                keep_looking_count = 0
+                while keep_looking and i+1+keep_looking_count <= line_count: #is this correct??
 
-    answers = [hex(int(a,16)) for a in answer_set]
-    # do instruction sanity check
-    print(f"instruction from question was {instr}")
-    print(f"rose reports instruction as {rose_instr}")
+                    target_line=lines[i+1+keep_looking_count][4:]
+                    p1 = "function call edge to function "
+                    p2 = "normal edge to "
+                    if target_line.startswith(p1):
+                        ans = target_line[len(p1):].split(' ')[0]
+                        answer_set.add(ans)
+                        print("I just added " + str(ans) + " to the answer set")
+                    elif target_line.startswith(p2):
+                        ans = target_line[len(p2):].split('basic block')[1]
+                        answer_set.add(ans)
+                        print("I just added " + str(ans) + " to the answer set")
+                    elif target_line.startswith("block is a function call"):
+                        pass
+                    elif target_line.startswith("call return edge to"):
+                        pass
+                    else:
+                        keep_looking = False
+                    keep_looking_count = keep_looking_count + 1
+                        
+    answers = [ cfr_helper.address_to_file_offset(program,int(x,16)) for x in answer_set]
 
-    print(f"RESULTS: For question '{question}'")
+    #now strip any None
+    answers = [ x for x in answers if x is not None]
     answers.sort()
-    print(f"RESULTS: The groundtruth is: {groundtruth}")
-    print(f"RESULTS: The tool's answer is: {answers}")
-    
-    matchesAnswer = set(groundtruth) == set(answers)
-    matchesString = "YES" if matchesAnswer else "NO"
-    print(f"RESULTS: Tool's answer matches groundtruth? {matchesString}")
-    if not matchesAnswer:
-        incorrect = set(answers) - set(groundtruth)
-        missing = set(groundtruth) - set(answers)
+    answers = [ hex(x) for x in answers]
+    answers.sort()        
 
-        incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
-        missingString = str(missing) if len(missing) > 0 else "{}"
-        
-        print(f"RESULTS: Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"RESULTS: Tool's answer does not include correct elements: {missingString}")
+    cfr_helper.set_evaluation(question, groundtruth, answers)
 
+@click.command()
+@click.argument('cfrjson_path')
+def study(cfrjson_path: str):
 
+    cfr = cfr_helper.parse_cfr(cfrjson_path, os.path.join(os.getcwd(),'questions.json'))
 
-    
+    if re.match(r"What are the file offsets for the instructions that are the targets"
+                " of the '(.*?)' instruction at file offset '(.*?)' ?", cfr['question']):
 
-        
-###################################################################
-#
-# Internal functions
-#
-###################################################################
+        if cfr["evaluation"] != "set":
+            raise NotImplementedError("the question you asked requires evaluation of 'set'")
 
-def _parse_cfr(cfrpath):
-    if not '-cfr.json' in cfrpath:
-        raise FileNotFoundError("the provided filepath does not contain -cfr.json")
-
-    with open(cfrpath, 'r') as f:
-        cfr = json.load(f)
-
-    if (not 'program' in cfr or
-        not 'groundtruth' in cfr or
-        not 'evaluation' in cfr or
-        not 'question' in cfr):
-        raise NotImplementedError("the cfr file does not have needed elements")
-
-    program = cfr['program']
-    groundtruth = cfr['groundtruth']
-    evaluation = cfr['evaluation']
-    question = cfr['question']
-
-    # validate question is a set
-    assert evaluation == "set"
-
-    # parse question (ideally we can recognize that this is a cfr question
-    # to avoid string regex, but for now, this is what we have
-    q_type, q_arr = _process_question(question)
-    if q_type == "targets" or q_type == "targets of targets":
-        instruction_string = q_arr[0]
-        offset = q_arr[1]
-
-    return program, groundtruth, instruction_string, offset, question
-
-def _file_to_virtual_address(file_offset, base_addr, section_offset, raw_offset):
-    virtual_addr = base_addr + section_offset - raw_offset + file_offset
-    return virtual_addr
-
-def _virtual_to_file_offset(virtual_addr, base_addr, section_offset, raw_offset):
-    file_offset = virtual_addr - base_addr - section_offset + raw_offset
-    return file_offset
-
-    
-def _process_question(question):
-    question_prefixes = {
-        "What are the file offsets for the instructions that are the targets of the": "targets"
-    }
-
-    # We could use SJA to answer targets of targets questions, if we brought in another tool to answer fixed jumps
-    # but for now, we won't do that.
-    # "What are the file offsets for the instructions that are the targets of the targets of the": "targets of targets"
-    
-    # Identify the matching prefix
-    question_type = None
-    for prefix, q_type in question_prefixes.items():
-        if question.startswith(prefix):
-            question_type = q_type
-            question_end = question[len(prefix):]
-            break
-    else:
-        raise NotImplementedError("Question format not recognized")
-
-    # Extract quoted values
-    quoted_strings = re.findall(r"'(.*?)'", question_end)
-
-    # Validate remaining structure after removing quotes
-    cleaned_question = re.sub(r"'(.*?)'", '', question_end).strip()
-    expected_suffix = "instruction at file offset  ?"
-    
-    if cleaned_question != expected_suffix:
-        raise NotImplementedError("The question is not fully understood, perhaps spacing is off?")
-
-    return question_type, quoted_strings
+        study_targets(cfr["question"],
+                      cfr["program"],
+                      cfr["groundtruth"],
+                      cfr["$INSTRUCTION"],
+                      cfr["$OFFSET"]
+                      )
 
 if __name__ == "__main__":
-    main()
+    study()
+
+    

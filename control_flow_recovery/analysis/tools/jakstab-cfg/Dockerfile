@@ -38,6 +38,7 @@ WORKDIR /control-flow-recovery
 # Install the shared control flow recovery helper library
 COPY --from=tools cfr-helper cfr-helper
 WORKDIR /control-flow-recovery/cfr-helper
+RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir -r requirements.txt
 RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir .
 WORKDIR /control-flow-recovery
 

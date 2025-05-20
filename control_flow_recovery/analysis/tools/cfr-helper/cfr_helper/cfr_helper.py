@@ -12,6 +12,12 @@ from macholib.MachO import MachO
 # approach is possible and usually will not conflict with
 # the choices that tools make
 
+def is_DOS(file_path:str)->bool:
+    with open(file_path, 'rb') as f:
+        if f.read(2) != b'MZ':
+            return False
+    return True
+
 def get_executable_type(file_path:str)->str:
     with open(file_path, 'rb') as f:
         # Read the first few bytes to identify the file type
@@ -54,17 +60,16 @@ def file_offset_to_address(file_path:str, file_offset:Union[str,int]):
             file_offset = int(file_offset)
 
     def to_address_PE(pe_file_path,file_offset):
-
-        with open(elf_file_path, 'rb') as f:        
-            pe = pefile.PE(f)
-            for section in pe.sections:
-                section_offset = section.PointerToRawData
-                section_size = section.SizeOfRawData
-                if section_offset <= file_offset < section_offset + section_size:
-                    offset_within_section = file_offset - section_offset
-                    virtual_address = section.VirtualAddress
-                    final_address = virtual_address + offset_within_section
-                    return final_address
+        pe = pefile.PE(pe_file_path)
+        base_address = pe.OPTIONAL_HEADER.ImageBase
+        for section in pe.sections:
+            section_offset = section.PointerToRawData
+            section_size = section.SizeOfRawData
+            if section_offset <= file_offset < section_offset + section_size:
+                offset_within_section = file_offset - section_offset
+                virtual_address = section.VirtualAddress
+                final_address = base_address + virtual_address + offset_within_section
+                return final_address
         return None  # Return None if the offset is not found in any section
         
     def to_address_ELF(elf_file_path, file_offset):
@@ -115,16 +120,15 @@ def file_offset_to_address(file_path:str, file_offset:Union[str,int]):
 def address_to_file_offset(file_path, address):
 
     def to_offset_PE(pe_file_path, virtual_address):
-        with open(elf_file_path, 'rb') as f:        
-            pe = pefile.PE(f)
-            for section in pe.sections:
-                section_virtual_address = section.VirtualAddress
-                section_size = section.Misc_VirtualSize
-                if section_virtual_address <= virtual_address < section_virtual_address + section_size:
-                    offset_within_section = virtual_address - section_virtual_address
-                    section_file_offset = section.PointerToRawData
-                    final_file_offset = section_file_offset + offset_within_section
-                    return final_file_offset
+        pe = pefile.PE(pe_file_path)
+        base_address = pe.OPTIONAL_HEADER.ImageBase
+        rva = virtual_address - base_address
+        for section in pe.sections:
+            section_virtual_address = section.VirtualAddress
+            section_size = section.Misc_VirtualSize
+            if section_virtual_address <= rva < section_virtual_address + section_size:
+                final_file_offset = section.PointerToRawData + (rva - section_virtual_address)
+                return final_file_offset
         return None
 
     def to_offset_ELF(elf_file_path, virtual_address):
@@ -250,23 +254,28 @@ def set_evaluation(question, groundtruth:List[str], answers:List[str]):
         print("RESULTS: SUMMARY: EMPTY")
     elif not matchesAnswer:
 
-        incorrect = set_answers - set_groundtruth
-        missing = set_groundtruth - set_answers
 
-        incorrectString = str(incorrect) if len(incorrect) > 0 else "{}"
-        missingString = str(missing) if len(missing) > 0 else "{}"
+        #false positive -- its not in the ground truth but you gave it to us anyway
+        #false negative -- its in the ground truth but you didn't give it to us
+        #true positive -- its in the ground truth and you gave it to us
+        #true negative -- its not in the ground truth and you didn't give it to us
+        
+        falsePositive = set_answers - set_groundtruth
+        falseNegative = set_groundtruth - set_answers
 
-        print(f"Tool's answer includes incorrect elements: {incorrectString}")
-        print(f"Tool's answer does not include correct elements: {missingString}")
+        falsePositiveString = str(falsePositive) if len(falsePositive) > 0 else "{}"
+        falseNegativeString = str(falseNegative) if len(falseNegative) > 0 else "{}"
 
-        if len(missing) == 0 and len(incorrect) > 0:
-            print(f"RESULTS: SUMMARY: OVER+{str(len(incorrect))}")
-        elif len(incorrect) == 0 and len(missing) > 0:
-            print(f"RESULTS: SUMMARY: UNDER-{str(len(missing))}")
-        elif len(missing) == len(set_groundtruth):
-            print(f"RESULTS: SUMMARY: WRONG+{str(len(incorrect))}")
+        print(f"Tool's answer includes falsePositive elements: {falsePositiveString}")
+        print(f"Tool's answer does not include correct elements: {falseNegativeString}")
+
+        if len(falseNegative) == 0 and len(falsePositive) > 0:
+            print(f"RESULTS: SUMMARY: OVER+{str(len(falsePositive))}")
+        elif len(falsePositive) == 0 and len(falseNegative) > 0:
+            print(f"RESULTS: SUMMARY: UNDER-{str(len(falseNegative))}")
         else:
-            print(f"RESULTS: SUMMARY: MIXED+{str(len(incorrect))}-{str(len(missing))}")
+            print(f"RESULTS: SUMMARY: WRONG+{str(len(falsePositive))}-{str(len(falseNegative))}")
 
     else:
         print("RESULTS: SUMMARY: RIGHT")
+        

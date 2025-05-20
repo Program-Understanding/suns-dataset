@@ -36,11 +36,9 @@ RUN cd build && make -j10 && make install -j10 && make core -j10
 # Install the shared control flow recovery helper library
 COPY --from=tools cfr-helper cfr-helper
 WORKDIR /control-flow-recovery/cfr-helper
+RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir -r requirements.txt
 RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir .
 WORKDIR /control-flow-recovery
-
-COPY requirements.txt .
-RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host files.pythonhosted.org --no-cache-dir -r requirements.txt
 
 COPY study.py .
 COPY questions.json .
