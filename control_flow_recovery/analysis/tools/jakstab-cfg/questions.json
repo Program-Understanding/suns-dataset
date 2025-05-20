@@ -5,7 +5,7 @@
         "script": "python3 jakstab.py $CFR_JSON_FILENAME"
       }
   ],
-  "version":"1.1.9"
+  "version":"1.1.10"
 }
     
 

@@ -5,7 +5,7 @@
 	  "script": "/control-flow-recovery/venv/bin/python3 study.py $BINARY_TO_ANALYZE_FILENAME $CFR_JSON_FILENAME"
       }
   ],
-  "version":"0.1.3"
+  "version":"0.1.4"
 }
     
 

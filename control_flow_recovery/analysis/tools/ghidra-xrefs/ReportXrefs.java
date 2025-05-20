@@ -302,10 +302,8 @@ public class ReportXrefs extends GhidraScript {
 		    System.out.println("RESULTS: SUMMARY: OVER+" + incorrectElements.size());
 		} else if (incorrectElements.size() == 0 && missingElements.size() > 0) {
 		    System.out.println("RESULTS: SUMMARY: UNDER-" + missingElements.size());
-		} else if (missingElements.size() == truthStringSet.size()) {
-		    System.out.println("RESULTS: SUMMARY: WRONG+" + incorrectElements.size());
 		} else {
-		    System.out.println("RESULTS: SUMMARY: MIXED+" + incorrectElements.size() + "-" + missingElements.size());
+		    System.out.println("RESULTS: SUMMARY: WRONG+" + incorrectElements.size() + "-" + missingElements.size());
 		}
 
 	    } else {

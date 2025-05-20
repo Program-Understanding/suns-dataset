@@ -83,7 +83,6 @@
   Wrong:<span id="summary_wrong" style="color:red;">unknown</span>&nbsp;&nbsp;
   Over:<span id="summary_over" style="color:blue;">unknown</span>&nbsp;&nbsp;
   Under:<span id="summary_under" style="color:blue;">unknown</span>&nbsp;&nbsp;
-  Mixed:<span id="summary_mixed" style="color:orange;">unknown</span>&nbsp;&nbsp;
   Empty:<span id="summary_empty" style="color:red;">unknown</span>&nbsp;&nbsp;
   
   {% set ns = namespace(count = 0) %}
@@ -288,7 +287,6 @@
       let summary_wrong = 0
       let summary_under = 0
       let summary_over = 0
-      let summary_mixed = 0
       let summary_empty = 0
       
       let index = 0;
@@ -320,8 +318,6 @@
 		  summary_under = summary_under + 1
 	      } else if (challenge.summary.startsWith("OVER")) {
 		  summary_over = summary_over + 1
-	      } else if (challenge.summary.startsWith("MIXED")) {
-		  summary_mixed = summary_mixed + 1
 	      }
 	      
 	  } else {
@@ -343,7 +339,6 @@
       document.getElementById('summary_wrong').textContent = summary_wrong;
       document.getElementById('summary_over').textContent = summary_over;
       document.getElementById('summary_under').textContent = summary_under;
-      document.getElementById('summary_mixed').textContent = summary_mixed;
       document.getElementById('summary_empty').textContent = summary_empty;
 
 
