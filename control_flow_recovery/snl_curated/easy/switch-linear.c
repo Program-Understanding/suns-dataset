@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
   char* msg;
   int x = (argc + 23) * (argc + 6) + argc;
   if (argc <= 0) {
-    exit(0);
+    return 0;
   }
   switch (argc-1) {
   case 0:
@@ -48,6 +48,5 @@ int main(int argc, char *argv[]) {
     msg = "default";
   }
   printf("It was %s and x is %d\n",msg,x);
-  exit(0);
-
+  return 0;
 }

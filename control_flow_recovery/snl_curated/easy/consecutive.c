@@ -42,6 +42,6 @@ int main(int argc, char *argv[]) {
     printf("%s default\n", f);
   }
 
-  exit(0);
+  return 0;
 
 }

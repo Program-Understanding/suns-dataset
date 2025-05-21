@@ -33,5 +33,5 @@ int main(int argc, char *argv[]) {
 
   int result = fp_array[0]();
   printf("result: %d\n", result);
-  exit(0);
+  return 0;
 }

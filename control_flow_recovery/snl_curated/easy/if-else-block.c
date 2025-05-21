@@ -20,4 +20,5 @@ int main(int argc, char *argv[]) {
   }
   int result = (*fptr)();
   printf("result: %d\n", result);
+  return 0;
 }

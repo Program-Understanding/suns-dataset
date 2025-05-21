@@ -28,5 +28,5 @@ int main(int argc, char *argv[]) {
   default:
     printf("default\n");
   }
-  exit(0);
+  return 0;
 }

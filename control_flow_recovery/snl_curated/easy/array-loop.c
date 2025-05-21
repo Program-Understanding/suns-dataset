@@ -12,5 +12,5 @@ int main(int argc, char *argv[]) {
     sum = sum + fp_array[i]();
   }
   printf("result: %d\n", sum);
-  exit(0);
+  return 0;
 }
