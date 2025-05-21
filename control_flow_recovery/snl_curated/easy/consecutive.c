@@ -4,6 +4,9 @@
 
 int main(int argc, char *argv[]) {
   char* f = "none";
+  if (argc <= 0) {
+    return 0;
+  }
   switch (argc) {
   case 1:
     f = "case 0\n";
