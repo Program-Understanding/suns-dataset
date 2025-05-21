@@ -1,7 +1,7 @@
 {
-    "program":"array-modified-Os-arm",
+    "program":"array-modified-O0-arm",
     "source":"array-modified.c",
-    "question":"What are the file offsets for the instructions that are the targets of the 'blr x8' instruction at file offset '0x54c' ?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'blr x8' instruction at file offset '0x5d0' ?",
     "groundtruth": ["0x500"],
     "evaluation":"set"
 }
