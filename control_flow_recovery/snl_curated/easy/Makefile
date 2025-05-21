@@ -27,3 +27,6 @@ clean:
 
 # Phony targets
 .PHONY: all clean
+
+
+#Not in the Makefile:  clang -O0 array-modified.c -o array-modified-O0-arm
