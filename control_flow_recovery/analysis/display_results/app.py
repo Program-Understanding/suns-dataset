@@ -78,6 +78,22 @@ def jakstab_curated_results():
     return render_template("results.html", **context)
 
 
+@app.route("/auburn_sok_curated_results")
+def auburn_sok_curated_results():
+    logger.info("auburn_sok_curated results requested")
+    curated_challenges = []
+    for c in challenges:
+        if c["name"].startswith("../results/auburn_sok_benchmarks"):
+            curated_challenges.append(c)
+    context = {
+        "title": "Results",
+        "request": request.path,
+        "challenges": curated_challenges,
+        "test_name": test_name
+    }
+    return render_template("results.html", **context)
+
+
 
 @app.route("/export",methods=['POST'])
 def export():
@@ -276,4 +292,4 @@ for rf in result_files:
         pass
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5007, debug=True)
