@@ -1,0 +1,10 @@
+{
+    "program":"computed_index-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1047' ?",
+    "groundtruth": ["0x1150, 0x1160, 0x1170"],
+    "evaluation":"set",
+    "source":"computed_index.c",
+    "stripped": true,
+    "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
+    "compiler-options":"gcc"
+}
