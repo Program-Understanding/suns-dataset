@@ -1,7 +1,0 @@
-RESULTS: The groundtruth is: ['0x235', '0x23e', '0x24b', '0x256', '0x25f', '0x270', '0x28a', '0x2a4']
-RESULTS: The tool's answer is: {'0x28a', '0x23e', '0x256', '0x270', '0x235', '0x25f', '0x24b'}
-RESULTS: Tool's answer matches groundtruth? NO
-RESULTS: Tool name:jakstab-cfg
-RESULTS: Tool version:1.0.6
-RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
-RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

@@ -46,8 +46,8 @@ def replace_spaces_between_tags(text):
 
 
 
-@app.route("/snl_curated_results")
-def snl_curated_results():
+@app.route("/snl")
+def snl():
     logger.info("snl_curated results requested")
     curated_challenges = []
     for c in challenges:
@@ -62,8 +62,8 @@ def snl_curated_results():
     return render_template("results.html", **context)
 
 
-@app.route("/jakstab_curated_results")
-def jakstab_curated_results():
+@app.route("/jakstab")
+def jakstab():
     logger.info("jakstab_curated results requested")
     curated_challenges = []
     for c in challenges:
@@ -78,12 +78,12 @@ def jakstab_curated_results():
     return render_template("results.html", **context)
 
 
-@app.route("/auburn_sok_curated_results")
-def auburn_sok_curated_results():
+@app.route("/SunBench25")
+def SunBench25():
     logger.info("auburn_sok_curated results requested")
     curated_challenges = []
     for c in challenges:
-        if c["name"].startswith("../results/auburn_sok_benchmarks"):
+        if c["name"].startswith("../results/sunbench25"):
             curated_challenges.append(c)
     context = {
         "title": "Results",
@@ -111,8 +111,8 @@ def export():
         logger.info("file path not found")
         return "File not found",404
 
-@app.route("/all_results")
-def all_results():
+@app.route("/all")
+def all():
     logger.info("all results requested")
     context = {
         "title": "Results",
@@ -292,4 +292,4 @@ for rf in result_files:
         pass
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5007, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

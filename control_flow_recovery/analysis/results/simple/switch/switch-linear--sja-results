@@ -1,8 +1,0 @@
-RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11a7' ?'
-RESULTS: The groundtruth is: ['0x11aa', '0x11be', '0x11d2', '0x11e6', '0x11f7', '0x1208', '0x1219', '0x122a', '0x123b', '0x124c']
-RESULTS: The tool's answer is: ['0x11aa', '0x11be', '0x11d2', '0x11e6', '0x11f7', '0x1208', '0x1219', '0x122a', '0x123b', '0x124c']
-RESULTS: Tool's answer matches groundtruth? YES
-RESULTS: Tool name:sja
-RESULTS: Tool version:1.0.1
-RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
-RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)
