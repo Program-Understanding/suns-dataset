@@ -13,7 +13,7 @@ NOTE: This repository is a work in progress. Directory structure and ground trut
 
 ## Control Flow Recovery Challenge
 
-    The Control Flow Recovery Challenge is a collection of datasets
+The Control Flow Recovery Challenge is a collection of datasets
     created to help evaluate the ability of software analysis tools
     to answer questions about control flow.  Specifically, most
     of the dataset is currently focused on a single question an
@@ -21,7 +21,7 @@ NOTE: This repository is a work in progress. Directory structure and ground trut
 
 <em>What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1295' ?</em>
 
-    The question is expressed using file offsets and the desired answer is a
+The question is expressed using file offsets and the desired answer is a
     set of file offsets.  File offsets are used to avoid potential ambiguity
     surrounding use of the word "address".  The presence of the instruction;
     e.g., "call rdx" in the question is present as an aid to the question
@@ -68,6 +68,7 @@ Can you do better?  Are there simple changes one could make to our scripts
     tools can? Can you do better across the broad range of samples?
 
 ### The Future
-    It is hoped that an annual evaluation "contest" and updating of the
+
+It is hoped that an annual evaluation "contest" and updating of the
     currated datasets takes place.
     
