@@ -20,5 +20,5 @@ int main(int argc, char *argv[]) {
   swap(&fp_array2[1],&fp_array1[0]);
   int result = fp_array1[0]();
   printf("result: %d\n", result);
-  exit(0);
+  return 0;
 }

@@ -70,7 +70,13 @@ def study_targets(question, program, groundtruth, instruction_string, offset):
                     target_line=lines[i+1+keep_looking_count][4:]
                     p1 = "function call edge to function "
                     p2 = "normal edge to "
-                    if target_line.startswith(p1):
+                    if target_line.startswith("function call edge to indeterminate"):
+                        pass
+                    elif target_line.startswith("block is a function call"):
+                        pass
+                    elif target_line.startswith("call return edge to"):
+                        pass
+                    elif target_line.startswith(p1):
                         ans = target_line[len(p1):].split(' ')[0]
                         answer_set.add(ans)
                         print("I just added " + str(ans) + " to the answer set")
@@ -78,10 +84,6 @@ def study_targets(question, program, groundtruth, instruction_string, offset):
                         ans = target_line[len(p2):].split('basic block')[1]
                         answer_set.add(ans)
                         print("I just added " + str(ans) + " to the answer set")
-                    elif target_line.startswith("block is a function call"):
-                        pass
-                    elif target_line.startswith("call return edge to"):
-                        pass
                     else:
                         keep_looking = False
                     keep_looking_count = keep_looking_count + 1

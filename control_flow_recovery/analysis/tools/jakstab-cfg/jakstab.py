@@ -10,6 +10,12 @@ import cfr_helper
 
 def study_targets(question, program, groundtruth, instruction_string, offset):
 
+    #jakstab can only handle PE binaries
+
+    if not cfr_helper.is_DOS(program) or not cfr_helper.get_executable_type(program) == "PE":
+        cfr_helper.set_evaluation(question, groundtruth, [])
+        return
+
     virtual_address = cfr_helper.file_offset_to_address(program, offset)
 
     if virtual_address is None:

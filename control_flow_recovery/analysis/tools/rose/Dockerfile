@@ -14,23 +14,36 @@ ENV http_proxy ${HTTP_PROXY} \
     HTTP_PROXY ${HTTP_PROXY} \
     HTTPS_PROXY ${HTTPS_PROXY}
 
+#install what we need
 RUN apt-get -y update && apt-get -y --no-install-recommends install git wget make cmake automake libtool gcc g++ libboost-all-dev flex bison ghostscript iputils-ping emacs vim nano python3-pip python3-virtualenv
 
+#fetch Rose & Z3 from git
 RUN mkdir -p /control-flow-recovery
-
-
 RUN git config --global http.sslverify "false" && git clone https://github.com/rose-compiler/rose.git control-flow-recovery/src
+RUN git config --global http.sslverify "false" && git clone https://github.com/Z3Prover/z3.git control-flow-recovery/z3
 
 WORKDIR /control-flow-recovery
+RUN test -d /control-flow-recovery/z3 || (echo "File not found!" && exit 1)
+RUN test -d /control-flow-recovery/src || (echo "File not found!" && exit 1)
+RUN test -f /control-flow-recovery/z3/CMakeLists.txt || (echo "File not found!" && exit 1)
+RUN mkdir -p /control-flow-recovery/z3/bin
 
+#install Z3
+WORKDIR /control-flow-recovery/z3/bin
+RUN cmake -G "Unix Makefiles" ../
+RUN make -j10
+RUN make install
+
+#install Rose
+WORKDIR /control-flow-recovery
 RUN cd src && ./build
-
 RUN mkdir -p /control-flow-recovery/build
-
-RUN cd build && /control-flow-recovery/src/configure --prefix=/control-flow-recovery/install --enable-languages=c,c++,binaries --with-boost=/usr --with-boost-libdir=/usr/lib/x86_64-linux-gnu
-
+RUN echo "Ran configure, type for make"
+RUN echo "Here are your flags before: $LDFLAGS"
+RUN echo "Here are your flags after: $LDFLAGS"
+RUN cd build && /control-flow-recovery/src/configure --prefix=/control-flow-recovery/install --enable-languages=c,c++,binaries --with-boost=/usr --with-boost-libdir=/usr/lib/x86_64-linux-gnu --with-z3=/usr/local
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 RUN cd build && make core -j10 && make install-core -j10 && make check-core -j10
-
 RUN cd build && make -j10 && make install -j10 && make core -j10
 
 # Install the shared control flow recovery helper library
