@@ -1,6 +1,0 @@
-{
-    "program":"array-loop",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x122c' ?",
-    "groundtruth": ["0x1178","0x1187","0x1196","0x11a5"],
-    "evaluation":"set"
-}
