@@ -1,0 +1,11 @@
+{
+    "program":"exception2_clang-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0x0a989d'?",
+    "groundtruth": ["0x4045b3"],
+    "evaluation":"set",
+    "source": "source/indirect_jumps/exceptions/exception2.cpp",
+    "stripped":true,
+    "compiler":"clang",
+    "compiler-options":"clang++ -std=c++11 -static -O2 -g"
+    
+}
