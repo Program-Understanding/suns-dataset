@@ -1,8 +1,0 @@
-{
-    "program":"exception4-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'jmp *%rcx' instruction at file offset '0xb2e75' ?",
-    "groundtruth": ["0x597a", "0x5a2d"],
-    "evaluation":"set",
-    "source": "exception4.cpp",
-    "stripped":true
-}

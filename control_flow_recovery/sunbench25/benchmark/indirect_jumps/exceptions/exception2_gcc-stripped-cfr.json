@@ -1,0 +1,11 @@
+{
+    "program":"exception2_gcc-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d2d'?",
+    "groundtruth": ["0x52ba","0x5349"],
+    "evaluation":"set",
+    "source": "source/indirect_jumps/exceptions/exception2.cpp",
+    "stripped":true,
+    "compiler":"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "compiler-options":"g++ -std=c++11 -static -O2 -g"
+    
+}
