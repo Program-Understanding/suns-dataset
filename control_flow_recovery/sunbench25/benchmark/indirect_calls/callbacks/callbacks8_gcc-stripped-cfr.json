@@ -1,9 +1,9 @@
 {
-    "program":"reduce-stripped",
+    "program":"callbacks8_gcc-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1178' ?",
     "groundtruth": ["0x1160"],
     "evaluation":"set",
-    "source":"reduce.c",
+    "source":"/source/indirect_calls/callbacks/callbacks8.c",
     "stripped": true,
     "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
     "compiler-options":"gcc"
