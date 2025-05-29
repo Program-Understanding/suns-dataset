@@ -1,6 +1,8 @@
 {
-    "program": "single-dataflow-target-stripped",
+    "program": "virtual3_gcc-stripped",
     "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x122f'?",
     "groundtruth": ["0x1272", "0x12a0"],
-    "evaluation": "set"
+    "evaluation": "set",
+    "source":"source/indirect_calls/virtual_tables/virtual3",
+    "stripped": true
 }

@@ -1,0 +1,9 @@
+{
+    "program": "virtual2_gcc-stripped",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x199d'?",
+    "groundtruth": ["0x1710", "0x174e"],
+    "evaluation": "set",
+    "source":"source/indirect_calls/virtual_tables/virtual2",
+    "stripped": true
+}
+

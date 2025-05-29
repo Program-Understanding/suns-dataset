@@ -1,0 +1,8 @@
+{
+    "program":"virtual1_vs-stripped.exe",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x10f8'?",
+    "groundtruth": ["0x1000", "0x1030", "0x1060"],
+    "evaluation":"set",
+    "source":"source/indirect_calls/virtual_tables/virtual1.c",
+    "stripped": true
+}

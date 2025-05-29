@@ -1,2 +1,0 @@
-Basic example of virtual function classes using the classic dog and cat example. 
-Uses Vtable to decide speak() function depending on what is loaded at run time, either dog or cat
