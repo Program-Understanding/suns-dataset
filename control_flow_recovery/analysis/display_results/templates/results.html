@@ -18,6 +18,11 @@
     </label>
 
     <label>
+      <input type="radio" name="filter" value="ida-cfg"/>
+      ida-cfg
+    </label>
+
+    <label>
       <input type="radio" name="filter" value="angr-cfg"/>
       angr-cfg
     </label>
@@ -186,6 +191,9 @@
       }
       if (filter == "ghidra-xrefs") {
 	  return challenge.name.endsWith("--ghidra-xrefs-results");
+      }
+      if (filter == "ida-cfg") {
+	  return challenge.name.endsWith("--ida-cfg-results");
       }
       if (filter == "angr-cfg") {
 	  return challenge.name.endsWith("--angr-cfg-results");
