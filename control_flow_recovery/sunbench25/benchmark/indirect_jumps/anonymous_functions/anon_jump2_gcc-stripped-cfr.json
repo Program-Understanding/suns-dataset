@@ -1,5 +1,5 @@
 {
-    "program":"alternate-stripped",
+    "program":"anon_jump2_gcc-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rdx' instruction at file offset '0x1077' ?",
     "groundtruth": ["0x1180"],
     "evaluation":"set",

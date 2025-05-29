@@ -1,9 +1,9 @@
 {
-    "program":"3choicesc-stripped",
+    "program":"anon_jump4_icx-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11ac' ?",
     "groundtruth": ["0x1130", "0x1140", "0x1150"],
     "evaluation":"set",
-    "source":"/src/3choices.c",
+    "source":"/source/indirect_jumps/anonymous_functions/anon_jump4.c",
     "stripped": true,
     "compiler":"Intel(R) oneAPI DPC++/C++ Compiler 2025.1.0 (2025.1.0.20250317)",
     "compiler-options":"icx"

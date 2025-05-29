@@ -1,9 +1,9 @@
 {
-    "program":"difficult2-stripped",
+    "program":"anon_jump3_clang-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x12c9' ?",
     "groundtruth": ["0x1150", "0x1160", "0x1170", "0x1180", "0x1190", "0x11a0", "0x11b0", "0x11c0", "0x11d0", "0x11e0"],
     "evaluation":"set",
-    "source":"/src/challenging.c",
+    "source":"/source/indirect_jumps/anonymous_functions/anon_jump3.c",
     "stripped": true,
     "compiler":"Ubuntu clang version 18.1.3 (1ubuntu1)",
     "compiler-options":"clang -O2"
