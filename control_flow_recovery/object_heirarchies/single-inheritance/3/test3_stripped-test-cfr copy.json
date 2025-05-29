@@ -1,7 +1,0 @@
-{
-    "program": "test3_stripped",
-    "question": "What are the file offsets for the instructions that are the targets of the 'call *%rdx' instruction at file offset '0x11c2' ?",
-    "groundtruth": ["0x125a"],
-    "evaluation": "set",
-    "source": "main.cpp"
-}

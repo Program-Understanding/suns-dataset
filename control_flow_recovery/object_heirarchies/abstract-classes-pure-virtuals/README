@@ -1,9 +1,0 @@
-Overview: This directory contains examples demonstrating the use of abstract classes and pure virtual functions in C++. Abstract classes serve as interfaces, defining a contract for derived classes by declaring pure virtual functions that must be overridden.
-
-Contents:
-
-C++ source files illustrating the declaration and implementation of abstract classes.
-
-Examples showing how derived classes override pure virtual functions.
-
-Purpose: To provide a clear understanding of how abstract classes and pure virtual functions are used to enforce interface contracts in C++.
