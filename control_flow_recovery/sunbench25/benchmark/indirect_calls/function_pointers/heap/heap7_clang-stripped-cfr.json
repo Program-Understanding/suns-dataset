@@ -1,0 +1,8 @@
+{
+    "program":"heap7_clang-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1270'?",
+    "groundtruth": ["0x1150", "0x1170", "0x1190"],
+    "evaluation":"set",
+    "source": "source/indirect_calls/function_pointers/heap/heap7.c",
+    "stripped":true
+}
