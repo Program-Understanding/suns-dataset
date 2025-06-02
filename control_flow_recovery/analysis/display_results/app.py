@@ -78,6 +78,23 @@ def jakstab():
     return render_template("results.html", **context)
 
 
+@app.route("/dial")
+def dial():
+    logger.info("dial_a_benchmark requested")
+    curated_challenges = []
+    for c in challenges:
+        if c["name"].startswith("../results/dial_a_benchmark"):
+            curated_challenges.append(c)
+    context = {
+        "title": "Results",
+        "request": request.path,
+        "challenges": curated_challenges,
+        "test_name": test_name
+    }
+    return render_template("results.html", **context)
+
+
+
 @app.route("/SunBench25")
 def SunBench25():
     logger.info("auburn_sok_curated results requested")

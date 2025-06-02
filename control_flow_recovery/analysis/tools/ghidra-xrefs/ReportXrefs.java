@@ -235,6 +235,12 @@ public class ReportXrefs extends GhidraScript {
 
 	    Set<String> answerStringSet = new HashSet<String>();
 	    for (Reference reference: references) {
+
+		System.out.println("Found a reference of type: " + reference.getReferenceType());
+		if (!reference.getReferenceType().isFlow()) {
+		    continue;
+		}
+		
 		Address target = reference.getToAddress();
 
 		if (targetsOfTargets) {
