@@ -1,7 +1,7 @@
 {
     "program":"heap3_gcc-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x367'?",
-    "groundtruth": ["0x1209", "1221"],
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1367'?",
+    "groundtruth": ["0x1209", "0x1221"],
     "evaluation":"set",
     "source": "source/indirect_calls/function_pointers/heap/heap3.c",
     "stripped":true

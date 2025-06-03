@@ -1,6 +1,6 @@
 {
     "program":"stack5_clang-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call qword [rbp - 0x18]' instruction at file offset '0x11cf'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call qword ptr [rbp - 0x18]' instruction at file offset '0x11cf'?",
     "groundtruth": ["0x1140", "0x1160"],
     "evaluation":"set",
     "source": "source/indirect_calls/function_pointers/stack/stack5.c",

@@ -1,1 +1,0 @@
-2ba0:	ff e0                	jmp    *%rax
