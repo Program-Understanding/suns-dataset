@@ -1,0 +1,10 @@
+{
+    "program":"switch6_gcc-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1249' ?",
+    "groundtruth": ["0x1129"],
+    "evaluation":"set",
+    "source":"/source/indirect_jumps/switch_statements/switch6.c",
+    "stripped": true,
+    "compiler":"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "compiler-options":"gcc"
+}

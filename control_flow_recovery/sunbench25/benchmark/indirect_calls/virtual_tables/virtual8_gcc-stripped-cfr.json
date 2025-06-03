@@ -1,0 +1,8 @@
+{
+    "program": "virtual8_gcc-stripped",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11e9'?",
+    "groundtruth": ["0x1206", "0x1216", "0x1226"],
+    "evaluation": "set",
+    "source":"source/indirect_calls/virtual_tables/virtual8.cpp",
+    "stripped": true
+}

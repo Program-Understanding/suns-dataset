@@ -1,0 +1,8 @@
+{
+    "program": "virtual8_clang-stripped",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x11fc'?",
+    "groundtruth": ["0x12f0", "0x1310", "0x1320"],
+    "evaluation": "set",
+    "source":"source/indirect_calls/virtual_tables/virtual8.cpp",
+    "stripped": true
+}

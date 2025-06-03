@@ -1,0 +1,10 @@
+{
+    "program":"switch3_clang-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x11bf' ?",
+    "groundtruth": ["0x1130"],
+    "evaluation":"set",
+    "source":"/source/indirect_jumps/switch_statements/switch3.c",
+    "stripped": true,
+    "compiler":"clang",
+    "compiler-options":"clang"
+}
