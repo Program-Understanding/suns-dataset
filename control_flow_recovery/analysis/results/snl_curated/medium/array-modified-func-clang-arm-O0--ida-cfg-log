@@ -1,0 +1,54 @@
+Possible file format: Mach-O file (EXECUTE). ARM64 (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/macho.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+   196608    24 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   983040            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.OZDkQUT9TI/array-modified-func-clang-arm-O0' into database...
+Detected file format: Mach-O file (EXECUTE). ARM64
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/arm.dylib for arm...Initializing processor module arm...OK
+Autoanalysis subsystem has been initialized.
+Type library 'macos14_sdk00_arm64' loaded. Applying types...
+Types applied to 0 names.
+  0. Creating a new segment  (00000001000004F8-00000001000005E4) ... ... OK
+  1. Creating a new segment  (00000001000005E4-00000001000005FC) ... ... OK
+  2. Creating a new segment  (00000001000005FC-0000000100000608) ... ... OK
+  3. Creating a new segment  (0000000100000608-0000000100004000) ... ... OK
+  4. Creating a new segment  (0000000100000000-00000001000004F8) ... ... OK
+  5. Creating a new segment  (0000000100004000-0000000100008000) ... ... OK
+  6. Creating a new segment  (0000000100008000-0000000100008050) ... ... OK
+  7. Creating a new segment  (0000000100008050-0000000100008060) ... ... OK
+OBJC: No objc info found
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.OZDkQUT9TI/array-modified-func-clang-arm-O0' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x5bc
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+RESULT: 0x4f8
+OTHER RESULT? Ordinary_Flow 0x1000005bc 0x1000005c0
+OTHER RESULT? Code_Near_Call 0x1000005bc 0x1000004f8
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'blr x8' instruction at file offset '0x5bc' ?'
+RESULTS: The groundtruth is: {0x500}
+RESULTS: The tool's answer is: {0x4f8}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x4f8'}
+Tool's answer does not include correct elements: {'0x500'}
+RESULTS: SUMMARY: WRONG+1-1
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/arm.dylib...

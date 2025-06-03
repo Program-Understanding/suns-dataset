@@ -117,9 +117,15 @@ process_cfr_file() {
 
         # Create a temporary working directory
         TEMP_DIR=$(mktemp -d)
+	echo $TEMP_DIR
         
         # Copy necessary files to the temp directory
-        cp "$tooldir/study.py" "$TEMP_DIR/" # TODO:
+	if [ -f "$tooldir/script.sh" ]; then	    
+            cp "$tooldir/script.sh" "$TEMP_DIR/" # TODO:
+	fi
+	if [ -f "$tooldir/study.py" ]; then	    
+            cp "$tooldir/study.py" "$TEMP_DIR/" # TODO:
+	fi
         cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" "$TEMP_DIR/$BINARY_TO_ANALYZE_FILENAME"
         cp "$json_file" "$TEMP_DIR/$CFR_JSON_FILENAME"
         
@@ -133,14 +139,15 @@ process_cfr_file() {
         else
             # Otherwise just run normally
 	    start=`date +%s`
-            (cd "$TEMP_DIR" && timeout "$timeout" eval "$SCRIPT") > $LOGFILE 2>&1
+	    # TODO: timeouts don't work for IDA for some reason
+            (cd "$TEMP_DIR" && timeout $timeout $SCRIPT) > $LOGFILE 2>&1
 	    result_code="$?"
 	    end=`date +%s`
 	    runtime=$((end-start))
         fi
 
         # Clean up
-        rm -rf "$TEMP_DIR"
+        #rm -rf "$TEMP_DIR"
     else
         # For Docker tools, use Docker to run the script
         docker cp "$BINARY_TO_ANALYZE_PATH/$BINARY_TO_ANALYZE_FILENAME" "running-$tool-tool:/control-flow-recovery/$BINARY_TO_ANALYZE_FILENAME"

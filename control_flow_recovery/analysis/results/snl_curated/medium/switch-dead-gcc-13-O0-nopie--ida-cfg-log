@@ -1,0 +1,106 @@
+Possible file format: ELF64 for x86-64 (Executable) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/elf.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.eOuGBv12Rg/switch-dead-gcc-13-O0-nopie' into database...
+Detected file format: ELF64 for x86-64 (Executable)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+  0. Creating a new segment  (0000000000400000-00000000004004E8) ... ... OK
+  1. Creating a new segment  (0000000000401000-00000000004011F9) ... ... OK
+  2. Creating a new segment  (0000000000402000-0000000000402164) ... ... OK
+  3. Creating a new segment  (0000000000403E10-0000000000404038) ... ... OK
+Assuming __fastcall calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  4. Creating a new segment  (0000000000401000-000000000040101B) ... ... OK
+     Deleting segment        (000000000040101B-00000000004011F9) ...
+  4. Creating a new segment  (000000000040101B-00000000004011F9) ... ... OK
+  5. Creating a new segment  (0000000000401020-0000000000401040) ... ... OK
+  6. Creating a new segment  (0000000000401040-00000000004011F9) ... ... OK
+  7. Creating a new segment  (0000000000401040-00000000004011E9) ... ... OK
+     Deleting segment        (00000000004011E9-00000000004011F9) ...
+  7. Creating a new segment  (00000000004011E9-00000000004011F9) ... ... OK
+  8. Creating a new segment  (00000000004011EC-00000000004011F9) ... ... OK
+  9. Creating a new segment  (0000000000402000-00000000004020A8) ... ... OK
+     Deleting segment        (00000000004020A8-0000000000402164) ...
+  9. Creating a new segment  (00000000004020A8-0000000000402164) ... ... OK
+ 10. Creating a new segment  (00000000004020A8-00000000004020D4) ... ... OK
+     Deleting segment        (00000000004020D4-0000000000402164) ...
+ 10. Creating a new segment  (00000000004020D4-0000000000402164) ... ... OK
+ 11. Creating a new segment  (00000000004020D8-0000000000402164) ... ... OK
+ 12. Creating a new segment  (0000000000403E10-0000000000403E18) ... ... OK
+     Deleting segment        (0000000000403E18-0000000000404038) ...
+ 12. Creating a new segment  (0000000000403E18-0000000000404038) ... ... OK
+ 13. Creating a new segment  (0000000000403E18-0000000000403E20) ... ... OK
+     Deleting segment        (0000000000403E20-0000000000404038) ...
+ 13. Creating a new segment  (0000000000403E20-0000000000404038) ... ... OK
+ 14. Creating a new segment  (0000000000403FF0-0000000000404000) ... ... OK
+ 15. Creating a new segment  (0000000000404000-0000000000404038) ... ... OK
+ 16. Creating a new segment  (0000000000404000-0000000000404020) ... ... OK
+     Deleting segment        (0000000000404020-0000000000404038) ...
+ 16. Creating a new segment  (0000000000404020-0000000000404038) ... ... OK
+ 17. Creating a new segment  (0000000000404020-0000000000404030) ... ... OK
+     Deleting segment        (0000000000404030-0000000000404038) ...
+ 17. Creating a new segment  (0000000000404030-0000000000404038) ... ... OK
+     Deleting segment        (0000000000404030-0000000000404038) ...
+ 17. Creating a new segment  (0000000000404030-0000000000404038) ... ... OK
+ 18. Creating a new segment  (0000000000404038-0000000000404039) ... ... OK
+ 19. Creating a new segment  (0000000000404040-0000000000404058) ... ... OK
+Processing relocations...
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.eOuGBv12Rg/switch-dead-gcc-13-O0-nopie' has been successfully loaded into the database.
+DWARF: File "/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.eOuGBv12Rg/switch-dead-gcc-13-O0-nopie" contains DWARF information.
+DWARF: Functions: 1 symbol applied
+DWARF: Globals: 0 symbols applied
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x115e
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+RESULT: 0x1160
+RESULT: 0x116c
+RESULT: 0x1178
+RESULT: 0x1184
+RESULT: 0x1190
+RESULT: 0x119c
+RESULT: 0x11a8
+RESULT: 0x11b4
+RESULT: 0x11c0
+RESULT: 0x11cc
+OTHER RESULT? Code_Near_Jump 0x40115e 0x401160
+OTHER RESULT? Code_Near_Jump 0x40115e 0x40116c
+OTHER RESULT? Code_Near_Jump 0x40115e 0x401178
+OTHER RESULT? Code_Near_Jump 0x40115e 0x401184
+OTHER RESULT? Code_Near_Jump 0x40115e 0x401190
+OTHER RESULT? Code_Near_Jump 0x40115e 0x40119c
+OTHER RESULT? Code_Near_Jump 0x40115e 0x4011a8
+OTHER RESULT? Code_Near_Jump 0x40115e 0x4011b4
+OTHER RESULT? Code_Near_Jump 0x40115e 0x4011c0
+OTHER RESULT? Code_Near_Jump 0x40115e 0x4011cc
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x115e' ?'
+RESULTS: The groundtruth is: {0x11c6, 0x11a2, 0x11ae, 0x11ba}
+RESULTS: The tool's answer is: {0x1160, 0x116c, 0x1178, 0x1184, 0x1190, 0x119c, 0x11a8, 0x11b4, 0x11c0, 0x11cc}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x11c0', '0x116c', '0x1184', '0x119c', '0x1178', '0x11a8', '0x1160', '0x11b4', '0x1190', '0x11cc'}
+Tool's answer does not include correct elements: {'0x11a2', '0x11ba', '0x11c6', '0x11ae'}
+RESULTS: SUMMARY: WRONG+10-4
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

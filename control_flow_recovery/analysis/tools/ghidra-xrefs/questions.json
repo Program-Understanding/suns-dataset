@@ -10,7 +10,7 @@
 	  "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite"
       }
   ],
-  "version":"1.0.8"
+  "version":"1.1.0"
 }
     
 
