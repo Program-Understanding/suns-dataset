@@ -9,6 +9,7 @@ int square(int num) {
         case 22: i = 1; break;
         case 46: i = 0; break;
         case 123: i = 9;
+        default: i = 0; break;
 
 
     }

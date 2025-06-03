@@ -1,6 +1,6 @@
 {
     "program": "virtual6_clang-stripped",
-    "question": "What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax + 0x08]' instruction at file offset '0x11e7'?",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax + 8]' instruction at file offset '0x11e7'?",
     "groundtruth": ["0x12f0", "0x1330", "0x1350"],
     "evaluation": "set",
     "source":"source/indirect_calls/virtual_tables/virtual6.cpp",

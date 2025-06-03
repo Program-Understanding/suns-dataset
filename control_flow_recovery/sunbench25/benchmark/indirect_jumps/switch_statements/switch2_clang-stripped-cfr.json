@@ -1,7 +1,7 @@
 {
     "program":"switch2_clang-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x11bf' ?",
-    "groundtruth": ["0x1130"],
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x115e' ?",
+    "groundtruth": ["0x1160", "0x1165", "0x1171", "0x117d", "0x1189", "0x1190"],
     "evaluation":"set",
     "source":"/source/indirect_jumps/switch_statements/switch2.c",
     "stripped": true,
