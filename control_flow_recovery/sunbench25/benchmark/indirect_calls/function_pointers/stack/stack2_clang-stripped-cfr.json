@@ -3,6 +3,6 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call qword ptr [rcx]' instruction at file offset '0x1188'?",
     "groundtruth": ["0x1140"],
     "evaluation":"set",
-    "source": "../../../source/indirect_calls/function_pointers/stack/stack2.c",
+    "source": "../../../../source/indirect_calls/function_pointers/stack/stack2.c",
     "stripped":true
 }

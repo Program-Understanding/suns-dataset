@@ -3,6 +3,6 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1236'?",
     "groundtruth": ["0x11a1"],
     "evaluation":"set",
-    "source": "../../../source/indirect_calls/function_pointers/heap/heap5.c",
+    "source": "../../../../source/indirect_calls/function_pointers/heap/heap5.c",
     "stripped":true
 }
