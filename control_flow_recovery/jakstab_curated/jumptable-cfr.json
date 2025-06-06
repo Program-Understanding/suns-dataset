@@ -1,0 +1,8 @@
+{
+    "program":"jumptable.exe",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call edi' instruction at file offset '0x22e' ?",
+    "groundtruth": ["0x235","0x23e","0x24b","0x256","0x25f","0x270","0x28a","0x2a4"],
+    "evaluation":"set",
+    "source":"src/jumptable.c"
+   }
+   
