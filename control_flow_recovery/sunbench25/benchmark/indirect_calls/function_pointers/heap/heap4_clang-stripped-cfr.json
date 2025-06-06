@@ -3,6 +3,6 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x11eb'?",
     "groundtruth": ["0x1160"],
     "evaluation":"set",
-    "source": "source/indirect_calls/function_pointers/heap/heap4.c",
+    "source": "../../../source/indirect_calls/function_pointers/heap/heap4.c",
     "stripped":true
 }

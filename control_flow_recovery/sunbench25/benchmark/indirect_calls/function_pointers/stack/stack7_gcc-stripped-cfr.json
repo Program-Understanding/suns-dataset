@@ -3,6 +3,6 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x121c'?",
     "groundtruth": ["0x1181", "0x1197"],
     "evaluation":"set",
-    "source": "source/indirect_calls/function_pointers/stack/stack7.c",
+    "source": "../../../source/indirect_calls/function_pointers/stack/stack7.c",
     "stripped":true
 }

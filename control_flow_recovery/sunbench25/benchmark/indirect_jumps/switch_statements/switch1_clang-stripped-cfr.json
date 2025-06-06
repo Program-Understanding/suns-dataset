@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1165' ?",
     "groundtruth": ["0x116c", "0x1178", "0x1184", "0x1190"],
     "evaluation":"set",
-    "source":"/source/indirect_jumps/switch_statements/switch1.c",
+    "source":"../../../source/indirect_jumps/switch_statements/switch1.c",
     "stripped": true,
     "compiler":"clang",
     "compiler-options":"clang"

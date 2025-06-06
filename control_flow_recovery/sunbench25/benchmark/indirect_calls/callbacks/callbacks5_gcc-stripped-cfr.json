@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1038' ?",
     "groundtruth": ["0x1170, 0x1180, 0x1190"],
     "evaluation":"set",
-    "source":"/source/indirect_calls/callbacks/callback5.c",
+    "source":"../../../source/indirect_calls/callbacks/callback5s.c",
     "stripped": true,
     "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
     "compiler-options":"gcc"

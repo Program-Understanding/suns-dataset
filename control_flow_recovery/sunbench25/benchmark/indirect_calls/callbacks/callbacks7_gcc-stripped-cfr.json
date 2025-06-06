@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rax*8 + 0x402010]' instruction at file offset '0x1025' ?",
     "groundtruth": ["0x1130", "0x1140"],
     "evaluation":"set",
-    "source":"/source/indirect_calls/callbacks/callbacks7.c",
+    "source":"../../../source/indirect_calls/callbacks/callbacks7.c",
     "stripped": true,
     "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
     "compiler-options":"gcc"

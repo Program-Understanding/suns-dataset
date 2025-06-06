@@ -3,5 +3,5 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2df5'?",
     "groundtruth": ["0x58e7"],
     "evaluation":"set",
-    "source": "source/indirect_jumps/exceptions/exception7.cpp"
+    "source": "../../../source/indirect_jumps/exceptions/exception7.cpp"
 }

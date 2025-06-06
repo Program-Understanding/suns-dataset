@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call ecx' instruction at file offset '0x3f4' ?",
     "groundtruth": ["0x20a"],
     "evaluation":"set",
-    "source":"/source/indirect_calls/anonymous_functions/anon_call3.c",
+    "source":"../../../source/indirect_calls/anonymous_functions/anon_call3.c",
     "stripped": true,
     "compiler":"Visual Studio 2022 v17.13.5",
     "compiler-options":"cl /Zi /Od /GS- /c",

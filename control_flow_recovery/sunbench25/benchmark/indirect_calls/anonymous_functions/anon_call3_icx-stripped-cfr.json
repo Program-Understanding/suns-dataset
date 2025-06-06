@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x11c0' ?",
     "groundtruth": ["0x1130","0x1140","0x1150","0x1160"],
     "evaluation":"set",
-    "source":"/source/indirect_calls/anonymous_functions/anon_call3.c",
+    "source":"../../../source/indirect_calls/anonymous_functions/anon_call3.c",
     "stripped": true,
     "compiler":"Intel(R) oneAPI DPC++/C++ Compiler 2025.1.0 (2025.1.0.20250317)",
     "compiler-options":"icx"

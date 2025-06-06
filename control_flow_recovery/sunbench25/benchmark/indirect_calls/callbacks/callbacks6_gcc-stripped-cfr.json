@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x116c' ?",
     "groundtruth": ["0x1190"],
     "evaluation":"set",
-    "source":"/source/indirect_calls/callbacks/callbacks6.c",
+    "source":"../../../source/indirect_calls/callbacks/callbacks6.c",
     "stripped": true,
     "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
     "compiler-options":"gcc"

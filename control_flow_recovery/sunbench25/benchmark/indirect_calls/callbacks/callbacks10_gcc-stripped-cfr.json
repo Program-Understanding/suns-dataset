@@ -3,7 +3,7 @@
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1032' ?",
     "groundtruth": ["0x1140", "0x1150"],
     "evaluation":"set",
-    "source":"/source/indirect_calls/callbacks/callbacks10.c",
+    "source":"../../../source/indirect_calls/callbacks/callbacks10.c",
     "stripped": true,
     "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
     "compiler-options":"gcc"
