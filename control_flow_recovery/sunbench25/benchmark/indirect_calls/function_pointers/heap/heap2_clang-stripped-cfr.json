@@ -1,6 +1,6 @@
 {
     "program":"heap2_clang-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x11ce'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x11ce' ?",
     "groundtruth": ["0x1150", "0x1160"],
     "evaluation":"set",
     "source": "../../../../source/indirect_calls/function_pointers/heap/heap2.c",

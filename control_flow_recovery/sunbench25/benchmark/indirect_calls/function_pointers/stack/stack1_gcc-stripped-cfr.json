@@ -1,6 +1,6 @@
 {
     "program":"stack1_gcc-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1183'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1183' ?",
     "groundtruth": ["0x1149"],
     "evaluation":"set",
     "source": "../../../../source/indirect_calls/function_pointers/stack/stack1.c",

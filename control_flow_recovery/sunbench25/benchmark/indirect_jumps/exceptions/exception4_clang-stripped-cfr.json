@@ -1,6 +1,6 @@
 {
     "program":"exception4_clang-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d8d'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d8d' ?",
     "groundtruth": ["0x53b8","0x5343"],
     "evaluation":"set",
     "source": "../../../source/indirect_jumps/exceptions/exception4.cpp",

@@ -1,6 +1,6 @@
 {
     "program":"stack6_gcc-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1214'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1214' ?",
     "groundtruth": ["0x1149","0x1167", "0x1185"],
     "evaluation":"set",
     "source": "../../../../source/indirect_calls/function_pointers/stack/stack6.c",

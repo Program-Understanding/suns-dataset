@@ -1,6 +1,6 @@
 {
     "program": "virtual2_clang-stripped",
-    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1341'?",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1341' ?",
     "groundtruth": ["0x20d6", "0x2114"],
     "evaluation": "set",
     "source":"../../../source/indirect_calls/virtual_tables/virtual2",

@@ -1,6 +1,6 @@
 {
     "program":"exception4_icpx-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d6d'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d6d' ?",
     "groundtruth": ["0x53a0","0x532f"],
     "evaluation":"set",
     "source": "../../../source/indirect_jumps/exceptions/exception4.cpp",

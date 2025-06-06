@@ -1,6 +1,6 @@
 {
     "program":"exception2_gcc-stripped",
-    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0x4a9a0d'?",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0x4a9a0d' ?",
     "groundtruth": ["0x4042e8"],
     "evaluation":"set",
     "source": "../../../source/indirect_jumps/exceptions/exception2.cpp",
