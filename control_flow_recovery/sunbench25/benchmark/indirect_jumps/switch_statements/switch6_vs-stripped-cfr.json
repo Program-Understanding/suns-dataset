@@ -1,0 +1,10 @@
+{
+    "program":"switch6_vs-stripped.exe",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x6577' ?",
+    "groundtruth": ["0x657b", "0x6584", "0x658d", "0x6596", "0x659f", "0x65a8", "0x65b1", "0x65ba", "0x65c3", "0x65cc", "0x65d5", "0x65de", "0x65e5"],
+    "evaluation":"set",
+    "source":"../../../source/indirect_jumps/switch_statements/switch6.c",
+    "stripped": true,
+    "compiler":"Visual Studio 2022 (17.7.4) - x64",
+    "compiler-options":""
+}

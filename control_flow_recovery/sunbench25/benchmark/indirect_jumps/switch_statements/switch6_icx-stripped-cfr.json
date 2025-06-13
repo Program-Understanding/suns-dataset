@@ -1,0 +1,10 @@
+{
+    "program":"switch6_icx-stripped",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rax*8 + 0x402028]' instruction at file offset '0x113b' ?",
+    "groundtruth": ["0x1142", "0x115a", "0x1160", "0x1166", "0x116c", "0x1178", "0x117e"],
+    "evaluation":"set",
+    "source":"../../../source/indirect_jumps/switch_statements/switch6.c",
+    "stripped": true,
+    "compiler":"Intel(R) oneAPI DPC++/C++ Compiler 2025.1.1 (2025.1.1.20250418)",
+    "compiler-options":"-O2"
+}
