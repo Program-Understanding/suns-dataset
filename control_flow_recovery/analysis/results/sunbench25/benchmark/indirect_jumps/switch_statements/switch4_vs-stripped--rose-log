@@ -1,0 +1,15 @@
+bat-cfg[14] 0.06212s Rose::BinaryAnalysis::BinaryLoader[WARN ]: cannot find file for library: KERNEL32.dll
+bat-cfg[14] 0.06715s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[14] 1.07525s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 3236 bytes 323 blks 90 funcs(0%)...
+bat-cfg[14] 9.21864s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 26083 bytes 2,143 blks 90 funcs(10%)...
+bat-cfg[14] 11.21818s Rose[FATAL]: null pointer:
+bat-cfg[14] 11.21825s Rose[FATAL]:   /control-flow-recovery/src/src/Rose/BinaryAnalysis/Partitioner2/IndirectControlFlow.C:790
+bat-cfg[14] 11.21832s Rose[FATAL]:   std::vector<Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline> Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::inlineFunctionCall(Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfGraph&, const ConstPtr&, const Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline&, size_t, Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline::Method)
+bat-cfg[14] 11.21834s Rose[FATAL]:   cretBb
+bat-cfg[14] 11.21837s Rose[FATAL]:   run with `SAWYER_BACKTRACE=1` environment variable to display a backtrace
+Running Rose bat-cfg on program:switch4_vs-stripped.exe
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x6570' ?'
+RESULTS: The groundtruth is: {0x6572, 0x6574, 0x657d, 0x6586, 0x658f, 0x6598, 0x65a1, 0x65aa, 0x65b1}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

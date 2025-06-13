@@ -1,0 +1,8 @@
+Running sja on program:switch4_icx-stripped
+{'Indirect Jump Location': {'0x401138': ['0x401154', '0x401151', '0x40115a', '0x40114b', '0x40113f', '0x401145']}, 'Jump Table Location': {'0x402008': ['0x401154', '0x401151', '0x40115a', '0x40114b', '0x40113f', '0x401145']}}
+The virtual address answers are ['0x401154', '0x401151', '0x40115a', '0x40114b', '0x40113f', '0x401145']
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rdi*8 + 0x402008]' instruction at file offset '0x1138' ?'
+RESULTS: The groundtruth is: {0x113f, 0x1145, 0x114b, 0x1151, 0x1154, 0x115a}
+RESULTS: The tool's answer is: {0x113f, 0x1145, 0x114b, 0x1151, 0x1154, 0x115a}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

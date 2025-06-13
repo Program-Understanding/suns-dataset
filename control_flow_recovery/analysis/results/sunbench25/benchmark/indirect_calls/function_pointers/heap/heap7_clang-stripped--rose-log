@@ -1,0 +1,32 @@
+bat-cfg[3214] 0.03140s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[3214] 2.14468s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 384 bytes 28 blks 10 funcs(10%)...
+bat-cfg[3214] 2.15817s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.126852 seconds
+bat-cfg[3214] 2.15825s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.022381 seconds
+Running Rose bat-cfg on program:heap7_clang-stripped
+****** extract result from the following***
+      0x0000126b: mov esi, 3
+      0x00001270: call qword ds:[rax]
+    block is a function call
+    call return edge to B13 basic block 0x00001272
+    function call edge to function 0x00001190
+    function call edge to function 0x00001170
+    function call edge to function 0x00001150
+  B13 basic block 0x00001272:
+    call return edge from B12 basic block 0x00001262
+      0x00001272: mov dword ds:[rbp + 0xe4<228,-28>], eax
+      0x00001275: mov rdi, qword ds:[rbp + 0xe8<232,-24>]
+      0x00001279: call 0x0000000000001030<4144>
+    block is a function call
+    function call edge to function 0x00001030 "free@plt"
+    call return edge to B14 basic block 0x0000127e
+  B14 basic block 0x0000127e:
+...
+****** extract result from the above***
+I just added 0x00001190 to the answer set
+I just added 0x00001170 to the answer set
+I just added 0x00001150 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x1270' ?'
+RESULTS: The groundtruth is: {0x1150, 0x1170, 0x1190}
+RESULTS: The tool's answer is: {0x1150, 0x1170, 0x1190}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

@@ -1,0 +1,10 @@
+bat-cfg[4112] 0.02806s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[4112] 2.07551s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 87 bytes 8 blks 4 funcs(0%)...
+bat-cfg[4112] 2.08781s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.059825 seconds
+bat-cfg[4112] 2.08788s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.005518 seconds
+Running Rose bat-cfg on program:callbacks3_gcc-stripped
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1034' ?'
+RESULTS: The groundtruth is: {0x1140, 0x1150}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

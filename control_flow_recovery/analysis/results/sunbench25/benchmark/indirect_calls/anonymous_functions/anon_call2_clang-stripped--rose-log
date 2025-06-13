@@ -1,0 +1,10 @@
+bat-cfg[1553] 0.03128s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[1553] 2.02383s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 108 bytes 11 blks 6 funcs(0%)...
+bat-cfg[1553] 2.03681s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.005614 seconds
+bat-cfg[1553] 2.03691s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.005722 seconds
+Running Rose bat-cfg on program:anon_call2_clang-stripped
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rcx' instruction at file offset '0x12bc' ?'
+RESULTS: The groundtruth is: {0x1150, 0x1160, 0x1170, 0x1180, 0x1190, 0x11a0, 0x11b0, 0x11c0, 0x11d0, 0x11e0}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

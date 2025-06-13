@@ -1,0 +1,8 @@
+Running sja on program:stack7_clang-stripped
+{'Indirect Jump Location': {}, 'Jump Table Location': {}}
+The virtual address answers are []
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call qword ptr [rbp + rax*8 - 0x30]' instruction at file offset '0x11f0' ?'
+RESULTS: The groundtruth is: {0x1140, 0x1160, 0x1180}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

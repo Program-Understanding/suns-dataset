@@ -1,0 +1,35 @@
+bat-cfg[208] 0.04944s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[208] 2.55473s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 243 bytes 18 blks 6 funcs(10%)...
+bat-cfg[208] 2.56704s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.517686 seconds
+bat-cfg[208] 2.56712s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.013589 seconds
+Running Rose bat-cfg on program:switch1_gcc-stripped
+****** extract result from the following***
+      0x0000115f: add rax, rdx
+      0x00001162: jmp rax
+    normal edge to B4 basic block 0x00001180
+    normal edge to B5 basic block 0x00001192
+    normal edge to B6 basic block 0x00001165
+    normal edge to B3 basic block 0x00001189
+    normal edge to B7 basic block 0x00001177
+    normal edge to B8 basic block 0x0000116e
+  B6 basic block 0x00001165:
+    normal edge from B2 basic block 0x00001141
+      0x00001165: mov dword ds:[rbp + 0xfc<252,-4>], 12
+      0x0000116c: jmp 0x0000000000001193<4499>
+    normal edge to B9 basic block 0x00001193
+  B8 basic block 0x0000116e:
+    normal edge from B2 basic block 0x00001141
+      0x0000116e: mov dword ds:[rbp + 0xfc<252,-4>], 14
+...
+****** extract result from the above***
+I just added  0x00001180 to the answer set
+I just added  0x00001192 to the answer set
+I just added  0x00001165 to the answer set
+I just added  0x00001189 to the answer set
+I just added  0x00001177 to the answer set
+I just added  0x0000116e to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1162' ?'
+RESULTS: The groundtruth is: {0x1165, 0x116e, 0x1177, 0x1180, 0x1189, 0x1192}
+RESULTS: The tool's answer is: {0x1165, 0x116e, 0x1177, 0x1180, 0x1189, 0x1192}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

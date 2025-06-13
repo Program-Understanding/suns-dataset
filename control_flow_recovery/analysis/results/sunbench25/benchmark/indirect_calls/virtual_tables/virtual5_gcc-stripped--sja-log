@@ -1,0 +1,8 @@
+Running sja on program:virtual5_gcc-stripped
+{'Indirect Jump Location': {}, 'Jump Table Location': {}}
+The virtual address answers are []
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x272c' ?'
+RESULTS: The groundtruth is: {0x3812, 0x385e, 0x38aa}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

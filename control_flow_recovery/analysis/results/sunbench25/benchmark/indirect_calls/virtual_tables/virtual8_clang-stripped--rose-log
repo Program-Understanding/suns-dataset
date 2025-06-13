@@ -1,0 +1,29 @@
+bat-cfg[2405] 0.02975s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[2405] 2.04020s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 505 bytes 33 blks 14 funcs(10%)...
+bat-cfg[2405] 2.05361s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.023948 seconds
+bat-cfg[2405] 2.05370s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.021497 seconds
+Running Rose bat-cfg on program:virtual8_clang-stripped
+****** extract result from the following***
+      0x000011f9: mov rax, qword ds:[rdi]
+      0x000011fc: call qword ds:[rax]
+    block is a function call
+    function call edge to indeterminate
+    call return edge to B13 basic block 0x000011fe
+  B13 basic block 0x000011fe:
+    call return edge from B9 basic block 0x000011f5
+      0x000011fe: xor eax, eax
+      0x00001200: add rsp, 0x40<64>
+      0x00001204: pop rbp
+      0x00001205: ret
+    block is a function return
+    function return edge to indeterminate
+function 0x00001210
+  B1 function entry point:
+    function call edge from basic block 0x0000119b
+...
+****** extract result from the above***
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x11fc' ?'
+RESULTS: The groundtruth is: {0x12f0, 0x1310, 0x1320}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

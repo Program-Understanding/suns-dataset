@@ -1,0 +1,29 @@
+bat-cfg[3068] 0.02778s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[3068] 2.06640s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 313 bytes 22 blks 11 funcs(10%)...
+bat-cfg[3068] 2.11670s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.089002 seconds
+bat-cfg[3068] 2.11678s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.009414 seconds
+Running Rose bat-cfg on program:stack4_clang-stripped
+****** extract result from the following***
+      0x0000120f: mov rax, qword ds:[rbp + 0xd0<208,-48>]
+      0x00001213: call rax
+    block is a function call
+    function call edge to indeterminate
+    call return edge to B4 basic block 0x00001215
+  B4 basic block 0x00001215:
+    call return edge from B2 basic block 0x0000120b
+      0x00001215: xor eax, eax
+      0x00001217: add rsp, 0x30<48>
+      0x0000121b: pop rbp
+      0x0000121c: ret
+    block is a function return
+    function return edge to indeterminate
+function 0x00001220
+  B1 function entry point:
+      0x00001220: push rbp
+...
+****** extract result from the above***
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1213' ?'
+RESULTS: The groundtruth is: {0x1220}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

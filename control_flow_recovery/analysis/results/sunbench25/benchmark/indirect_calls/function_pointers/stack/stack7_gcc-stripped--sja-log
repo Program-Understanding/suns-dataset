@@ -1,0 +1,10 @@
+Running sja on program:stack7_gcc-stripped
+{'Indirect Jump Location': {'0x121c': ['0x1197']}, 'Jump Table Location': {}}
+The virtual address answers are ['0x1197']
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x121c' ?'
+RESULTS: The groundtruth is: {0x1181, 0x1197}
+RESULTS: The tool's answer is: {0x1197}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {}
+Tool's answer does not include correct elements: {'0x1181'}
+RESULTS: SUMMARY: UNDER-1

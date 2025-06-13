@@ -1,0 +1,37 @@
+bat-cfg[530] 0.03816s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[530] 0.05603s Rose::BinaryAnalysis::Partitioner2[WARN ]: found PLT section(s) but could not parse table or table is empty
+bat-cfg[530] 2.19552s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 508 bytes 46 blks 10 funcs(10%)...
+bat-cfg[530] 2.22289s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.184852 seconds
+bat-cfg[530] 2.22301s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.012301 seconds
+Running Rose bat-cfg on program:switch6_clang-stripped
+****** extract result from the following***
+      0x00001146: add rax, rcx
+      0x00001149: jmp rax
+    normal edge to B4 basic block 0x0000117e
+    normal edge to B5 basic block 0x0000118a
+    normal edge to B6 basic block 0x00001184
+    normal edge to B7 basic block 0x0000114b
+    normal edge to B8 basic block 0x00001172
+    normal edge to B9 basic block 0x0000116c
+    normal edge to B10 basic block 0x00001178
+  B7 basic block 0x0000114b:
+    normal edge from B2 basic block 0x0000113b
+      0x0000114b: xor eax, eax
+      0x0000114d: ret
+    block is a function return
+    function return edge to indeterminate
+  B3 basic block 0x0000114e:
+...
+****** extract result from the above***
+I just added  0x0000117e to the answer set
+I just added  0x0000118a to the answer set
+I just added  0x00001184 to the answer set
+I just added  0x0000114b to the answer set
+I just added  0x00001172 to the answer set
+I just added  0x0000116c to the answer set
+I just added  0x00001178 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1149' ?'
+RESULTS: The groundtruth is: {0x114b, 0x116c, 0x1172, 0x1178, 0x117e, 0x1184, 0x118a}
+RESULTS: The tool's answer is: {0x114b, 0x116c, 0x1172, 0x1178, 0x117e, 0x1184, 0x118a}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

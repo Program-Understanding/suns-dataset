@@ -1,0 +1,10 @@
+bat-cfg[1676] 0.03653s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[1676] 2.02131s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 104 bytes 8 blks 4 funcs(0%)...
+bat-cfg[1676] 2.03492s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 1.998478 seconds
+bat-cfg[1676] 2.03500s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.007625 seconds
+Running Rose bat-cfg on program:anon_call1_gcc-stripped
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1107' ?'
+RESULTS: The groundtruth is: {0x1230, 0x1240, 0x1250}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

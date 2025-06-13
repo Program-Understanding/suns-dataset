@@ -1,0 +1,8 @@
+Running sja on program:heap3_clang-stripped
+{'Indirect Jump Location': {}, 'Jump Table Location': {}}
+The virtual address answers are []
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax + rcx*8]' instruction at file offset '0x12de' ?'
+RESULTS: The groundtruth is: {0x1190, 0x11b0}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

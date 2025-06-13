@@ -1,0 +1,14 @@
+bat-cfg[1046] 0.03454s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[1046] 1.04575s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 2546 bytes 170 blks 8 funcs(0%)...
+bat-cfg[1046] 23.27982s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 73827 bytes 4,678 blks 8 funcs(10%)...
+bat-cfg[1046] 51.45204s Rose[FATAL]: assertion failed:
+bat-cfg[1046] 51.45212s Rose[FATAL]:   /control-flow-recovery/src/src/Rose/BinaryAnalysis/Partitioner2/IndirectControlFlow.C:735
+bat-cfg[1046] 51.45220s Rose[FATAL]:   std::vector<Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline> Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::inlineFunctionCall(Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfGraph&, const ConstPtr&, const Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline&, size_t, Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline::Method)
+bat-cfg[1046] 51.45222s Rose[FATAL]:   required: graph.isValidVertex(call.dfCaller)
+bat-cfg[1046] 51.45225s Rose[FATAL]:   run with `SAWYER_BACKTRACE=1` environment variable to display a backtrace
+Running Rose bat-cfg on program:exception4_icpx-stripped
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d6d' ?'
+RESULTS: The groundtruth is: {0x53a0, 0x532f}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

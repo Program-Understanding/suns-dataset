@@ -1,0 +1,37 @@
+bat-cfg[133] 0.03411s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[133] 2.22525s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 266 bytes 20 blks 6 funcs(10%)...
+bat-cfg[133] 2.24277s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.208739 seconds
+bat-cfg[133] 2.24286s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.025576 seconds
+Running Rose bat-cfg on program:switch5_gcc-stripped
+****** extract result from the following***
+      0x0000115c: add rax, rdx
+      0x0000115f: jmp rax
+    normal edge to B4 basic block 0x00001174
+    normal edge to B5 basic block 0x0000118f
+    normal edge to B6 basic block 0x0000116b
+    normal edge to B7 basic block 0x00001162
+    normal edge to B8 basic block 0x0000117d
+    normal edge to B9 basic block 0x00001198
+    normal edge to B10 basic block 0x00001186
+    normal edge to B11 basic block 0x000011a1
+  B7 basic block 0x00001162:
+    normal edge from B2 basic block 0x0000113f
+      0x00001162: mov dword ds:[rbp + 0xfc<252,-4>], 12
+      0x00001169: jmp 0x00000000000011a2<4514>
+    normal edge to B3 basic block 0x000011a2
+  B6 basic block 0x0000116b:
+...
+****** extract result from the above***
+I just added  0x00001174 to the answer set
+I just added  0x0000118f to the answer set
+I just added  0x0000116b to the answer set
+I just added  0x00001162 to the answer set
+I just added  0x0000117d to the answer set
+I just added  0x00001198 to the answer set
+I just added  0x00001186 to the answer set
+I just added  0x000011a1 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x115f' ?'
+RESULTS: The groundtruth is: {0x1162, 0x116b, 0x1174, 0x117d, 0x1186, 0x118f, 0x1198, 0x11a1}
+RESULTS: The tool's answer is: {0x1162, 0x116b, 0x1174, 0x117d, 0x1186, 0x118f, 0x1198, 0x11a1}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

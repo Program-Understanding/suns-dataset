@@ -1,0 +1,10 @@
+Running sja on program:anon_call3_icx-stripped
+{'Indirect Jump Location': {'0x4011c0': ['0x401140', '0x401130', '0x401150'], '0x40118f': ['0x401196', '0x4011a0', '0x4011aa', '0x4011b4']}, 'Jump Table Location': {'0x402008': ['0x401196', '0x4011a0', '0x4011aa', '0x4011b4']}}
+The virtual address answers are ['0x401140', '0x401130', '0x401150']
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x11c0' ?'
+RESULTS: The groundtruth is: {0x1130, 0x1140, 0x1150, 0x1160}
+RESULTS: The tool's answer is: {0x1130, 0x1140, 0x1150}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {}
+Tool's answer does not include correct elements: {'0x1160'}
+RESULTS: SUMMARY: UNDER-1

@@ -1,0 +1,40 @@
+bat-cfg[374] 0.03011s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[374] 0.04215s Rose::BinaryAnalysis::Partitioner2[WARN ]: found PLT section(s) but could not parse table or table is empty
+bat-cfg[374] 1.98750s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 281 bytes 19 blks 5 funcs(10%)...
+bat-cfg[374] 1.99990s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 1.969866 seconds
+bat-cfg[374] 1.99997s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.011393 seconds
+Running Rose bat-cfg on program:switch5_clang-stripped
+****** extract result from the following***
+      0x0000115b: add rax, rcx
+      0x0000115e: jmp rax
+    normal edge to B4 basic block 0x00001195
+    normal edge to B5 basic block 0x000011ad
+    normal edge to B6 basic block 0x00001171
+    normal edge to B7 basic block 0x0000117d
+    normal edge to B8 basic block 0x00001165
+    normal edge to B9 basic block 0x00001189
+    normal edge to B10 basic block 0x00001160
+    normal edge to B11 basic block 0x000011a1
+  B10 basic block 0x00001160:
+    normal edge from B2 basic block 0x0000114c
+      0x00001160: jmp 0x00000000000011b4<4532>
+    normal edge to B3 basic block 0x000011b4
+  B8 basic block 0x00001165:
+    normal edge from B2 basic block 0x0000114c
+...
+****** extract result from the above***
+I just added  0x00001195 to the answer set
+I just added  0x000011ad to the answer set
+I just added  0x00001171 to the answer set
+I just added  0x0000117d to the answer set
+I just added  0x00001165 to the answer set
+I just added  0x00001189 to the answer set
+I just added  0x00001160 to the answer set
+I just added  0x000011a1 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x115e' ?'
+RESULTS: The groundtruth is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1195, 0x11a1, 0x1ad}
+RESULTS: The tool's answer is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1195, 0x11a1, 0x11ad}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x1189', '0x11ad'}
+Tool's answer does not include correct elements: {'0x1ad'}
+RESULTS: SUMMARY: WRONG+2-1

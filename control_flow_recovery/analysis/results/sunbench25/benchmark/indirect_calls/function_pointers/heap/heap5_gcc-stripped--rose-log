@@ -1,0 +1,30 @@
+bat-cfg[3446] 0.02989s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[3446] 2.09932s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 372 bytes 27 blks 11 funcs(10%)...
+bat-cfg[3446] 2.11363s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.083831 seconds
+bat-cfg[3446] 2.11371s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.018842 seconds
+Running Rose bat-cfg on program:heap5_gcc-stripped
+****** extract result from the following***
+      0x00001231: mov edi, 2
+      0x00001236: call rax
+    block is a function call
+    call return edge to B8 basic block 0x00001238
+    function call edge to function 0x000011a1
+  B8 basic block 0x00001238:
+    call return edge from B7 basic block 0x00001217
+      0x00001238: mov esi, eax
+      0x0000123a: lea rax, ds:[rip + 0x0000000000000dcc<3532><absolute=0x000000000000200d>]
+      0x00001241: mov rdi, rax
+      0x00001244: mov eax, 0
+      0x00001249: call 0x0000000000001080<4224>
+    block is a function call
+    function call edge to function 0x00001080 "printf@plt"
+    call return edge to B9 basic block 0x0000124e
+  B9 basic block 0x0000124e:
+...
+****** extract result from the above***
+I just added 0x000011a1 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1236' ?'
+RESULTS: The groundtruth is: {0x11a1}
+RESULTS: The tool's answer is: {0x11a1}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

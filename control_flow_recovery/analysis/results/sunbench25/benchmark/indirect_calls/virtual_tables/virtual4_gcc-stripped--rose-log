@@ -1,0 +1,32 @@
+bat-cfg[2201] 0.02935s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[2201] 1.12888s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 1080 bytes 62 blks 11 funcs(30%)...
+bat-cfg[2201] 1.32903s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 1770 bytes 101 blks 19 funcs(40%)...
+bat-cfg[2201] 1.57558s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 2319 bytes 135 blks 27 funcs(60%)...
+bat-cfg[2201] 2.34837s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.319114 seconds
+bat-cfg[2201] 2.34846s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.075114 seconds
+Running Rose bat-cfg on program:virtual4_gcc-stripped
+****** extract result from the following***
+      0x000012cf: mov rdi, rax
+      0x000012d2: call rdx
+    block is a function call
+    call return edge to B9 basic block 0x000012d4
+    function call edge to function 0x000018a2
+    function call edge to indeterminate
+  B9 basic block 0x000012d4:
+    call return edge from B8 basic block 0x000012bd
+      0x000012d4: mov rax, qword ds:[rbp + 0xd0<208,-48>]
+      0x000012d8: mov rax, qword ds:[rax]
+      0x000012db: add rax, 0x10<16>
+      0x000012df: mov rdx, qword ds:[rax]
+      0x000012e2: mov rax, qword ds:[rbp + 0xd0<208,-48>]
+      0x000012e6: mov rdi, rax
+      0x000012e9: call rdx
+    block is a function call
+...
+****** extract result from the above***
+I just added 0x000018a2 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x12d2' ?'
+RESULTS: The groundtruth is: {0x18a2}
+RESULTS: The tool's answer is: {0x18a2}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

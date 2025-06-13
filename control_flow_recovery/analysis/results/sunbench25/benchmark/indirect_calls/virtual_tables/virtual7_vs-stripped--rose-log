@@ -1,0 +1,15 @@
+bat-cfg[2113] 0.02514s Rose::BinaryAnalysis::BinaryLoader[WARN ]: cannot find file for library: KERNEL32.dll
+bat-cfg[2113] 0.02710s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[2113] 1.03316s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 3042 bytes 311 blks 90 funcs(0%)...
+bat-cfg[2113] 9.45011s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 26168 bytes 2,161 blks 90 funcs(10%)...
+bat-cfg[2113] 11.47159s Rose[FATAL]: null pointer:
+bat-cfg[2113] 11.47167s Rose[FATAL]:   /control-flow-recovery/src/src/Rose/BinaryAnalysis/Partitioner2/IndirectControlFlow.C:790
+bat-cfg[2113] 11.47176s Rose[FATAL]:   std::vector<Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline> Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::inlineFunctionCall(Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfGraph&, const ConstPtr&, const Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline&, size_t, Rose::BinaryAnalysis::Partitioner2::IndirectControlFlow::DfInline::Method)
+bat-cfg[2113] 11.47178s Rose[FATAL]:   cretBb
+bat-cfg[2113] 11.47181s Rose[FATAL]:   run with `SAWYER_BACKTRACE=1` environment variable to display a backtrace
+Running Rose bat-cfg on program:virtual7_vs-stripped.exe
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call qword ptr [rax]' instruction at file offset '0x66c0' ?'
+RESULTS: The groundtruth is: {0x6710}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

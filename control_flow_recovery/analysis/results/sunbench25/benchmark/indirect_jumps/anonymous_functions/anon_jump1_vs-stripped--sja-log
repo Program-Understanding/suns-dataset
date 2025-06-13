@@ -1,0 +1,48 @@
+****** Error: Parse error on line 0 
+ Erroneous Asm:  .L0    eax,DWORD PTR [esp+0x4]
+****** Error: Parse error on line 3 
+ Erroneous Asm:  .L0    DWORD PTR [esp+0xc],0x401040
+****** Error: Parse error on line 4 
+ Erroneous Asm:  .L0    edi,[eax+eax]
+****** Error: Parse error on line 6 
+ Erroneous Asm:  .L0    eax,DWORD PTR [esp+0x10]
+****** Error: Parse error on line 8 
+ Erroneous Asm:  .L0    ecx,DWORD PTR [esp+0x10]
+****** Error: Parse error on line 9 
+ Erroneous Asm:  .L0    esi,eax
+****** Error: Parse error on line 12 
+ Erroneous Asm:  .L0    esp,0x8
+****** Error: Parse error on line 13 
+ Erroneous Asm:  .L0    eax,esi
+****** Error: Exception error:  End_of_file  on line: 16
+****** Error: Exception error:  End_of_file  on line: 17
+****** Error: Exception error:  End_of_file  on line: 18
+****** Error: Exception error:  End_of_file  on line: 19
+****** Error: Exception error:  End_of_file  on line: 20
+****** Error: Exception error:  End_of_file  on line: 21
+****** Error: Exception error:  End_of_file  on line: 22
+****** Error: Exception error:  End_of_file  on line: 23
+****** Error: Parse error on line 25 
+ Erroneous Asm:  .L0    DWORD PTR [esp],0x401000
+****** Error: Parse error on line 26 
+ Erroneous Asm:  .L0    eax,DWORD PTR [esp]
+****** Error: Parse error on line 27 
+ Erroneous Asm:  .L0    esp,0x4
+****** Error: Parse error on line 29 
+ Erroneous Asm:  .L0    eax,DWORD PTR [esp+0x4]
+****** Error: Parse error on line 30 
+ Erroneous Asm:  .L0   eax,eax
+****** Error: Exception error:  End_of_file  on line: 31
+readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+readelf: Error: Not an ELF file - it has the wrong magic bytes at the start
+Running sja on program:anon_jump1_vs-stripped.exe
+{'Indirect Jump Location': {}, 'Jump Table Location': {}}
+The virtual address answers are []
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp eax' instruction at file offset '0x43e' ?'
+RESULTS: The groundtruth is: {0x400}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

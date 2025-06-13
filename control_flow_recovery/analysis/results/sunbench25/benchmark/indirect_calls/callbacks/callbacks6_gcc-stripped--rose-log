@@ -1,0 +1,29 @@
+bat-cfg[3991] 0.02824s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[3991] 2.08551s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 105 bytes 10 blks 4 funcs(0%)...
+bat-cfg[3991] 2.09796s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.069800 seconds
+bat-cfg[3991] 2.09804s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.006379 seconds
+Running Rose bat-cfg on program:callbacks6_gcc-stripped
+****** extract result from the following***
+      0x00401168: sub rsp, 8
+      0x0040116c: call rdx
+    block is a function call
+    function call edge to indeterminate
+    call return edge to B2 basic block 0x0040116e
+  B2 basic block 0x0040116e:
+    call return edge from B1 function entry point
+      0x0040116e: lea rdi, ds:[rbx + 4]
+      0x00401172: call rbp
+    block is a function call
+    function call edge to indeterminate
+    call return edge to B3 basic block 0x00401174
+  B3 basic block 0x00401174:
+    call return edge from B2 basic block 0x0040116e
+      0x00401174: add rsp, 8
+      0x00401178: lea rdi, ds:[rbx + 8]
+...
+****** extract result from the above***
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x116c' ?'
+RESULTS: The groundtruth is: {0x1190}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

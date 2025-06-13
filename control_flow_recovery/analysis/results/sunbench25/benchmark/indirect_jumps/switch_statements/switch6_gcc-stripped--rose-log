@@ -1,0 +1,37 @@
+bat-cfg[250] 0.02784s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[250] 1.91389s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 422 bytes 32 blks 6 funcs(10%)...
+bat-cfg[250] 1.92646s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 1.898704 seconds
+bat-cfg[250] 1.92654s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.030971 seconds
+Running Rose bat-cfg on program:switch6_gcc-stripped
+****** extract result from the following***
+      0x000011a1: add rax, rdx
+      0x000011a4: jmp rax
+    normal edge to B6 basic block 0x00001226
+    normal edge to B18 basic block 0x000011c4
+    normal edge to B19 basic block 0x000011d6
+    normal edge to B20 basic block 0x000011df
+    normal edge to B21 basic block 0x000011bb
+    normal edge to B22 basic block 0x000011cd
+  B3 basic block 0x000011a7:
+    normal edge from B1 function entry point
+      0x000011a7: cmp dword ds:[rbp + 0xec<236,-20>], 0x0000009d<157>
+      0x000011ae: jg 0x0000000000001226<4646>
+    normal edge to B8 basic block 0x000011b0
+    normal edge to B6 basic block 0x00001226
+  B8 basic block 0x000011b0:
+    normal edge from B3 basic block 0x000011a7
+...
+****** extract result from the above***
+I just added  0x00001226 to the answer set
+I just added  0x000011c4 to the answer set
+I just added  0x000011d6 to the answer set
+I just added  0x000011df to the answer set
+I just added  0x000011bb to the answer set
+I just added  0x000011cd to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11a4' ?'
+RESULTS: The groundtruth is: {0x11bb, 0x11c4, 0x11cd, 0x11d6, 0x11df, 0x11e8, 0x11f1, 0x11fa, 0x1203, 0x120c, 0x1215, 0x121e, 0x1226}
+RESULTS: The tool's answer is: {0x11bb, 0x11c4, 0x11cd, 0x11d6, 0x11df, 0x1226}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {}
+Tool's answer does not include correct elements: {'0x11f1', '0x11fa', '0x11e8', '0x120c', '0x121e', '0x1215', '0x1203'}
+RESULTS: SUMMARY: UNDER-7

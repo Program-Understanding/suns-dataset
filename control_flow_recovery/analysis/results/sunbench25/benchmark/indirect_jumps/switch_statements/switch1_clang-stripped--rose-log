@@ -1,0 +1,37 @@
+bat-cfg[415] 0.02603s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[415] 0.03585s Rose::BinaryAnalysis::Partitioner2[WARN ]: found PLT section(s) but could not parse table or table is empty
+bat-cfg[415] 1.96247s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 252 bytes 17 blks 5 funcs(10%)...
+bat-cfg[415] 1.97537s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 1.949418 seconds
+bat-cfg[415] 1.97546s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.009752 seconds
+Running Rose bat-cfg on program:switch1_clang-stripped
+****** extract result from the following***
+      0x00001162: add rax, rcx
+      0x00001165: jmp rax
+    normal edge to B4 basic block 0x00001190
+    normal edge to B5 basic block 0x00001184
+    normal edge to B6 basic block 0x00001167
+    normal edge to B7 basic block 0x0000116c
+    normal edge to B8 basic block 0x00001178
+  B6 basic block 0x00001167:
+    normal edge from B2 basic block 0x00001153
+      0x00001167: jmp 0x00000000000011a3<4515>
+    normal edge to B9 basic block 0x000011a3
+  B7 basic block 0x0000116c:
+    normal edge from B2 basic block 0x00001153
+      0x0000116c: mov dword ds:[rbp + 0xf8<248,-8>], 12
+      0x00001173: jmp 0x00000000000011a3<4515>
+    normal edge to B9 basic block 0x000011a3
+...
+****** extract result from the above***
+I just added  0x00001190 to the answer set
+I just added  0x00001184 to the answer set
+I just added  0x00001167 to the answer set
+I just added  0x0000116c to the answer set
+I just added  0x00001178 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1165' ?'
+RESULTS: The groundtruth is: {0x116c, 0x1178, 0x1184, 0x1190}
+RESULTS: The tool's answer is: {0x1167, 0x116c, 0x1178, 0x1184, 0x1190}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x1167'}
+Tool's answer does not include correct elements: {}
+RESULTS: SUMMARY: OVER+1

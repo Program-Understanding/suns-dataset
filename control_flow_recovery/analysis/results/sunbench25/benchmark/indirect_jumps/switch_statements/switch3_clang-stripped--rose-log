@@ -1,0 +1,36 @@
+bat-cfg[333] 0.02549s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[333] 0.03624s Rose::BinaryAnalysis::Partitioner2[WARN ]: found PLT section(s) but could not parse table or table is empty
+bat-cfg[333] 1.96023s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 237 bytes 16 blks 5 funcs(10%)...
+bat-cfg[333] 1.97271s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 1.947298 seconds
+bat-cfg[333] 1.97278s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.010860 seconds
+Running Rose bat-cfg on program:switch3_clang-stripped
+****** extract result from the following***
+      0x0000115b: add rax, rcx
+      0x0000115e: jmp rax
+    normal edge to B3 basic block 0x00001190
+    normal edge to B4 basic block 0x00001171
+    normal edge to B5 basic block 0x0000117d
+    normal edge to B6 basic block 0x00001165
+    normal edge to B7 basic block 0x00001189
+    normal edge to B8 basic block 0x00001160
+  B8 basic block 0x00001160:
+    normal edge from B2 basic block 0x0000114c
+      0x00001160: jmp 0x0000000000001190<4496>
+    normal edge to B3 basic block 0x00001190
+  B6 basic block 0x00001165:
+    normal edge from B2 basic block 0x0000114c
+      0x00001165: mov dword ds:[rbp + 0xf8<248,-8>], 12
+      0x0000116c: jmp 0x0000000000001190<4496>
+...
+****** extract result from the above***
+I just added  0x00001190 to the answer set
+I just added  0x00001171 to the answer set
+I just added  0x0000117d to the answer set
+I just added  0x00001165 to the answer set
+I just added  0x00001189 to the answer set
+I just added  0x00001160 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x115e' ?'
+RESULTS: The groundtruth is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1190}
+RESULTS: The tool's answer is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1190}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

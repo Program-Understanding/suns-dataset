@@ -1,0 +1,33 @@
+bat-cfg[2841] 0.02793s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[2841] 0.20000s Rose::BinaryAnalysis::SmtSolver[WARN ]: cannot find evidence variable v20921
+bat-cfg[2841] 2.10039s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 374 bytes 23 blks 10 funcs(10%)...
+bat-cfg[2841] 2.11474s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.086894 seconds
+bat-cfg[2841] 2.11483s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.016815 seconds
+Running Rose bat-cfg on program:stack7_gcc-stripped
+****** extract result from the following***
+      0x00001217: mov edi, 5
+      0x0000121c: call rax
+    block is a function call
+    call return edge to B5 basic block 0x0000121e
+    function call edge to indeterminate
+    function call edge to function 0x00001197
+  B5 basic block 0x0000121e:
+    call return edge from B4 basic block 0x000011e2
+      0x0000121e: mov dword ds:[rbp + 0xdc<220,-36>], eax
+      0x00001221: mov eax, dword ds:[rbp + 0xdc<220,-36>]
+      0x00001224: mov esi, eax
+      0x00001226: lea rax, ds:[rip + 0x0000000000000dd7<3543><absolute=0x0000000000002004>]
+      0x0000122d: mov rdi, rax
+      0x00001230: mov eax, 0
+      0x00001235: call 0x0000000000001070<4208>
+    block is a function call
+...
+****** extract result from the above***
+I just added 0x00001197 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x121c' ?'
+RESULTS: The groundtruth is: {0x1181, 0x1197}
+RESULTS: The tool's answer is: {0x1197}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {}
+Tool's answer does not include correct elements: {'0x1181'}
+RESULTS: SUMMARY: UNDER-1

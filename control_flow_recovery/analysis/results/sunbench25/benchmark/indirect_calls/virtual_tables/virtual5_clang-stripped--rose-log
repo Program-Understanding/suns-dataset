@@ -1,0 +1,37 @@
+bat-cfg[2619] 0.02927s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[2619] 2.16067s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 223 bytes 16 blks 8 funcs(10%)...
+bat-cfg[2619] 2.17396s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.144788 seconds
+bat-cfg[2619] 2.17405s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.013584 seconds
+Running Rose bat-cfg on program:virtual5_clang-stripped
+****** extract result from the following***
+      0x000011c1: mov rdi, qword ds:[rbp + 0xe8<232,-24>]
+      0x000011c5: call rax
+    block is a function call
+    call return edge to B5 basic block 0x000011c7
+    function call edge to indeterminate
+    function call edge to function 0x00001150
+  B5 basic block 0x000011c7:
+    call return edge from B4 basic block 0x000011b7
+      0x000011c7: xor eax, eax
+      0x000011c9: add rsp, 0x20<32>
+      0x000011cd: pop rbp
+      0x000011ce: ret
+    block is a function return
+    function return edge to indeterminate
+
+Traceback (most recent call last):
+  File "study.py", line 121, in <module>
+    study()
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "study.py", line 113, in study
+    study_targets(cfr["question"],
+  File "study.py", line 59, in study_targets
+    print(lines[i+14])
+IndexError: list index out of range

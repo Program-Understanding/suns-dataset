@@ -1,0 +1,40 @@
+bat-cfg[1304] 0.02738s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[1304] 2.11551s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 81 bytes 8 blks 5 funcs(0%)...
+bat-cfg[1304] 2.13000s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.102702 seconds
+bat-cfg[1304] 2.13008s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.005355 seconds
+Running Rose bat-cfg on program:anon_jump2_gcc-stripped
+****** extract result from the following***
+  B2 basic block 0x00001077:
+      0x00001077: jmp rdx
+    normal edge to indeterminate
+function 0x00001080 "_start"
+  B1 function entry point:
+      0x00001080: nop
+      0x00001084: xor ebp, ebp
+      0x00001086: mov r9, rdx
+      0x00001089: pop rsi
+      0x0000108a: mov rdx, rsp
+      0x0000108d: and rsp, 0xf0<240,-16>
+      0x00001091: push rax
+      0x00001092: push rsp
+      0x00001093: xor r8d, r8d
+      0x00001096: xor ecx, ecx
+      0x00001098: lea rdi, ds:[rip + 0xffffffffffffffa1<18446744073709551521,-95><absolute=0x0000000000001040>]
+...
+****** extract result from the above***
+Traceback (most recent call last):
+  File "study.py", line 121, in <module>
+    study()
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/usr/local/lib/python3.8/dist-packages/click/core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "study.py", line 113, in study
+    study_targets(cfr["question"],
+  File "study.py", line 84, in study_targets
+    ans = target_line[len(p2):].split('basic block')[1]
+IndexError: list index out of range

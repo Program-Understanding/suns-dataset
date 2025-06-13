@@ -1,0 +1,29 @@
+bat-cfg[4152] 0.02908s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[4152] 2.10400s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 141 bytes 13 blks 4 funcs(0%)...
+bat-cfg[4152] 2.11610s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.087116 seconds
+bat-cfg[4152] 2.11620s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.016074 seconds
+Running Rose bat-cfg on program:callbacks4_gcc-stripped
+****** extract result from the following***
+      0x00401190: mov edi, dword ds:[rbx]
+      0x00401192: call r12
+    block is a function call
+    function call edge to indeterminate
+    call return edge to B4 basic block 0x00401195
+  B4 basic block 0x00401195:
+    call return edge from B2 basic block 0x00401190
+      0x00401195: test eax, eax
+      0x00401197: je 0x004011a3
+    normal edge to B5 basic block 0x00401199
+    normal edge to B3 basic block 0x004011a3
+  B5 basic block 0x00401199:
+    normal edge from B4 basic block 0x00401195
+      0x00401199: mov eax, dword ds:[rbx]
+      0x0040119b: mov dword ds:[r14 + rbp * 4], eax
+      0x0040119f: add rbp, 1
+...
+****** extract result from the above***
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call r12' instruction at file offset '0x1192' ?'
+RESULTS: The groundtruth is: {0x1160}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

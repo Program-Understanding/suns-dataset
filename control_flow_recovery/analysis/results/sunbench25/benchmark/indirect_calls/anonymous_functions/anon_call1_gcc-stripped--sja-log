@@ -1,0 +1,263 @@
+****** Error: Exception error:  End_of_file  on line: 0
+****** Error: Parse error on line 1 
+ Erroneous Asm:  .L-1    rsp,0x8
+****** Error: Parse error on line 2 
+ Erroneous Asm:  .L-1    rax,QWORD PTR [rip+0x2fd9]        
+****** Error: Parse error on line 3 
+ Erroneous Asm:  .L-1   rax,rax
+****** Error: Parse error on line 4 
+ Erroneous Asm:  .L-1     0x0000000000001016
+****** Error: Parse error on line 6 
+ Erroneous Asm:  .L-1    rsp,0x8
+****** Error: Exception error:  End_of_file  on line: 7
+****** Error: Parse error on line 8 
+ Erroneous Asm:  .L-1   QWORD PTR [rip+0x2f9a]        
+****** Error: Parse error on line 9 
+ Erroneous Asm:  .L-1    QWORD PTR [rip+0x2f9c]        
+****** Error: Parse error on line 10 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 11
+****** Error: Parse error on line 12 
+ Erroneous Asm:  .L-1   0x0
+****** Error: Parse error on line 13 
+ Erroneous Asm:  .L-1    0x0000000000001020
+****** Error: Parse error on line 14 
+ Erroneous Asm:  .L-1   ax,ax
+****** Error: Exception error:  End_of_file  on line: 15
+****** Error: Parse error on line 16 
+ Erroneous Asm:  .L-1    QWORD PTR [rip+0x2fae]        
+****** Error: Parse error on line 17 
+ Erroneous Asm:  .L-1    WORD PTR [rax+rax]
+****** Error: Exception error:  End_of_file  on line: 18
+****** Error: Parse error on line 19 
+ Erroneous Asm:  .L-1    QWORD PTR [rip+0x2f76]        
+****** Error: Parse error on line 20 
+ Erroneous Asm:  .L-1    WORD PTR [rax+rax]
+****** Error: Exception error:  End_of_file  on line: 21
+****** Error: Parse error on line 23 
+ Erroneous Asm:  .L-1    edi,0x1
+****** Error: Parse error on line 29 
+ Erroneous Asm:  .L-1    rsp,0x28
+****** Error: Parse error on line 30 
+ Erroneous Asm:  .L-1    rax,QWORD PTR fs:0x28
+****** Error: Parse error on line 31 
+ Erroneous Asm:  .L-1    QWORD PTR [rsp+0x18],rax
+****** Error: Parse error on line 32 
+ Erroneous Asm:  .L-1    rax,[rip+0x1a6]        
+****** Error: Parse error on line 33 
+ Erroneous Asm:  .L-1   xmm0,rax
+****** Error: Parse error on line 34 
+ Erroneous Asm:  .L-1    rax,[rip+0x1aa]        
+****** Error: Parse error on line 35 
+ Erroneous Asm:  .L-1   xmm1,rax
+****** Error: Parse error on line 36 
+ Erroneous Asm:  .L-1    rax,[rip+0x1ae]        
+****** Error: Parse error on line 37 
+ Erroneous Asm:  .L-1 xmm0,xmm1
+****** Error: Parse error on line 38 
+ Erroneous Asm:  .L-1    QWORD PTR [rsp+0x10],rax
+****** Error: Parse error on line 39 
+ Erroneous Asm:  .L-1 XMMWORD PTR [rsp],xmm0
+****** Error: Parse error on line 40 
+ Erroneous Asm:  .L-1    edi,0x2
+****** Error: Parse error on line 41 
+ Erroneous Asm:  .L-1     0x0000000000001130
+****** Error: Parse error on line 42 
+ Erroneous Asm:  .L-1    rax,[rip+0xf5d]        
+****** Error: Parse error on line 43 
+ Erroneous Asm:  .L-1    ebp,DWORD PTR [rax+rdi*4]
+****** Error: Parse error on line 44 
+ Erroneous Asm:  .L-1    rax,[rip+0xf43]        
+****** Error: Parse error on line 45 
+ Erroneous Asm:  .L-1    ebx,DWORD PTR [rax+rdi*4]
+****** Error: Parse error on line 46 
+ Erroneous Asm:  .L-1    r13d,ebp
+****** Error: Parse error on line 47 
+ Erroneous Asm:  .L-1    r15d,ebx
+****** Error: Parse error on line 48 
+ Erroneous Asm:  .L-1    r12,[rip+0x17b]        
+****** Error: Parse error on line 49 
+ Erroneous Asm:  .L-1    r14d,r14d
+****** Error: Parse error on line 50 
+ Erroneous Asm:  .L-1    r13d,0x1
+****** Error: Parse error on line 51 
+ Erroneous Asm:  .L-1    r15d,0x1
+****** Error: Parse error on line 52 
+ Erroneous Asm:  .L-1    rax,r12
+****** Error: Parse error on line 53 
+ Erroneous Asm:  .L-1   r13d,r13d
+****** Error: Parse error on line 54 
+ Erroneous Asm:  .L-1    0x00000000000010ff
+****** Error: Parse error on line 55 
+ Erroneous Asm:  .L-1    rax,[rip+0x151]        
+****** Error: Parse error on line 56 
+ Erroneous Asm:  .L-1   r15d,r15d
+****** Error: Parse error on line 57 
+ Erroneous Asm:  .L-1    0x00000000000010ff
+****** Error: Parse error on line 58 
+ Erroneous Asm:  .L-1    rax,[r14+r14]
+****** Error: Parse error on line 59 
+ Erroneous Asm:  .L-1    eax,0x2
+****** Error: Parse error on line 60 
+ Erroneous Asm:  .L-1    rax,QWORD PTR [rsp+rax*8]
+****** Error: Parse error on line 61 
+ Erroneous Asm:  .L-1    r14d,0x1
+****** Error: Parse error on line 62 
+ Erroneous Asm:  .L-1    esi,ebx
+****** Error: Parse error on line 63 
+ Erroneous Asm:  .L-1    edi,ebp
+****** Error: Parse error on line 65 
+ Erroneous Asm:  .L-1    r14d,0x3
+****** Error: Parse error on line 66 
+ Erroneous Asm:  .L-1    0x00000000000010e0
+****** Error: Parse error on line 67 
+ Erroneous Asm:  .L-1    rax,QWORD PTR [rsp+0x18]
+****** Error: Parse error on line 68 
+ Erroneous Asm:  .L-1    rax,QWORD PTR fs:0x28
+****** Error: Parse error on line 69 
+ Erroneous Asm:  .L-1    0x0000000000001136
+****** Error: Parse error on line 70 
+ Erroneous Asm:  .L-1    rsp,0x28
+****** Error: Parse error on line 71 
+ Erroneous Asm:  .L-1    eax,eax
+****** Error: Exception error:  End_of_file  on line: 78
+****** Error: Parse error on line 79 
+ Erroneous Asm:  .L-1    ebx,ebx
+****** Error: Parse error on line 80 
+ Erroneous Asm:  .L-1    ebp,ebp
+****** Error: Parse error on line 81 
+ Erroneous Asm:  .L-1    0x00000000000010c8
+****** Error: Parse error on line 82 
+ Erroneous Asm:  .L-1   0x0000000000001050
+****** Error: Parse error on line 83 
+ Erroneous Asm:  .L-1    DWORD PTR [rax+rax]
+****** Error: Exception error:  End_of_file  on line: 84
+****** Error: Parse error on line 85 
+ Erroneous Asm:  .L-1    ebp,ebp
+****** Error: Parse error on line 86 
+ Erroneous Asm:  .L-1    r9,rdx
+****** Error: Parse error on line 88 
+ Erroneous Asm:  .L-1    rdx,rsp
+****** Error: Parse error on line 89 
+ Erroneous Asm:  .L-1    rsp,0xfffffffffffffff0
+****** Error: Parse error on line 92 
+ Erroneous Asm:  .L-1    r8d,r8d
+****** Error: Parse error on line 93 
+ Erroneous Asm:  .L-1    ecx,ecx
+****** Error: Parse error on line 94 
+ Erroneous Asm:  .L-1    rdi,[rip+0xffffffffffffff01]        
+****** Error: Parse error on line 95 
+ Erroneous Asm:  .L-1   QWORD PTR [rip+0x2e73]        
+****** Error: Exception error:  End_of_file  on line: 96
+****** Error: Parse error on line 98 
+ Erroneous Asm:  .L-1    rdi,[rip+0x2e99]        
+****** Error: Parse error on line 99 
+ Erroneous Asm:  .L-1    rax,[rip+0x2e92]        
+****** Error: Parse error on line 100 
+ Erroneous Asm:  .L-1    rax,rdi
+****** Error: Parse error on line 101 
+ Erroneous Asm:  .L-1     0x0000000000001198
+****** Error: Parse error on line 102 
+ Erroneous Asm:  .L-1    rax,QWORD PTR [rip+0x2e56]        
+****** Error: Parse error on line 103 
+ Erroneous Asm:  .L-1   rax,rax
+****** Error: Parse error on line 104 
+ Erroneous Asm:  .L-1     0x0000000000001198
+****** Error: Parse error on line 106 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 107
+****** Error: Parse error on line 108 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Parse error on line 109 
+ Erroneous Asm:  .L-1    rdi,[rip+0x2e69]        
+****** Error: Parse error on line 110 
+ Erroneous Asm:  .L-1    rsi,[rip+0x2e62]        
+****** Error: Parse error on line 111 
+ Erroneous Asm:  .L-1    rsi,rdi
+****** Error: Parse error on line 112 
+ Erroneous Asm:  .L-1    rax,rsi
+****** Error: Parse error on line 113 
+ Erroneous Asm:  .L-1    rsi,0x3f
+****** Error: Parse error on line 114 
+ Erroneous Asm:  .L-1    rax,0x3
+****** Error: Parse error on line 115 
+ Erroneous Asm:  .L-1    rsi,rax
+****** Error: Parse error on line 116 
+ Erroneous Asm:  .L-1    rsi,1
+****** Error: Parse error on line 117 
+ Erroneous Asm:  .L-1     0x00000000000011d8
+****** Error: Parse error on line 118 
+ Erroneous Asm:  .L-1    rax,QWORD PTR [rip+0x2e25]        
+****** Error: Parse error on line 119 
+ Erroneous Asm:  .L-1   rax,rax
+****** Error: Parse error on line 120 
+ Erroneous Asm:  .L-1     0x00000000000011d8
+****** Error: Parse error on line 122 
+ Erroneous Asm:  .L-1    WORD PTR [rax+rax]
+****** Error: Exception error:  End_of_file  on line: 123
+****** Error: Parse error on line 124 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 125
+****** Error: Parse error on line 126 
+ Erroneous Asm:  .L-1    BYTE PTR [rip+0x2e25],0x0        
+****** Error: Parse error on line 127 
+ Erroneous Asm:  .L-1    0x0000000000001218
+****** Error: Parse error on line 129 
+ Erroneous Asm:  .L-1    QWORD PTR [rip+0x2e02],0x0        
+****** Error: Parse error on line 130 
+ Erroneous Asm:  .L-1    rbp,rsp
+****** Error: Parse error on line 131 
+ Erroneous Asm:  .L-1     0x0000000000001207
+****** Error: Parse error on line 132 
+ Erroneous Asm:  .L-1    rdi,QWORD PTR [rip+0x2e06]        
+****** Error: Parse error on line 133 
+ Erroneous Asm:  .L-1   0x0000000000001040
+****** Error: Parse error on line 134 
+ Erroneous Asm:  .L-1   0x0000000000001170
+****** Error: Parse error on line 135 
+ Erroneous Asm:  .L-1    BYTE PTR [rip+0x2dfd],0x1        
+****** Error: Exception error:  End_of_file  on line: 137
+****** Error: Parse error on line 138 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 139
+****** Error: Parse error on line 140 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 141
+****** Error: Parse error on line 142 
+ Erroneous Asm:  .L-1    0x00000000000011a0
+****** Error: Parse error on line 143 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 144
+****** Error: Parse error on line 145 
+ Erroneous Asm:  .L-1    eax,[rdi+rsi]
+****** Error: Exception error:  End_of_file  on line: 146
+****** Error: Parse error on line 147 
+ Erroneous Asm:  .L-1    DWORD PTR [rax+rax]
+****** Error: Exception error:  End_of_file  on line: 148
+****** Error: Parse error on line 149 
+ Erroneous Asm:  .L-1    eax,edi
+****** Error: Parse error on line 150 
+ Erroneous Asm:  .L-1    eax,esi
+****** Error: Exception error:  End_of_file  on line: 151
+****** Error: Parse error on line 152 
+ Erroneous Asm:  .L-1    DWORD PTR [rax]
+****** Error: Exception error:  End_of_file  on line: 153
+****** Error: Parse error on line 154 
+ Erroneous Asm:  .L-1    eax,edi
+****** Error: Parse error on line 155 
+ Erroneous Asm:  .L-1   eax,esi
+****** Error: Exception error:  End_of_file  on line: 156
+****** Error: Exception error:  End_of_file  on line: 157
+****** Error: Parse error on line 158 
+ Erroneous Asm:  .L-1    rsp,0x8
+****** Error: Parse error on line 159 
+ Erroneous Asm:  .L-1    rsp,0x8
+****** Error: Exception error:  End_of_file  on line: 160
+Running sja on program:anon_call1_gcc-stripped
+{'Indirect Jump Location': {}, 'Jump Table Location': {}}
+The virtual address answers are []
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1107' ?'
+RESULTS: The groundtruth is: {0x1230, 0x1240, 0x1250}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

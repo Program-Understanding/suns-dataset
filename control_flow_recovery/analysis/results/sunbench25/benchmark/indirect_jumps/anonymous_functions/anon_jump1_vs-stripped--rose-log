@@ -1,0 +1,27 @@
+bat-cfg[1267] 0.02515s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 0.265302 seconds
+bat-cfg[1267] 0.29048s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.005874 seconds
+Running Rose bat-cfg on program:anon_jump1_vs-stripped.exe
+****** extract result from the following***
+      0x0040103b: add esp, 4
+      0x0040103e: jmp eax
+      0x00401000: mov eax, dword ss:[esp + 4]
+      0x00401004: push esi
+      0x00401005: push edi
+      0x00401006: mov dword ss:[esp + 12], 0x00401040
+      0x0040100e: lea edi, ds:[eax + eax]
+      0x00401011: push eax
+      0x00401012: mov eax, dword ss:[esp + 0x10<16>]
+      0x00401016: call eax
+    block is a function call
+    function call edge to function 0x00401040
+    call return edge to B1 basic block 0x00401018
+function 0x00401040
+  B1 function entry point:
+    function call edge from function 0x00401030 "_start"
+...
+****** extract result from the above***
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp eax' instruction at file offset '0x43e' ?'
+RESULTS: The groundtruth is: {0x400}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

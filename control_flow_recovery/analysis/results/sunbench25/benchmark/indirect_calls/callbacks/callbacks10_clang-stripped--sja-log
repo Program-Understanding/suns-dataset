@@ -1,0 +1,8 @@
+Running sja on program:callbacks10_clang-stripped
+{'Indirect Jump Location': {'0x116c': ['0x1180', '0x11a0']}, 'Jump Table Location': {}}
+The virtual address answers are ['0x1180', '0x11a0']
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x116c' ?'
+RESULTS: The groundtruth is: {0x11a0, 0x1180}
+RESULTS: The tool's answer is: {0x1180, 0x11a0}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

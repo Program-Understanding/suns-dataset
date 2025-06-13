@@ -1,0 +1,30 @@
+bat-cfg[3750] 0.02877s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[3750] 0.03890s Rose::BinaryAnalysis::Partitioner2[WARN ]: found PLT section(s) but could not parse table or table is empty
+bat-cfg[3750] 2.12568s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 155 bytes 10 blks 6 funcs(0%)...
+bat-cfg[3750] 2.13900s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.110309 seconds
+bat-cfg[3750] 2.13908s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.006709 seconds
+Running Rose bat-cfg on program:callbacks7_clang-stripped
+****** extract result from the following***
+      0x00001162: mov edi, dword ds:[rbp + 0xf8<248,-8>]
+      0x00001165: call rax
+    block is a function call
+    function call edge to indeterminate
+    call return edge to B2 basic block 0x00001167
+  B2 basic block 0x00001167:
+    call return edge from B1 function entry point
+      0x00001167: add rsp, 0x20<32>
+      0x0000116b: pop rbp
+      0x0000116c: ret
+    block is a function return
+    function return edge to indeterminate
+function 0x00001170
+  B1 function entry point:
+      0x00001170: push rbp
+      0x00001171: mov rbp, rsp
+...
+****** extract result from the above***
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x1165' ?'
+RESULTS: The groundtruth is: {0x1170, 0x1180}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
