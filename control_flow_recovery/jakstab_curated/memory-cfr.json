@@ -1,7 +1,7 @@
 {
     "program":"memory.exe",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call eax' instruction at file offset '0x100c' ?",
-    "groundtruth": [""],
+    "question":"What are the file offsets for the instructions that are the targets of the 'call eax' instruction at file offset '0x412' ?",
+    "groundtruth": ["0x415"],
     "evaluation":"set",
     "source":"src/memory.asm"
    }

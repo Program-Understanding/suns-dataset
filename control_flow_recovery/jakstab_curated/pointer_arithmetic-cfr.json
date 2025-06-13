@@ -1,0 +1,8 @@
+{
+    "program":"pointer_arithmetic.exe",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call eax' instruction at file offset '0x20d' ?",
+    "groundtruth": ["0x21f"],
+    "evaluation":"set",
+    "source":"src/pointer_arithmetic.asm"
+   }
+   
