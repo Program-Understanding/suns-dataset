@@ -1,0 +1,89 @@
+Possible file format: ELF64 for x86-64 (Shared object) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/elf.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+   106496    13 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   892928            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.5IuixNyKgv/virtual5_gcc-stripped' into database...
+Detected file format: ELF64 for x86-64 (Shared object)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+  0. Creating a new segment  (0000000000000000-0000000000001958) ... ... OK
+  1. Creating a new segment  (0000000000002000-0000000000003C39) ... ... OK
+  2. Creating a new segment  (0000000000004000-0000000000004F30) ... ... OK
+  3. Creating a new segment  (00000000000069B0-0000000000007278) ... ... OK
+Assuming __fastcall calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  4. Creating a new segment  (0000000000002000-000000000000201B) ... ... OK
+     Deleting segment        (000000000000201B-0000000000003C39) ...
+  4. Creating a new segment  (000000000000201B-0000000000003C39) ... ... OK
+  5. Creating a new segment  (0000000000002020-0000000000002230) ... ... OK
+  6. Creating a new segment  (0000000000002230-0000000000003C39) ... ... OK
+  7. Creating a new segment  (0000000000002230-0000000000002240) ... ... OK
+     Deleting segment        (0000000000002240-0000000000003C39) ...
+  7. Creating a new segment  (0000000000002240-0000000000003C39) ... ... OK
+  8. Creating a new segment  (0000000000002240-0000000000002440) ... ... OK
+     Deleting segment        (0000000000002440-0000000000003C39) ...
+  8. Creating a new segment  (0000000000002440-0000000000003C39) ... ... OK
+  9. Creating a new segment  (0000000000002440-0000000000003C2A) ... ... OK
+     Deleting segment        (0000000000003C2A-0000000000003C39) ...
+  9. Creating a new segment  (0000000000003C2A-0000000000003C39) ... ... OK
+ 10. Creating a new segment  (0000000000003C2C-0000000000003C39) ... ... OK
+ 11. Creating a new segment  (0000000000004000-00000000000040F2) ... ... OK
+     Deleting segment        (00000000000040F2-0000000000004F30) ...
+ 11. Creating a new segment  (00000000000040F2-0000000000004F30) ... ... OK
+ 12. Creating a new segment  (00000000000040F4-00000000000043D0) ... ... OK
+ 13. Creating a new segment  (00000000000043D0-0000000000004F30) ... ... OK
+ 14. Creating a new segment  (00000000000043D0-0000000000004EDC) ... ... OK
+     Deleting segment        (0000000000004EDC-0000000000004F30) ...
+ 14. Creating a new segment  (0000000000004EDC-0000000000004F30) ... ... OK
+     Deleting segment        (0000000000004EDC-0000000000004F30) ...
+ 14. Creating a new segment  (0000000000004EDC-0000000000004F30) ... ... OK
+ 15. Creating a new segment  (00000000000069B0-00000000000069C8) ... ... OK
+     Deleting segment        (00000000000069C8-0000000000007278) ...
+ 15. Creating a new segment  (00000000000069C8-0000000000007278) ... ... OK
+ 16. Creating a new segment  (00000000000069C8-00000000000069D0) ... ... OK
+     Deleting segment        (00000000000069D0-0000000000007278) ...
+ 16. Creating a new segment  (00000000000069D0-0000000000007278) ... ... OK
+ 17. Creating a new segment  (00000000000069D0-0000000000006CA0) ... ... OK
+     Deleting segment        (0000000000006CA0-0000000000007278) ...
+ 17. Creating a new segment  (0000000000006CA0-0000000000007278) ... ... OK
+ 18. Creating a new segment  (0000000000006EB0-0000000000007000) ... ... OK
+ 19. Creating a new segment  (0000000000007000-0000000000007278) ... ... OK
+ 20. Creating a new segment  (0000000000007000-0000000000007018) ... ... OK
+     Deleting segment        (0000000000007018-0000000000007278) ...
+ 20. Creating a new segment  (0000000000007018-0000000000007278) ... ... OK
+ 21. Creating a new segment  (0000000000007040-0000000000007278) ... ... OK
+ 22. Creating a new segment  (0000000000007278-00000000000073D0) ... ... OK
+Processing relocations...
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.5IuixNyKgv/virtual5_gcc-stripped' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x272c
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+OTHER RESULT? Ordinary_Flow 0x272c 0x272e
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x272c' ?'
+RESULTS: The groundtruth is: {0x3812, 0x385e, 0x38aa}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

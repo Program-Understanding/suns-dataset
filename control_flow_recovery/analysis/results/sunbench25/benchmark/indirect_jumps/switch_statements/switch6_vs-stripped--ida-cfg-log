@@ -1,0 +1,94 @@
+Possible file format: MS-DOS executable (EXE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/dos.dylib)
+Possible file format: Portable executable for AMD64 (PE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/pe.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+  2555904   312 8192 allocating memory for b-tree...
+  2555904   312 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+  5373952            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.sc7TAOxmZK/switch6_vs-stripped.exe' into database...
+Detected file format: Portable executable for AMD64 (PE)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+  0. Creating a new segment  (0000000140001000-000000014007F000) ... ... OK
+  1. Creating a new segment  (000000014007F000-0000000140095000) ... ... OK
+  2. Creating a new segment  (0000000140095000-0000000140099000) ... ... OK
+  3. Creating a new segment  (0000000140099000-000000014009E000) ... ... OK
+  4. Creating a new segment  (000000014009E000-000000014009F000) ... ... OK
+  5. Creating a new segment  (000000014009F000-00000001400A0000) ... ... OK
+Reading imports directory...
+Reading exception directory (.pdata)...
+Applying fixups...
+  6. Creating a new segment  (000000014009E3A8-000000014009F000) ... ... OK
+PDB: using PDBIDA provider
+PDB: downloading http://msdl.microsoft.com/download/symbols/switch6.pdb/37813140E1BE43D38F15649876A853DB1/switch6.pdb => /var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/ida/switch6.pdb/37813140E1BE43D38F15649876A853DB1/switch6.pdb
+PDB: HTTP error: Server replied with status code 404
+Could not find PDB file 'switch6.pdb'.
+Please check _NT_SYMBOL_PATH
+/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/..../switch6_vs-stripped.exe: failed to load pdb info.
+
+Do you want to browse for the pdb file on disk? -> ~Y~es
+Syntax error near: <END>
+Plan  FLIRT signature: Microsoft VisualC v14 64bit runtime
+Plan  FLIRT signature: Microsoft VisualC 64bit universal runtime
+main() function at 140002D79, named "main"
+Type library 'mssdk64_win7' loaded. Applying types...
+Types applied to 90 names.
+Plan  FLIRT signature: SEH for vc64 7-14
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.sc7TAOxmZK/switch6_vs-stripped.exe' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x6577
+Using FLIRT signature: Microsoft VisualC v14 64bit runtime
+Using FLIRT signature: Microsoft VisualC 64bit universal runtime
+Using FLIRT signature: SEH for vc64 7-14
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+RESULT: 0x657b
+RESULT: 0x6584
+RESULT: 0x658d
+RESULT: 0x6596
+RESULT: 0x659f
+RESULT: 0x65a8
+RESULT: 0x65b1
+RESULT: 0x65ba
+RESULT: 0x65c3
+RESULT: 0x65cc
+RESULT: 0x65d5
+RESULT: 0x65de
+RESULT: 0x65e5
+OTHER RESULT? Code_Near_Jump 0x140007177 0x14000717b
+OTHER RESULT? Code_Near_Jump 0x140007177 0x140007184
+OTHER RESULT? Code_Near_Jump 0x140007177 0x14000718d
+OTHER RESULT? Code_Near_Jump 0x140007177 0x140007196
+OTHER RESULT? Code_Near_Jump 0x140007177 0x14000719f
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071a8
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071b1
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071ba
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071c3
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071cc
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071d5
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071de
+OTHER RESULT? Code_Near_Jump 0x140007177 0x1400071e5
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x6577' ?'
+RESULTS: The groundtruth is: {0x657b, 0x6584, 0x658d, 0x6596, 0x659f, 0x65a8, 0x65b1, 0x65ba, 0x65c3, 0x65cc, 0x65d5, 0x65de, 0x65e5}
+RESULTS: The tool's answer is: {0x657b, 0x6584, 0x658d, 0x6596, 0x659f, 0x65a8, 0x65b1, 0x65ba, 0x65c3, 0x65cc, 0x65d5, 0x65de, 0x65e5}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

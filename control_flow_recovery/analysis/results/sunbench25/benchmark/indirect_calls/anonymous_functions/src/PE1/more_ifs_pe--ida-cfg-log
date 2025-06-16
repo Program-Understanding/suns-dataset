@@ -1,0 +1,55 @@
+Possible file format: MS-DOS executable (EXE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/dos.dylib)
+Possible file format: Portable executable for 80386 (PE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/pe.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.OxOgTosgM5/more_ifs.exe' into database...
+Detected file format: Portable executable for 80386 (PE)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+Assuming __cdecl calling convention by default
+  0. Creating a new segment  (00401000-00403000) ... ... OK
+  1. Creating a new segment  (00403000-00404000) ... ... OK
+Applying fixups...
+PDB: using PDBIDA provider
+PDB: downloading http://msdl.microsoft.com/download/symbols/program.pdb/1CC12BF4EB4B47459EEC2942C00BE5E81/program.pdb => /var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/ida/program.pdb/1CC12BF4EB4B47459EEC2942C00BE5E81/program.pdb
+PDB: HTTP error: Server replied with status code 404
+Could not find PDB file 'program.pdb'.
+Please check _NT_SYMBOL_PATH
+/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/..../more_ifs.exe: failed to load pdb info.
+
+Do you want to browse for the pdb file on disk? -> ~Y~es
+Type library 'mssdk_win7' loaded. Applying types...
+Types applied to 0 names.
+Plan  FLIRT signature: SEH for vc7-14
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.OxOgTosgM5/more_ifs.exe' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x4011f4
+Using FLIRT signature: SEH for vc7-14
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call ecx' instruction at file offset '0x4011f4' ?'
+RESULTS: The groundtruth is: {0x40100a}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

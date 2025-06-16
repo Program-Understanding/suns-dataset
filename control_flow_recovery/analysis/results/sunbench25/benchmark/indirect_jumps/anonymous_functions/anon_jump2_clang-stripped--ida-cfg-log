@@ -1,0 +1,83 @@
+Possible file format: ELF64 for x86-64 (Shared object) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/elf.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.IIOMd9eQoF/anon_jump2_clang-stripped' into database...
+Detected file format: ELF64 for x86-64 (Shared object)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+  0. Creating a new segment  (0000000000000000-00000000000005E0) ... ... OK
+  1. Creating a new segment  (0000000000001000-0000000000001189) ... ... OK
+  2. Creating a new segment  (0000000000002000-00000000000020F0) ... ... OK
+  3. Creating a new segment  (0000000000003E00-0000000000004018) ... ... OK
+Assuming __fastcall calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  4. Creating a new segment  (0000000000001000-000000000000101B) ... ... OK
+     Deleting segment        (000000000000101B-0000000000001189) ...
+  4. Creating a new segment  (000000000000101B-0000000000001189) ... ... OK
+  5. Creating a new segment  (0000000000001020-0000000000001030) ... ... OK
+  6. Creating a new segment  (0000000000001030-0000000000001189) ... ... OK
+  7. Creating a new segment  (0000000000001030-0000000000001038) ... ... OK
+     Deleting segment        (0000000000001038-0000000000001189) ...
+  7. Creating a new segment  (0000000000001038-0000000000001189) ... ... OK
+  8. Creating a new segment  (0000000000001040-000000000000117A) ... ... OK
+  9. Creating a new segment  (000000000000117A-0000000000001189) ... ... OK
+ 10. Creating a new segment  (000000000000117C-0000000000001189) ... ... OK
+ 11. Creating a new segment  (0000000000002000-0000000000002004) ... ... OK
+     Deleting segment        (0000000000002004-00000000000020F0) ...
+ 11. Creating a new segment  (0000000000002004-00000000000020F0) ... ... OK
+ 12. Creating a new segment  (0000000000002004-0000000000002040) ... ... OK
+     Deleting segment        (0000000000002040-00000000000020F0) ...
+ 12. Creating a new segment  (0000000000002040-00000000000020F0) ... ... OK
+     Deleting segment        (0000000000002040-00000000000020F0) ...
+ 12. Creating a new segment  (0000000000002040-00000000000020F0) ... ... OK
+ 13. Creating a new segment  (0000000000003E00-0000000000003E08) ... ... OK
+     Deleting segment        (0000000000003E08-0000000000004018) ...
+ 13. Creating a new segment  (0000000000003E08-0000000000004018) ... ... OK
+ 14. Creating a new segment  (0000000000003E08-0000000000003E10) ... ... OK
+     Deleting segment        (0000000000003E10-0000000000004018) ...
+ 14. Creating a new segment  (0000000000003E10-0000000000004018) ... ... OK
+ 15. Creating a new segment  (0000000000003FC0-0000000000003FE8) ... ... OK
+ 16. Creating a new segment  (0000000000003FE8-0000000000004018) ... ... OK
+ 17. Creating a new segment  (0000000000003FE8-0000000000004000) ... ... OK
+     Deleting segment        (0000000000004000-0000000000004018) ...
+ 17. Creating a new segment  (0000000000004000-0000000000004018) ... ... OK
+ 18. Creating a new segment  (0000000000004000-0000000000004010) ... ... OK
+     Deleting segment        (0000000000004010-0000000000004018) ...
+ 18. Creating a new segment  (0000000000004010-0000000000004018) ... ... OK
+     Deleting segment        (0000000000004010-0000000000004018) ...
+ 18. Creating a new segment  (0000000000004010-0000000000004018) ... ... OK
+ 19. Creating a new segment  (0000000000004018-0000000000004040) ... ... OK
+Processing relocations...
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.IIOMd9eQoF/anon_jump2_clang-stripped' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x1178
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1178' ?'
+RESULTS: The groundtruth is: {0x1130, 0x1140}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

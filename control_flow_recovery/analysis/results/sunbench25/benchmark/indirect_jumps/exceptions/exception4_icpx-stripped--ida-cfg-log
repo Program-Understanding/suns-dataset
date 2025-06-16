@@ -1,0 +1,97 @@
+Possible file format: ELF64 for x86-64 (Executable) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/elf.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+  7610368   929 8192 allocating memory for b-tree...
+  7610368   929 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+ 15482880            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.ORfeqxVwks/exception4_icpx-stripped' into database...
+Detected file format: ELF64 for x86-64 (Executable)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+  0. Creating a new segment  (0000000000400000-00000000004005E8) ... ... OK
+  1. Creating a new segment  (0000000000401000-000000000056865D) ... ... OK
+  2. Creating a new segment  (0000000000569000-00000000005C18BF) ... ... OK
+  3. Creating a new segment  (00000000005C2700-00000000005D72F8) ... ... OK
+  4. Creating a new segment  (0000000000401000-000000000040101B) ... ... OK
+     Deleting segment        (000000000040101B-000000000056865D) ...
+  4. Creating a new segment  (000000000040101B-000000000056865D) ... ... OK
+  5. Creating a new segment  (0000000000401020-0000000000401120) ... ... OK
+  6. Creating a new segment  (0000000000401120-000000000056865D) ... ... OK
+  7. Creating a new segment  (0000000000401140-0000000000568650) ... ... OK
+  8. Creating a new segment  (0000000000568650-000000000056865D) ... ... OK
+     Deleting segment        (0000000000568650-000000000056865D) ...
+  8. Creating a new segment  (0000000000568650-000000000056865D) ... ... OK
+  9. Creating a new segment  (0000000000569000-000000000058B7A4) ... ... OK
+     Deleting segment        (000000000058B7A4-00000000005C18BF) ...
+  9. Creating a new segment  (000000000058B7A4-00000000005C18BF) ... ... OK
+ 10. Creating a new segment  (000000000058B7A4-000000000058B7A5) ... ... OK
+     Deleting segment        (000000000058B7A5-00000000005C18BF) ...
+ 10. Creating a new segment  (000000000058B7A5-00000000005C18BF) ... ... OK
+Assuming __fastcall calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+ 11. Creating a new segment  (000000000058B7C0-000000000058B820) ... ... OK
+ 12. Creating a new segment  (000000000058B820-00000000005C18BF) ... ... OK
+ 13. Creating a new segment  (000000000058B820-0000000000594A34) ... ... OK
+     Deleting segment        (0000000000594A34-00000000005C18BF) ...
+ 13. Creating a new segment  (0000000000594A34-00000000005C18BF) ... ... OK
+ 14. Creating a new segment  (0000000000594A38-00000000005BC178) ... ... OK
+ 15. Creating a new segment  (00000000005BC178-00000000005C18BF) ... ... OK
+     Deleting segment        (00000000005BC178-00000000005C18BF) ...
+ 15. Creating a new segment  (00000000005BC178-00000000005C18BF) ... ... OK
+ 16. Creating a new segment  (00000000005C2700-00000000005C2768) ... ... OK
+     Deleting segment        (00000000005C2768-00000000005D72F8) ...
+ 16. Creating a new segment  (00000000005C2768-00000000005D72F8) ... ... OK
+ 17. Creating a new segment  (00000000005C2768-00000000005C27B0) ... ... OK
+     Deleting segment        (00000000005C27B0-00000000005D72F8) ...
+ 17. Creating a new segment  (00000000005C27B0-00000000005D72F8) ... ... OK
+ 18. Creating a new segment  (00000000005C27B0-00000000005C27C0) ... ... OK
+     Deleting segment        (00000000005C27C0-00000000005D72F8) ...
+ 18. Creating a new segment  (00000000005C27C0-00000000005D72F8) ... ... OK
+ 19. Creating a new segment  (00000000005C27C0-00000000005CCF48) ... ... OK
+     Deleting segment        (00000000005CCF48-00000000005D72F8) ...
+ 19. Creating a new segment  (00000000005CCF48-00000000005D72F8) ... ... OK
+ 20. Creating a new segment  (00000000005CCF48-00000000005CCFE8) ... ... OK
+     Deleting segment        (00000000005CCFE8-00000000005D72F8) ...
+ 20. Creating a new segment  (00000000005CCFE8-00000000005D72F8) ... ... OK
+ 21. Creating a new segment  (00000000005CCFE8-00000000005CD100) ... ... OK
+     Deleting segment        (00000000005CD100-00000000005D72F8) ...
+ 21. Creating a new segment  (00000000005CD100-00000000005D72F8) ... ... OK
+ 22. Creating a new segment  (00000000005CD100-00000000005CEC58) ... ... OK
+     Deleting segment        (00000000005CEC58-00000000005D72F8) ...
+ 22. Creating a new segment  (00000000005CEC58-00000000005D72F8) ... ... OK
+ 23. Creating a new segment  (00000000005CEC60-00000000005D72F8) ... ... OK
+ 24. Creating a new segment  (00000000005D72F8-00000000005D73B8) ... ... OK
+Processing relocations...
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.ORfeqxVwks/exception4_icpx-stripped' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0xb2d6d
+570970: name has been deleted: `typeinfo name for'std::__moneypunct_cache<char,true>
+570990: name has been deleted: `typeinfo name for'std::__moneypunct_cache<char,false>
+5709B0: name has been deleted: `typeinfo name for'std::__moneypunct_cache<wchar_t,true>
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2d6d' ?'
+RESULTS: The groundtruth is: {0x53a0, 0x532f}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

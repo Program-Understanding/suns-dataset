@@ -1,0 +1,105 @@
+Possible file format: ELF64 for x86-64 (Shared object) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/elf.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.OUUcvCNgxa/easily_computed' into database...
+Detected file format: ELF64 for x86-64 (Shared object)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+  0. Creating a new segment  (0000000000000000-0000000000000698) ... ... OK
+  1. Creating a new segment  (0000000000001000-00000000000012A1) ... ... OK
+  2. Creating a new segment  (0000000000002000-0000000000002118) ... ... OK
+  3. Creating a new segment  (0000000000003DA8-0000000000004018) ... ... OK
+Assuming __fastcall calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  4. Creating a new segment  (0000000000001000-000000000000101B) ... ... OK
+     Deleting segment        (000000000000101B-00000000000012A1) ...
+  4. Creating a new segment  (000000000000101B-00000000000012A1) ... ... OK
+  5. Creating a new segment  (0000000000001020-0000000000001060) ... ... OK
+  6. Creating a new segment  (0000000000001060-00000000000012A1) ... ... OK
+  7. Creating a new segment  (0000000000001060-0000000000001070) ... ... OK
+     Deleting segment        (0000000000001070-00000000000012A1) ...
+  7. Creating a new segment  (0000000000001070-00000000000012A1) ... ... OK
+  8. Creating a new segment  (0000000000001070-00000000000010A0) ... ... OK
+     Deleting segment        (00000000000010A0-00000000000012A1) ...
+  8. Creating a new segment  (00000000000010A0-00000000000012A1) ... ... OK
+  9. Creating a new segment  (00000000000010A0-0000000000001291) ... ... OK
+     Deleting segment        (0000000000001291-00000000000012A1) ...
+  9. Creating a new segment  (0000000000001291-00000000000012A1) ... ... OK
+ 10. Creating a new segment  (0000000000001294-00000000000012A1) ... ... OK
+ 11. Creating a new segment  (0000000000002000-0000000000002038) ... ... OK
+     Deleting segment        (0000000000002038-0000000000002118) ...
+ 11. Creating a new segment  (0000000000002038-0000000000002118) ... ... OK
+ 12. Creating a new segment  (0000000000002038-000000000000206C) ... ... OK
+     Deleting segment        (000000000000206C-0000000000002118) ...
+ 12. Creating a new segment  (000000000000206C-0000000000002118) ... ... OK
+ 13. Creating a new segment  (0000000000002070-0000000000002118) ... ... OK
+ 14. Creating a new segment  (0000000000003DA8-0000000000003DB0) ... ... OK
+     Deleting segment        (0000000000003DB0-0000000000004018) ...
+ 14. Creating a new segment  (0000000000003DB0-0000000000004018) ... ... OK
+ 15. Creating a new segment  (0000000000003DB0-0000000000003DB8) ... ... OK
+     Deleting segment        (0000000000003DB8-0000000000004018) ...
+ 15. Creating a new segment  (0000000000003DB8-0000000000004018) ... ... OK
+ 16. Creating a new segment  (0000000000003FA8-0000000000004000) ... ... OK
+ 17. Creating a new segment  (0000000000004000-0000000000004018) ... ... OK
+ 18. Creating a new segment  (0000000000004000-0000000000004010) ... ... OK
+     Deleting segment        (0000000000004010-0000000000004018) ...
+ 18. Creating a new segment  (0000000000004010-0000000000004018) ... ... OK
+     Deleting segment        (0000000000004010-0000000000004018) ...
+ 18. Creating a new segment  (0000000000004010-0000000000004018) ... ... OK
+ 19. Creating a new segment  (0000000000004018-0000000000004058) ... ... OK
+Processing relocations...
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.OUUcvCNgxa/easily_computed' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x11ed
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+RESULT: 0x11f0
+RESULT: 0x11f9
+RESULT: 0x1207
+RESULT: 0x1216
+RESULT: 0x121f
+RESULT: 0x1228
+RESULT: 0x122e
+RESULT: 0x1242
+RESULT: 0x1255
+RESULT: 0x125e
+OTHER RESULT? Code_Near_Jump 0x11ed 0x11f0
+OTHER RESULT? Code_Near_Jump 0x11ed 0x11f9
+OTHER RESULT? Code_Near_Jump 0x11ed 0x1207
+OTHER RESULT? Code_Near_Jump 0x11ed 0x1216
+OTHER RESULT? Code_Near_Jump 0x11ed 0x121f
+OTHER RESULT? Code_Near_Jump 0x11ed 0x1228
+OTHER RESULT? Code_Near_Jump 0x11ed 0x122e
+OTHER RESULT? Code_Near_Jump 0x11ed 0x1242
+OTHER RESULT? Code_Near_Jump 0x11ed 0x1255
+OTHER RESULT? Code_Near_Jump 0x11ed 0x125e
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x11ed' ?'
+RESULTS: The groundtruth is: {0x1207, 0x1216, 0x121f, 0x1228, 0x122e, 0x1242, 0x1255, 0x125e, 0x1267}
+RESULTS: The tool's answer is: {0x11f0, 0x11f9, 0x1207, 0x1216, 0x121f, 0x1228, 0x122e, 0x1242, 0x1255, 0x125e}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x11f0', '0x11f9'}
+Tool's answer does not include correct elements: {'0x1267'}
+RESULTS: SUMMARY: WRONG+2-1
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

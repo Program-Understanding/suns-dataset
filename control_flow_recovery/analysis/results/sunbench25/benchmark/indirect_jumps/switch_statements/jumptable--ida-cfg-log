@@ -1,0 +1,63 @@
+Possible file format: MS-DOS executable (EXE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/dos.dylib)
+Possible file format: Portable executable for 80386 (PE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/pe.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.6hi1EyNsE5/jumptable.exe' into database...
+Detected file format: Portable executable for 80386 (PE)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+Assuming __cdecl calling convention by default
+  0. Creating a new segment  (00401000-00402000) ... ... OK
+Type library 'mssdk_win7' loaded. Applying types...
+Types applied to 0 names.
+Plan  FLIRT signature: SEH for vc7-14
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.6hi1EyNsE5/jumptable.exe' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x22e
+Using FLIRT signature: SEH for vc7-14
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+RESULT: 0x235
+RESULT: 0x23e
+RESULT: 0x24b
+RESULT: 0x256
+RESULT: 0x25f
+RESULT: 0x270
+RESULT: 0x28a
+OTHER RESULT? Code_Near_Jump 0x40102e 0x401035
+OTHER RESULT? Code_Near_Jump 0x40102e 0x40103e
+OTHER RESULT? Code_Near_Jump 0x40102e 0x40104b
+OTHER RESULT? Code_Near_Jump 0x40102e 0x401056
+OTHER RESULT? Code_Near_Jump 0x40102e 0x40105f
+OTHER RESULT? Code_Near_Jump 0x40102e 0x401070
+OTHER RESULT? Code_Near_Jump 0x40102e 0x40108a
+OTHER RESULT? Data_Read 0x40102e 0x4010a4
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp dword ptr [edx*4 + 0x4010a4]' instruction at file offset '0x22e' ?'
+RESULTS: The groundtruth is: {0x235, 0x23e, 0x24b, 0x256, 0x25f, 0x270, 0x28a, 0x2a4}
+RESULTS: The tool's answer is: {0x235, 0x23e, 0x24b, 0x256, 0x25f, 0x270, 0x28a}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {}
+Tool's answer does not include correct elements: {'0x2a4'}
+RESULTS: SUMMARY: UNDER-1
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

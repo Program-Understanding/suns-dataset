@@ -1,0 +1,10 @@
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rdi*8 + 0x402008]' instruction at file offset '0x1138' ?'
+RESULTS: The groundtruth is: {0x113f, 0x1145, 0x114b, 0x1151, 0x1154, 0x115a}
+RESULTS: The tool's answer is: {0x113f, 0x1145, 0x114b, 0x1151, 0x1154, 0x115a}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT
+RESULTS: Running time: 2 seconds
+RESULTS: Tool name:ida-cfg
+RESULTS: Tool version:0.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

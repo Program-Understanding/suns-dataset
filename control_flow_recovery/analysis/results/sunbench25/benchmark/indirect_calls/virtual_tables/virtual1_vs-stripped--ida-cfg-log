@@ -1,0 +1,64 @@
+Possible file format: MS-DOS executable (EXE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/dos.dylib)
+Possible file format: Portable executable for 80386 (PE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/pe.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.is1a1rYKP8/virtual1_vs-stripped.exe' into database...
+Detected file format: Portable executable for 80386 (PE)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+Assuming __cdecl calling convention by default
+  0. Creating a new segment  (00401000-00402000) ... ... OK
+  1. Creating a new segment  (00402000-00403000) ... ... OK
+  2. Creating a new segment  (00403000-00404000) ... ... OK
+Reading imports directory...
+Applying fixups...
+  3. Creating a new segment  (004020DC-00403000) ... ... OK
+PDB: using PDBIDA provider
+PDB: downloading http://msdl.microsoft.com/download/symbols/poly.pdb/BFEF7575380B4986B48C63641CEC878E1/poly.pdb => /var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/ida/poly.pdb/BFEF7575380B4986B48C63641CEC878E1/poly.pdb
+PDB: HTTP error: Server replied with status code 404
+Could not find PDB file 'poly.pdb'.
+Please check _NT_SYMBOL_PATH
+/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/..../virtual1_vs-stripped.exe: failed to load pdb info.
+
+Do you want to browse for the pdb file on disk? -> ~Y~es
+Plan  FLIRT signature: Microsoft VisualC 2-14/net runtime
+autoload.cfg: vc32rtf.sig autoloads mssdk_win7.til
+Type library 'mssdk_win7' loaded. Applying types...
+Types applied to 30 names.
+main() function at 401090, named "_main"
+Plan  FLIRT signature: SEH for vc7-14
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.is1a1rYKP8/virtual1_vs-stripped.exe' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x10f8
+Using FLIRT signature: Microsoft VisualC 2-14/net runtime
+Using FLIRT signature: SEH for vc7-14
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+OTHER RESULT? Ordinary_Flow 0x401cf8 0x401cfc
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x10f8'?'
+RESULTS: The groundtruth is: {0x1000, 0x1030, 0x1060}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...

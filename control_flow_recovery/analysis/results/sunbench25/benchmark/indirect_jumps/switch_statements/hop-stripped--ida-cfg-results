@@ -1,0 +1,10 @@
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'something' instruction at file offset '0x110a' ?'
+RESULTS: The groundtruth is: {0x113d, 0x116d, 0x1193, 0x11a4, 0x11f5, 0x124d, 0x126a, 0x12a6, 0x12d4, 0x1311, 0x133a, 0x1363, 0x138c, 0x13b4, 0x13dd, 0x13fa}
+RESULTS: The tool's answer is: {0x110d, 0x113d, 0x116d, 0x1193, 0x11a4, 0x11f5, 0x1224, 0x124d, 0x126a, 0x12a6, 0x12d4, 0x1311, 0x133a, 0x1363, 0x138c, 0x13b4, 0x13dd, 0x13fa}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: OVER+2
+RESULTS: Running time: 2 seconds
+RESULTS: Tool name:ida-cfg
+RESULTS: Tool version:0.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

@@ -1,0 +1,48 @@
+Possible file format: MS-DOS executable (EXE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/dos.dylib)
+Possible file format: Portable executable for 80386 (PE) (/Applications/IDA Professional 9.1.app/Contents/MacOS/loaders/pe.dylib)
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   524288    64 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   851968            total memory allocated
+
+Loading file '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.YSIerzqD21/anon_jump1_vs-stripped.exe' into database...
+Detected file format: Portable executable for 80386 (PE)
+Loading processor module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib for metapc...Initializing processor module metapc...OK
+Autoanalysis subsystem has been initialized.
+Assuming __cdecl calling convention by default
+  0. Creating a new segment  (00401000-00402000) ... ... OK
+  1. Creating a new segment  (00402000-00403000) ... ... OK
+Applying fixups...
+Type library 'mssdk_win7' loaded. Applying types...
+Types applied to 0 names.
+Plan  FLIRT signature: SEH for vc7-14
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/private/var/folders/5k/tmw4lz854sg4496qygvp35r4001vcn/T/tmp.YSIerzqD21/anon_jump1_vs-stripped.exe' has been successfully loaded into the database.
+Flushing buffers, please wait...ok
+Hex-Rays Decompiler plugin has been loaded (v9.1.0.250226)
+  The hotkeys are F5: decompile, Ctrl-F5: decompile all.
+
+  Please check the Edit/Plugins menu for more information.
+Hex-rays version 9.1.0.250226 has been detected, gooMBA plugin ready to use
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Starting
+OFFSET: 0x43e
+Using FLIRT signature: SEH for vc7-14
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+Found the offset we care about!
+Done
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp eax' instruction at file offset '0x43e' ?'
+RESULTS: The groundtruth is: {0x400}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+Flushing buffers, please wait...ok
+Unloading IDP module /Applications/IDA Professional 9.1.app/Contents/MacOS/procs/pc.dylib...
