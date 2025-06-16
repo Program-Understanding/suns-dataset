@@ -1,7 +1,7 @@
 {
     "program":"overlap.exe",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call eax' instruction at file offset '0x203' ?",
-    "groundtruth": [""],
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp 0x401017' instruction at file offset '0x203' ?",
+    "groundtruth": ["0x217"],
     "evaluation":"set",
     "source":"src/overlap.asm"
    }

@@ -1,8 +1,0 @@
-{
-    "program":"loop.exe",
-    "question":"What are the file offsets for the instructions that are the targets of the 'call edi' instruction at file offset '0x100c' ?",
-    "groundtruth": [""],
-    "evaluation":"set",
-    "source":"src/loop.asm"
-   }
-   
