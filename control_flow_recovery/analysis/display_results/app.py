@@ -4,6 +4,7 @@ import os
 import json
 import subprocess
 import re
+import socket
 from package_results_excel import save_to_excel
 
 app = Flask(__name__)
@@ -308,5 +309,23 @@ for rf in result_files:
     except:
         pass
 
+
+def find_available_port(default_port=5000):
+    if "FLASK_PORT" in os.environ: # we already established a good port
+        return int(os.environ["FLASK_PORT"])
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind(("0.0.0.0", default_port))
+            os.environ["FLASK_PORT"] = str(default_port)
+            return default_port
+    except OSError: # the port is taken
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind(("0.0.0.0", 0))
+            port = s.getsockname()[1]
+            os.environ["FLASK_PORT"] = str(port)
+            print(f"the port is {port}")
+            return port
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = find_available_port()
+    app.run(host="0.0.0.0", port=port, debug=True)
