@@ -1,7 +1,7 @@
 {
     "program":"vmcai_demo.exe",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp eax' instruction at file offset '0x218' ?",
-    "groundtruth": ["0x20c"],
+    "groundtruth": ["0x212","0x20c"],
     "evaluation":"set",
     "source":"src/vmcai_demo.asm"
    }
