@@ -1,4 +1,4 @@
-all: switch-linear-gcc-13-O2-nopie switch-disparate-bounded-gcc-13-O0-pie array0-gcc-13-O0-pie array-loop-gcc-13-O0-pie array-modified-gcc-13-O0-pie if-else-block-gcc-13-O0-pie consecutive-gcc-11-O0-nopie
+all: switch-linear-gcc-13-O2-nopie switch-disparate-bounded-gcc-13-O0-pie array0-gcc-13-O0-pie array-loop-gcc-13-O0-pie array-modified-gcc-13-O0-pie if-else-block-gcc-13-O0-pie consecutive-gcc-11-O0-nopie returnto-gcc-13-O0-pie
 
 switch-linear-gcc-13-O2-nopie: switch-linear.c
 	/usr/bin/gcc-13 -g -O2 -fno-pie -no-pie -fcf-protection=none switch-linear.c -o switch-linear-gcc-13-O2-nopie
@@ -20,6 +20,10 @@ if-else-block-gcc-13-O0-pie: if-else-block.c
 
 consecutive-gcc-11-O0-nopie: consecutive.c
 	gcc -g -O0 -fno-pie -no-pie -fcf-protection=none -m32 consecutive.c -o consecutive-gcc-11-O0-nopie
+
+returnto-gcc-13-O0-pie: returnto.c
+	/usr/bin/gcc-13 -g -O0 -fcf-protection=none returnto.c -o returnto-gcc-13-O0-pie
+
 
 # Clean up build files
 clean:
