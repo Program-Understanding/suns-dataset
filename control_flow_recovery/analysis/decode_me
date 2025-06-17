@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+from capstone import Cs, CS_ARCH_X86, CS_MODE_64
+
+# argparse
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Decode a single instruction at a file offset")
+    p.add_argument("--file",   "-f", required=True, help="Path to the executable or raw blob")
+    p.add_argument("--offset", "-o", required=True,
+                   help="File offset (hex: 0x4012, or decimal: 16402)")
+    p.add_argument("--bytes",  "-n", type=int, default=16,
+                   help="Maximum bytes to read (default: 16, enough for x86-64)")
+    p.add_argument("--arch",   choices=["x86"], default="x86",
+                   help="Instruction set architecture (currently only x86)")
+    p.add_argument("--mode",   choices=["64", "32"], default="64",
+                   help="Mode: 64-bit or 32-bit (default: 64)")
+    return p.parse_args()
+
+# setup capstone
+def make_decoder(arch: str, mode: str) -> Cs:
+    if arch == "x86":
+        cs_mode = CS_MODE_64 if mode == "64" else CS_MODE_32
+        return Cs(CS_ARCH_X86, cs_mode)
+    raise ValueError(f"Unsupported arch: {arch}")
+
+# io helpers
+def read_bytes(path: str, offset: int, length: int) -> bytes:
+    if offset < 0:
+        raise ValueError("Offset must be non-negative")
+    size = os.path.getsize(path)
+    if offset >= size:
+        raise ValueError("Offset beyond end of file")
+    with open(path, "rb") as f:
+        f.seek(offset)
+        return f.read(length)
+
+# main
+def main() -> None:
+    args = parse_args()
+
+    # convert offset string to int (hex or decimal)
+    try:
+        offset = int(args.offset, 0) # auto-detects 0x prefix
+    except ValueError:
+        raise SystemExit("Invalid --offset value")
+
+    code = read_bytes(args.file, offset, args.bytes)
+    if not code:
+        raise SystemExit("Could not read any bytes at the given offset")
+
+    md = make_decoder(args.arch, args.mode)
+    md.detail = False # instruction text only
+    insns = md.disasm(code, offset)
+
+    try:
+        ins = next(insns)
+        # Format: address: mnemonic operands
+        print(f"{ins.address:016x}: {ins.mnemonic} {ins.op_str}".rstrip())
+    except StopIteration:
+        raise SystemExit("Failed to decode instruction (invalid bytes or wrong arch/mode)")
+
+if __name__ == "__main__":
+    main()
