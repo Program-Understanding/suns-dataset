@@ -1,0 +1,205 @@
+#!/usr/bin/env python3
+"""
+validate_cfr.py
+
+Walk a directory/, find every *-cfr.json, and verify that each ground truth
+matches the targets loaded by the question instruction under various argc.
+
+Currently, this script has a lot of limitations:
+1. It only works with ELF binaries and assumes x86_64 architecture
+2. It can handle only questions that ask what the target of a branch is
+3. Requires the use of pwndbg (https://github.com/pwndbg/pwndbg)
+4. With the current implementation (6/18/25), assumes all questions are valid
+"""
+import os
+import re
+import sys
+import json
+import subprocess
+import argparse
+import tempfile
+import textwrap
+from pathlib import Path
+
+from elftools.elf.elffile import ELFFile
+from elftools.common.exceptions import ELFError
+
+
+def find_cfr_files(root_dir):
+    for dp, _, files in os.walk(root_dir):
+        for fn in files:
+            if fn.endswith('cfr.json'):
+                yield os.path.join(dp, fn)
+
+
+def extract_question_offset(question):
+    m = re.findall(r"0x[0-9A-Fa-f]+", question) # there should only be one hex val in Q
+    if not m:
+        raise ValueError(f"No hex offset in question: {question!r}")
+    return int(m[-1], 16)
+
+
+def get_elf_text_info(binary):
+    with open(binary, 'rb') as f:
+        elf = ELFFile(f)
+        sec = elf.get_section_by_name('.text')
+        if not sec:
+            raise RuntimeError(f".text missing in ELF: {binary}")
+        return sec.header.sh_offset, sec.header.sh_addr
+
+
+def get_runtime_text_base(binary, debug=False):
+    cmd = [
+        "pwndbg", "--batch", "--quiet", "--nx", binary,
+        "-ex", "set disable-randomization on",
+        "-ex", "info files"
+    ]
+    if debug:
+        print(f"[DEBUG] get_runtime_text_base: running: {' '.join(cmd)}")
+    proc = subprocess.run(cmd, capture_output=True, text=True)
+    if debug:
+        print(f"[DEBUG] info files stdout:\n{proc.stdout}")
+        print(f"[DEBUG] info files stderr:\n{proc.stderr}")
+    if proc.returncode != 0:
+        raise RuntimeError(f"GDB info files failed: {proc.stderr.strip()}")
+    for line in proc.stdout.splitlines():
+        m = re.match(r"\s*(0x[0-9A-Fa-f]+)\s*-\s*0x[0-9A-Fa-f]+\s*is\s*\.text", line)
+        if m:
+            return int(m.group(1), 16)
+    raise RuntimeError(".text mapping not found in GDB info files")
+
+def query_rax_with_gdb(binary: str, break_va: int, argc: int, debug=False) -> int | None:
+    """
+    Run the binary under Pwndbg, break at `break_va`, steps one instruction, returns RIP.
+    """
+    args_list = " ".join(str(i) for i in range(1, argc + 1)) or "1"
+
+    # do not put comments in the script
+    # gdb_script = textwrap.dedent(f"""\
+    #     set disable-randomization on
+    #     set args {args_list}
+    #     starti
+    #     b *0x555555555040
+    #     c
+    #     b *{break_va:#x}
+    #     c
+    #     print/x $rax
+    #     x/1i $pc
+    # """)
+
+    gdb_script = textwrap.dedent(f"""\
+        set disable-randomization on
+        set args {args_list}
+        starti
+        b *0x555555555040
+        c
+        b *{break_va:#x}
+        c
+        si
+        print/x $rip
+    """)
+
+    with tempfile.NamedTemporaryFile("w", delete=False, suffix=".gdb") as tf:
+        tf.write(gdb_script)
+        script_path = Path(tf.name)
+
+    gdb_cmd = [
+        "pwndbg", "--batch", "--quiet", "--nx",
+        "-x", str(script_path),
+        binary,
+    ]
+
+    if debug:
+        print("[gdb cmd] ", " ".join(gdb_cmd))
+        print("--- .gdb script ---")
+        print(gdb_script)
+        print("-------------------")
+
+    try:
+        res = subprocess.run(
+            gdb_cmd, capture_output=True, text=True, check=True
+        )
+    except Exception as e:
+        if debug:
+            print("pwndbg crashed (most likely because the necessary branches were not taken)")
+            print(f"Error:\n{e}")
+        return None
+    finally:
+        script_path.unlink(missing_ok=True)
+
+    HEX_RE = re.compile(r"\$[0-9]+\s*=\s*0x([0-9a-fA-F]+)")
+    m = HEX_RE.search(res.stdout)
+    if not m:
+        if debug:
+            print("[DEBUG] no $N = 0x… line, raw gdb output:")
+            print(res.stdout)
+        return None
+    return int(m.group(1), 16)
+
+
+
+def validate_one(cfr_path, root_dir, max_args=53, debug=False):
+    rel = os.path.relpath(cfr_path, root_dir)
+    data = json.load(open(cfr_path))
+
+    prog   = data["program"]
+    binary = os.path.join(os.path.dirname(cfr_path), prog)
+    if not os.path.isfile(binary):
+        print(f"{rel}: binary not found: {binary}", file=sys.stderr)
+        return
+
+    try:
+        file_base, link_vaddr = get_elf_text_info(binary)
+        if debug:
+            print(f"[DEBUG] ELF .text file_base={hex(file_base)}, link_vaddr={hex(link_vaddr)}")
+        #rt_base = get_runtime_text_base(binary, debug)
+        rt_base = 0x555555554000 # hack, but works
+        if debug:
+            print(f"[DEBUG] runtime .text base={hex(rt_base)}")
+    except Exception as e:
+        print(f"{rel}: skipped ({e})", file=sys.stderr)
+        return
+
+    file_off = extract_question_offset(data["question"])
+    #break_va = rt_base + (file_off - file_base)
+    break_va = 0x555555554000+file_off
+    if debug:
+        print(f"[DEBUG] JSON file_off={hex(file_off)}, break_va={hex(break_va)}")
+
+    print(f"\n{rel}")
+    print(f"  break VA: {hex(break_va)}")
+
+    found = set()
+    for argc_count in range(0, max_args+1):
+        # doesn't have to be rax technically
+        rax = query_rax_with_gdb(binary, break_va, argc_count, debug)
+        if rax is None:
+            continue
+        fo = rax - 0x555555554000
+        found.add(hex(fo))
+
+    expected = set(data.get("groundtruth", []))
+    if found == expected:
+        print("  → OK")
+    else:
+        print("  → MISMATCH")
+        print(f"    expected: {sorted(expected)}")
+        print(f"         got: {sorted(found)}")
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("root", help="Path to sunbench25")
+    p.add_argument("--max-args", type=int, default=3,
+                   help="Maximum dummy argv count to test")
+    p.add_argument("--debug", action="store_true",
+                   help="Show detailed GDB commands and output")
+    args = p.parse_args()
+
+    for cfr in find_cfr_files(args.root):
+        validate_one(cfr, args.root, max_args=args.max_args, debug=args.debug)
+
+
+if __name__ == "__main__":
+    main()
+
