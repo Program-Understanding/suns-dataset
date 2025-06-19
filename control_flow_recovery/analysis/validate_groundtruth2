@@ -1,0 +1,169 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+import argparse, json, os, re, subprocess, sys, tempfile, textwrap
+from pathlib import Path
+from elftools.elf.elffile import ELFFile
+from elftools.common.exceptions import ELFError
+
+# ---------------------------------------------------------------------------
+# Helpers                                                                    
+# ---------------------------------------------------------------------------
+BASE_ADDR = 0x555555554000 # hard-coded runtime .text base
+ENTRY_BP  = 0x555555555040 # first instruction after _start
+
+HEX_RE    = re.compile(r"RUN_(\d+):0x([0-9a-fA-F]+)")
+OFF_RE    = re.compile(r"0x[0-9A-Fa-f]+")
+
+def walk_cfr_files(root: str):
+    for dp, _, fns in os.walk(root):
+        for fn in fns:
+            if fn.endswith("cfr.json"):
+                yield Path(dp) / fn
+
+def question_offset(q: str) -> int:
+    m = OFF_RE.findall(q)
+    if not m:
+        raise ValueError(f"no hex offset in question: {q!r}")
+    return int(m[-1], 16)
+
+def elf_text_offsets(binary: Path) -> tuple[int, int]:
+    with open(binary, "rb") as f:
+        elf = ELFFile(f)
+        sec = elf.get_section_by_name(".text")
+        if not sec:
+            raise RuntimeError(".text missing")
+        return sec.header.sh_offset, sec.header.sh_addr
+
+def _arg_list(argc: int) -> str:
+    """Return '1 2 … n' or '1' when argc == 0 (dummy argv[0])."""
+    return " ".join(map(str, range(1, argc + 1))) or "1"
+
+# ---------------------------------------------------------------------------
+# One-spawn GDB helper                                                       
+# ---------------------------------------------------------------------------
+def collect_rips(binary: Path, break_va: int,
+                 max_args: int, debug: bool = False) -> set[int]:
+    """
+    Run one pwndbg session.  For argc = 0‥max_args:
+      • start the program
+      • (pending) tbreak at break_va, continue
+      • if we actually stopped there: single-step, print RIP
+      • else: mark the run as SKIP
+    Return the set of RIPs captured.
+    """
+    gdb_lines: list[str] = [
+        "set pagination off",
+        "set confirm off",
+        "set breakpoint pending on", # <— key line: never abort on bad addr
+        "set disable-randomization on",
+    ]
+
+    for argc in range(0, max_args + 1):
+        args_str = " ".join(map(str, range(1, argc + 1))) or "1"
+
+        gdb_lines += [
+            "delete breakpoints",
+            f"set args {args_str}",
+            "starti",
+            f"tbreak *{break_va:#x}", # becomes ‘pending’ if unmapped
+            "c",
+            f"if $pc == {break_va:#x}",
+            "  si",
+            f'  printf "RUN_{argc}:0x%lx\\n", $rip',
+            "else",
+            f'  printf "RUN_{argc}:SKIP\\n"',
+            "end",
+        ]
+
+    gdb_script = "\n".join(gdb_lines) + "\n"
+
+    with tempfile.NamedTemporaryFile("w", delete=False, suffix=".gdb") as tf:
+        tf.write(gdb_script)
+        script_path = Path(tf.name)
+
+    cmd = ["pwndbg", "--batch", "--quiet", "--nx",
+           "-x", str(script_path), str(binary)]
+    if debug:
+        print(f"[DEBUG] pwndbg cmd: {' '.join(cmd)}")
+        print("--- GDB script ---\n" + gdb_script + "------------------")
+
+    # Allow any exit status – we will parse whatever output exists
+    res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+    script_path.unlink(missing_ok=True)
+
+    rip_pat = re.compile(r"RUN_(\d+):(0x[0-9a-fA-F]+|SKIP)")
+    rips: set[int] = set()
+
+    for line in res.stdout.splitlines():
+        m = rip_pat.match(line)
+        if not m:
+            continue
+        _run_id, val = m.groups()
+        if val != "SKIP":
+            rips.add(int(val, 16))
+
+    if debug:
+        print(f"[DEBUG] captured {len(rips)} RIPs  (returncode={res.returncode})")
+
+    return rips
+
+
+# ---------------------------------------------------------------------------
+# Validation logic                                                           
+# ---------------------------------------------------------------------------
+def validate_one(cfr_path: Path, root: Path, max_args: int, debug=False):
+    rel = cfr_path.relative_to(root)
+    data = json.load(open(cfr_path))
+
+    binary = cfr_path.parent / data["program"]
+    if not binary.is_file():
+        print(f"{rel}: binary not found: {binary}", file=sys.stderr)
+        return
+
+    # Load ELF metadata (still needed for sanity checks if desired)
+    try:
+        file_base, link_vaddr = elf_text_offsets(binary)
+    except (RuntimeError, ELFError) as e:
+        print(f"{rel}: skipped ({e})", file=sys.stderr)
+        return
+
+    # Figure out where to break
+    file_off = question_offset(data["question"])
+    break_va = BASE_ADDR + file_off
+
+    if debug:
+        print(f"\n[DEBUG] {rel}")
+        print(f"  file_off={hex(file_off)}, break_va={hex(break_va)}")
+
+    # One pwndbg run -> many RIPs
+    rips = collect_rips(binary, break_va, max_args, debug)
+    found = {hex(rip - BASE_ADDR) for rip in rips}
+
+    expected = set(data.get("groundtruth", []))
+    print(f"\n{rel}")
+    print(f"  break VA: {hex(break_va)}")
+    if found == expected:
+        print("  → OK")
+    else:
+        print("  → MISMATCH")
+        print(f"    expected: {sorted(expected)}")
+        print(f"         got: {sorted(found)}")
+
+# ---------------------------------------------------------------------------
+# Entry-point                                                                
+# ---------------------------------------------------------------------------
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("root", help="Directory containing the *-cfr.json files")
+    p.add_argument("--max-args", type=int, default=3,
+                   help="Upper bound on dummy argv count (default 3)")
+    p.add_argument("--debug", action="store_true", help="Verbose diagnostics")
+    args = p.parse_args()
+
+    root = Path(args.root)
+    for cfr in walk_cfr_files(root):
+        validate_one(cfr, root, max_args=args.max_args, debug=args.debug)
+
+if __name__ == "__main__":
+    main()
+
