@@ -19,10 +19,14 @@ import subprocess
 import argparse
 import tempfile
 import textwrap
+import logging
 from pathlib import Path
 
 from elftools.elf.elffile import ELFFile
 from elftools.common.exceptions import ELFError
+
+# set up module-level logger
+logger = logging.getLogger(__name__)
 
 
 def find_cfr_files(root_dir):
@@ -55,11 +59,11 @@ def get_runtime_text_base(binary, debug=False):
         "-ex", "info files"
     ]
     if debug:
-        print(f"[DEBUG] get_runtime_text_base: running: {' '.join(cmd)}")
+        logger.debug(f"get_runtime_text_base: running: {' '.join(cmd)}")
     proc = subprocess.run(cmd, capture_output=True, text=True)
     if debug:
-        print(f"[DEBUG] info files stdout:\n{proc.stdout}")
-        print(f"[DEBUG] info files stderr:\n{proc.stderr}")
+        logger.debug(f"info files stdout:\n{proc.stdout}")
+        logger.debug(f"info files stderr:\n{proc.stderr}")
     if proc.returncode != 0:
         raise RuntimeError(f"GDB info files failed: {proc.stderr.strip()}")
     for line in proc.stdout.splitlines():
@@ -68,24 +72,12 @@ def get_runtime_text_base(binary, debug=False):
             return int(m.group(1), 16)
     raise RuntimeError(".text mapping not found in GDB info files")
 
+
 def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, debug=False) -> int | None:
     """
     Run the binary under Pwndbg, break at `break_va`, steps one instruction, returns RIP.
     """
     args_list = " ".join(str(i) for i in range(1, argc + 1)) or ""
-
-    # do not put comments in the script
-    # gdb_script = textwrap.dedent(f"""\
-    #     set disable-randomization on
-    #     set args {args_list}
-    #     starti
-    #     b *0x555555555040
-    #     c
-    #     b *{break_va:#x}
-    #     c
-    #     print/x $rax
-    #     x/1i $pc
-    # """)
 
     if entrypoint > 0x555555550000: # this is weird. some binaries need some time to "load"
         gdb_script = textwrap.dedent(f"""\
@@ -110,9 +102,6 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
             print/x $rip
         """)
 
-
-        
-
     with tempfile.NamedTemporaryFile("w", delete=False, suffix=".gdb") as tf:
         tf.write(gdb_script)
         script_path = Path(tf.name)
@@ -124,10 +113,8 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
     ]
 
     if debug:
-        print("[gdb cmd] ", " ".join(gdb_cmd))
-        print("--- .gdb script ---")
-        print(gdb_script)
-        print("-------------------")
+        logger.debug("[gdb cmd] %s", " ".join(gdb_cmd))
+        logger.debug("--- .gdb script ---\n%s\n-------------------", gdb_script)
 
     try:
         res = subprocess.run(
@@ -135,8 +122,8 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
         )
     except Exception as e:
         if debug:
-            print("pwndbg crashed (most likely because the necessary branches were not taken)")
-            print(f"Error:\n{e}")
+            logger.debug("pwndbg crashed (most likely because the necessary branches were not taken)")
+            logger.debug("Error:\n%s", e)
         return None
     finally:
         script_path.unlink(missing_ok=True)
@@ -145,65 +132,61 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
     m = HEX_RE.search(res.stdout)
     if not m:
         if debug:
-            print("[DEBUG] no $N = 0x… line, raw gdb output:")
-            print(res.stdout)
+            logger.debug("no $N = 0x… line, raw gdb output:\n%s", res.stdout)
         return None
     return int(m.group(1), 16)
-
 
 
 def validate_one(cfr_path, root_dir, max_args=53, debug=False):
     rel = os.path.relpath(cfr_path, root_dir)
     data = json.load(open(cfr_path))
 
-    prog   = data["program"]
+    prog = data["program"]
     binary = os.path.join(os.path.dirname(cfr_path), prog)
     if not os.path.isfile(binary):
         print(f"{rel}: binary not found: {binary}", file=sys.stderr)
-        return
+        return None, rel
 
     try:
         file_base, link_vaddr = get_elf_text_info(binary)
         if debug:
-            print(f"[DEBUG] ELF .text file_base={hex(file_base)}, link_vaddr={hex(link_vaddr)}")
+            logger.debug("ELF .text file_base=%s, link_vaddr=%s", hex(file_base), hex(link_vaddr))
         rt_base = get_runtime_text_base(binary, debug)
         if debug:
-            print(f"[DEBUG] runtime .text base={hex(rt_base)}")
+            logger.debug("runtime .text base=%s", hex(rt_base))
     except Exception as e:
         print(f"{rel}: skipped ({e})", file=sys.stderr)
-        return
+        return None, rel
 
     file_off = extract_question_offset(data["question"])
-    #break_va = rt_base + (file_off - file_base)
-    # break_va = 0x555555554000+file_off
-
-    base = rt_base - 0x1040 # assuming info files before execution gives you the right address; purely heuristic
-
-    if base < 0x400000: # if this is the case, then gdb tends to load it at 555555554000
-        base =  0x555555554000
+    base = rt_base - 0x1040 # heuristic for load address
+    if base < 0x400000:
+        base = 0x555555554000
     break_va = base + file_off
     if debug:
-        print(f"[DEBUG] JSON file_off={hex(file_off)}, break_va={hex(break_va)}")
+        logger.debug("JSON file_off=%s, break_va=%s", hex(file_off), hex(break_va))
 
     print(f"\n{rel}")
     print(f"  break VA: {hex(break_va)}")
 
-    found = set()
-    for argc_count in range(0, max_args+1):
-        # doesn't have to be rax technically
+    arg_map: dict[int, str] = {}
+    for argc_count in range(0, max_args + 1):
         rax = query_rax_with_gdb(binary, rt_base, break_va, argc_count, debug)
         if rax is None:
             continue
         fo = rax - base
-        found.add(hex(fo))
+        arg_map[argc_count] = hex(fo)
 
     expected = set(data.get("groundtruth", []))
+    found = set(arg_map.values())
     if found == expected:
         print("  → OK")
     else:
         print("  → MISMATCH")
         print(f"    expected: {sorted(expected)}")
         print(f"         got: {sorted(found)}")
+
+    return arg_map, rel
 
 
 def main():
@@ -215,10 +198,24 @@ def main():
                    help="Show detailed GDB commands and output")
     args = p.parse_args()
 
+    logging.basicConfig(format="%(levelname)s: %(message)s",
+                        level=logging.DEBUG if args.debug else logging.INFO)
+
+    summary: dict[str, dict[int, str]] = {}
     for cfr in find_cfr_files(args.root):
-        validate_one(cfr, args.root, max_args=args.max_args, debug=args.debug)
+        arg_map, rel = validate_one(cfr, args.root, max_args=args.max_args, debug=args.debug)
+        if arg_map is not None:
+            summary[rel] = arg_map
+
+    # Print summary table
+    if summary:
+        print("\nSummary of args → targets:")
+        print(f"{'Binary':<50} {'Argc':<5} {'Target':<12}")
+        print('-' * 70)
+        for rel, amap in summary.items():
+            for argc, target in sorted(amap.items()):
+                print(f"{rel:<50} {argc+1:<5} {target:<12}")
 
 
 if __name__ == "__main__":
     main()
-
