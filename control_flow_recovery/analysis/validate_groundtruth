@@ -68,7 +68,7 @@ def get_runtime_text_base(binary, debug=False):
             return int(m.group(1), 16)
     raise RuntimeError(".text mapping not found in GDB info files")
 
-def query_rax_with_gdb(binary: str, break_va: int, argc: int, debug=False) -> int | None:
+def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, debug=False) -> int | None:
     """
     Run the binary under Pwndbg, break at `break_va`, steps one instruction, returns RIP.
     """
@@ -87,17 +87,31 @@ def query_rax_with_gdb(binary: str, break_va: int, argc: int, debug=False) -> in
     #     x/1i $pc
     # """)
 
-    gdb_script = textwrap.dedent(f"""\
-        set disable-randomization on
-        set args {args_list}
-        starti
-        b *0x555555555040
-        c
-        b *{break_va:#x}
-        c
-        si
-        print/x $rip
-    """)
+    if entrypoint > 0x555555550000: # this is weird. some binaries need some time to "load"
+        gdb_script = textwrap.dedent(f"""\
+            set disable-randomization on
+            set args {args_list}
+            starti
+            b *{entrypoint:#x}
+            c
+            b *{break_va:#x}
+            c
+            si
+            print/x $rip
+        """)
+    else:
+        gdb_script = textwrap.dedent(f"""\
+            set disable-randomization on
+            set args {args_list}
+            starti
+            b *{break_va:#x}
+            c
+            si
+            print/x $rip
+        """)
+
+
+        
 
     with tempfile.NamedTemporaryFile("w", delete=False, suffix=".gdb") as tf:
         tf.write(gdb_script)
@@ -152,8 +166,7 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
         file_base, link_vaddr = get_elf_text_info(binary)
         if debug:
             print(f"[DEBUG] ELF .text file_base={hex(file_base)}, link_vaddr={hex(link_vaddr)}")
-        #rt_base = get_runtime_text_base(binary, debug)
-        rt_base = 0x555555554000 # hack, but works
+        rt_base = get_runtime_text_base(binary, debug)
         if debug:
             print(f"[DEBUG] runtime .text base={hex(rt_base)}")
     except Exception as e:
@@ -162,7 +175,14 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
 
     file_off = extract_question_offset(data["question"])
     #break_va = rt_base + (file_off - file_base)
-    break_va = 0x555555554000+file_off
+    # break_va = 0x555555554000+file_off
+
+    base = rt_base - 0x1040 # assuming info files before execution gives you the right address
+
+    if base < 0x400000: # if this is the case, then gdb tends to load it at 555555554000
+        base =  0x555555554000
+        rt_base = base + 0x1040 # this is purely hueristic 
+    break_va = base + file_off
     if debug:
         print(f"[DEBUG] JSON file_off={hex(file_off)}, break_va={hex(break_va)}")
 
@@ -172,10 +192,10 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
     found = set()
     for argc_count in range(0, max_args+1):
         # doesn't have to be rax technically
-        rax = query_rax_with_gdb(binary, break_va, argc_count, debug)
+        rax = query_rax_with_gdb(binary, rt_base, break_va, argc_count, debug)
         if rax is None:
             continue
-        fo = rax - 0x555555554000
+        fo = rax - base
         found.add(hex(fo))
 
     expected = set(data.get("groundtruth", []))
