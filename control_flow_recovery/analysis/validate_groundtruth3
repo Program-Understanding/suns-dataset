@@ -87,9 +87,11 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
             b *{entrypoint:#x}
             c
             b *{break_va:#x}
+            while (1)
             c
             si
             print/x $rip
+            end
         """)
     else:
         gdb_script = textwrap.dedent(f"""\
@@ -97,9 +99,11 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
             set args {args_list}
             starti
             b *{break_va:#x}
+            while (1)
             c
             si
             print/x $rip
+            end
         """)
 
     with tempfile.NamedTemporaryFile("w", delete=False, suffix=".gdb") as tf:
@@ -118,7 +122,7 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
 
     try:
         res = subprocess.run(
-            gdb_cmd, capture_output=True, text=True, check=True
+            gdb_cmd, capture_output=True, text=True#, check=True
         )
     except Exception as e:
         if debug:
@@ -129,12 +133,12 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
         script_path.unlink(missing_ok=True)
 
     HEX_RE = re.compile(r"\$[0-9]+\s*=\s*0x([0-9a-fA-F]+)")
-    m = HEX_RE.search(res.stdout)
+    m = HEX_RE.findall(res.stdout)
     if not m:
         if debug:
             logger.debug("no $N = 0x… line, raw gdb output:\n%s", res.stdout)
         return None
-    return int(m.group(1), 16)
+    return m
 
 
 def validate_one(cfr_path, root_dir, max_args=53, debug=False):
@@ -171,14 +175,20 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
 
     arg_map: dict[int, str] = {}
     for argc_count in range(0, max_args + 1):
-        rax = query_rax_with_gdb(binary, rt_base, break_va, argc_count, debug)
-        if rax is None:
+        results = query_rax_with_gdb(binary, rt_base, break_va, argc_count, debug)
+        if results is None:
             continue
-        fo = rax - base
-        arg_map[argc_count] = hex(fo)
+        arg_map[argc_count] = []
+        for match in results:
+            rax = int(match, 16)
+            fo = rax - base
+            if hex(fo) not in arg_map[argc_count]:
+                arg_map[argc_count].append(hex(fo))
 
     expected = set(data.get("groundtruth", []))
-    found = set(arg_map.values())
+    found = set()
+    for partial_found in arg_map.values():
+        found.update(partial_found)
     if found == expected:
         print("  → OK")
     else:
@@ -210,11 +220,12 @@ def main():
     # Print summary table
     if summary:
         print("\nSummary of args → targets:")
-        print(f"{'Binary':<50} {'Argc':<5} {'Target':<12}")
+        print(f"{'Binary':<50} {'Argc':<5} {'Target':<30}")
         print('-' * 70)
         for rel, amap in summary.items():
-            for argc, target in sorted(amap.items()):
-                print(f"{rel:<50} {argc+1:<5} {target:<12}")
+            for argc, target_list in sorted(amap.items()):
+                target = ", ".join(target_list)
+                print(f"{rel:<50} {argc+1:<5} {target:<30}")
 
 
 if __name__ == "__main__":
