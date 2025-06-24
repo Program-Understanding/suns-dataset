@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """
-validate_cfr.py
-
-Walk a directory/, find every *-cfr.json, and verify that each ground truth
-matches the targets loaded by the question instruction under various argc.
+validate the groundtruth for a cfr file, or a folder of cfr files 
+when the example uses "argc" as its source of non-determinism.
 
 Currently, this script has a lot of limitations:
 1. It only works with ELF binaries and assumes x86_64 architecture
-2. It can handle only questions that ask what the target of a branch is
 3. Requires the use of pwndbg (https://github.com/pwndbg/pwndbg)
-4. With the current implementation (6/18/25), assumes all questions are valid
+4. With the current implementation (6/18/25), assumes all questions are valid and well formatted
 """
 import os
 import re
@@ -201,7 +198,7 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("root", help="Path to sunbench25")
+    p.add_argument("root", help="Path to a folder containing cfr files or a specific cfr file")
     p.add_argument("--max-args", type=int, default=30,
                    help="Maximum dummy argv count to test")
     p.add_argument("--debug", action="store_true",
@@ -212,8 +209,16 @@ def main():
                         level=logging.DEBUG if args.debug else logging.INFO)
 
     summary: dict[str, dict[int, str]] = {}
-    for cfr in find_cfr_files(args.root):
-        arg_map, rel = validate_one(cfr, args.root, max_args=args.max_args, debug=args.debug)
+
+    
+    if os.path.isdir(args.root):
+        files = find_cfr_files(args.root)
+    else:
+        files = [args.root]
+
+        
+    for cfr in files:
+        arg_map, rel = validate_one(cfr, os.path.dirname(cfr), max_args=args.max_args, debug=args.debug)
         if arg_map is not None:
             summary[rel] = arg_map
 
