@@ -1,0 +1,9 @@
+{
+    "program": "virtual1_gcc-stripped",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11ad' ?",
+    "groundtruth": ["0x11ca", "0x11da"],
+    "evaluation": "set",
+    "source":"virtual1.cpp",
+    "stripped": true
+}
+
