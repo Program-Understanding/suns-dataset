@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int thefunc(int flag, int num) {
+__attribute__((noinline)) int thefunc(int flag, int num) {
   if (flag == 0) {
     int a = 123;
     int c = 345;
@@ -13,15 +13,14 @@ int thefunc(int flag, int num) {
   return num*num;
 }
 
-int a(int flag, int num) {
+__attribute__((noinline, optimize("O0"))) int a(int flag, int num) {
   return thefunc(flag, num);
 }
-
-int b(int flag, int num) {
+__attribute__((noinline, optimize("O0"))) int b(int flag, int num) {
   return thefunc(flag, num*2);
 }
 
-int c(int flag, int num) {
+__attribute__((noinline, optimize("O0"))) int c(int flag, int num) {
   return thefunc(flag, num*3);
 }
 
