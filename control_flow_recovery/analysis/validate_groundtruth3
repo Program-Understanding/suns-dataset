@@ -202,7 +202,7 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("root", help="Path to sunbench25")
-    p.add_argument("--max-args", type=int, default=3,
+    p.add_argument("--max-args", type=int, default=30,
                    help="Maximum dummy argv count to test")
     p.add_argument("--debug", action="store_true",
                    help="Show detailed GDB commands and output")
