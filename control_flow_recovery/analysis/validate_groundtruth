@@ -39,6 +39,23 @@ def extract_question_offset(question):
         raise ValueError(f"No hex offset in question: {question!r}")
     return int(m[-1], 16)
 
+def get_elf_virtual_address_for_offset(binary, file_offset):
+    with open(binary, 'rb') as f:
+        elf = ELFFile(f)
+        sec = elf.get_section_by_name('.text')
+        if not sec:
+            raise RuntimeError(f".text missing in ELF: {binary}")
+        section_offset = sec.header.sh_offset
+        section_addr = sec.header.sh_addr
+        section_size = sec.header.sh_size
+
+        # Check if the file offset is within the section
+        if section_offset <= file_offset < section_offset + section_size:
+            # Calculate the virtual address
+            virtual_address = section_addr + (file_offset - section_offset)
+            return virtual_address
+        else:
+            raise ValueError(f"File offset {file_offset} is outside the .text section.")
 
 def get_elf_text_info(binary):
     with open(binary, 'rb') as f:
@@ -135,6 +152,7 @@ def query_rax_with_gdb(binary: str, entrypoint: int, break_va: int, argc: int, d
         if debug:
             logger.debug("no $N = 0x… line, raw gdb output:\n%s", res.stdout)
         return None
+
     return m
 
 
@@ -163,7 +181,11 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
     base = rt_base - 0x1040 # heuristic for load address
     if base < 0x400000:
         base = 0x555555554000
-    break_va = base + file_off
+        break_va = base + file_off
+    else:
+        break_va = get_elf_virtual_address_for_offset(binary, file_off)
+        base = link_vaddr - file_base
+        
     if debug:
         logger.debug("JSON file_off=%s, break_va=%s", hex(file_off), hex(break_va))
 
