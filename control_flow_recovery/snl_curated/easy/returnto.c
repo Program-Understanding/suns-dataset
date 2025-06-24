@@ -3,7 +3,12 @@
 
 int thefunc(int flag, int num) {
   if (flag == 0) {
-    return num;
+    int a = 123;
+    int c = 345;
+    while (a < c) {
+      a += 33;
+    }
+    return num + a;
   }
   return num*num;
 }
