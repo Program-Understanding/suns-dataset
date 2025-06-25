@@ -1,7 +1,7 @@
 {
     "program":"exception9_gcc-stripped",
     "question":"What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0x0a998d' ?",
-    "groundtruth": ["0x4012d3"],
+    "groundtruth": ["0x12d3", "0x1329", "0x139d"],
     "evaluation":"set",
     "source": "../../../source/indirect_jumps/exceptions/exception9.cpp",
     "stripped":true
