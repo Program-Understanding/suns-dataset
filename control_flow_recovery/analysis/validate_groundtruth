@@ -177,6 +177,10 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
         print(f"{rel}: skipped ({e})", file=sys.stderr)
         return None, rel
 
+
+    #ENOCH WILL CONSIDER.
+    #Just ask if PIE, if so ... base = 0x555555554000, break_va = base + file_off
+
     file_off = extract_question_offset(data["question"])
     base = rt_base - 0x1040 # heuristic for load address
     if base < 0x400000:
