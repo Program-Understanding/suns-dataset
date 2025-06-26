@@ -1,0 +1,11 @@
+{ "questions": 
+  [
+      {
+	  "question":"What are the file offsets for the instructions that are the targets of the '$INSTRUCTION' instruction at file offset '$OFFSET' ?",
+	  "script": "python3 study.py $CFR_JSON_FILENAME"
+      }
+  ],
+  "version":"1.0.15"
+}
+    
+
