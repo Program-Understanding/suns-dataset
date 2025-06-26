@@ -1,0 +1,21 @@
+study requested for binary:switch6_icx-stripped with cfr:switch6_icx-stripped-cfr.json
+adding address due to cfg successor 0x4011cc
+adding address due to cfg successor 0x4011d8
+adding address due to cfg successor 0x4011d2
+adding address due to cfg successor 0x4011de
+adding address due to cfg successor 0x4011ea
+adding address due to cfg successor 0x4011b4
+adding address due to cfg successor 0x4011f0
+Not able to do reaching definition analysis which for now only works if the target is a simple register
+for address 0x4011ea offset is 0x11ea
+for address 0x4011cc offset is 0x11cc
+for address 0x4011f0 offset is 0x11f0
+for address 0x4011d2 offset is 0x11d2
+for address 0x4011b4 offset is 0x11b4
+for address 0x4011d8 offset is 0x11d8
+for address 0x4011de offset is 0x11de
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rax*8 + 0x402080]' instruction at file offset '0x11ad' ?'
+RESULTS: The groundtruth is: {0x11b4, 0x11cc, 0x11d2, 0x11d8, 0x11de, 0x11ea, 0x11f0}
+RESULTS: The tool's answer is: {0x11b4, 0x11cc, 0x11d2, 0x11d8, 0x11de, 0x11ea, 0x11f0}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT
