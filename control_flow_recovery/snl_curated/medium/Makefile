@@ -1,4 +1,4 @@
-all:array-modified-func-gcc-13-O0-pie timestwo-gcc-13-O0-pie inc-dec-gcc-13-O0-stripped-pie switch-dead-gcc-13-O0-nopie simple-interpretor-gcc-13-O0-pie
+all:array-modified-func-gcc-13-O0-pie timestwo-gcc-13-O0-pie inc-dec-gcc-13-O0-stripped-pie switch-dead-gcc-13-O0-nopie simple-interpretor-gcc-13-O0-pie returnone-gcc-13-O0-pie
 
 
 array-modified-func-gcc-13-O0-pie: array-modified-func.c 
@@ -15,6 +15,9 @@ switch-dead-gcc-13-O0-nopie: switch-dead.c
 
 simple-interpretor-gcc-13-O0-pie: simple-interpretor.c
 	/usr/bin/gcc-13 -g -O0 -fcf-protection=none simple-interpretor.c -o simple-interpretor-gcc-13-O0-pie
+
+returnone-gcc-13-O0-pie: returnone.c
+	/usr/bin/gcc-13 -g -O0 -fcf-protection=none returnone.c -o returnone-gcc-13-O0-pie
 
 
 
