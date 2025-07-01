@@ -280,6 +280,12 @@ summary_string = "RESULTS: SUMMARY: "
 
 for rf in result_files:
 
+    #we have simple files like
+    #"../results/dial_a_benchmark/conditional-20--angr-cfg-results"
+    #if we split on "--" and strip "results" we can get dataset name and tool name
+
+    dataset=rf.split('--')[0]
+    tool=rf.split('--')[1].split('-results')[0]
     mr="?? invalid"
     summary="?? no summary"
     with open(rf,'r') as rff:
@@ -305,7 +311,9 @@ for rf in result_files:
                            "details": lines,
                            "logexists":logexists,
                            "log":log,
-                           "disdecomp":disdecomp})
+                           "disdecomp":disdecomp,
+                           "dataset":dataset,
+                           "tool":tool})
     except:
         pass
 

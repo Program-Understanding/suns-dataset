@@ -84,20 +84,27 @@
   </form>
 
   
-  <p></p>
-  Total:<span id="span_count">unknown</span>&nbsp;&nbsp;
+<p>
+  Total Analysis:<span id="summary_count" style="color:brown;">unknown</span>&nbsp;&nbsp;
   Correct:<span id="span_correct" style="color:green;">unknown</span>&nbsp;&nbsp;
   Incorrect:<span id="span_incorrect" style="color:red;">unknown</span>&nbsp;&nbsp;
   Timeout:<span id="span_timeout" style="color:red;">unknown</span>&nbsp;&nbsp;
   Invalid:<span id="span_invalid" style="color:purple;">unknown</span>&nbsp;&nbsp;
-
-
   Right:<span id="summary_right" style="color:green;">unknown</span>&nbsp;&nbsp;
   Wrong:<span id="summary_wrong" style="color:red;">unknown</span>&nbsp;&nbsp;
   Over:<span id="summary_over" style="color:blue;">unknown</span>&nbsp;&nbsp;
   Under:<span id="summary_under" style="color:blue;">unknown</span>&nbsp;&nbsp;
   Empty:<span id="summary_empty" style="color:red;">unknown</span>&nbsp;&nbsp;
-  
+<br>
+  Total Datasets:<span id="summary_ds_count" style="color:brown;">unknown</span>&nbsp;&nbsp;
+  How often no tool got it right:<span id="summary_no_tool" style="color:brown">unknown</span>&nbsp;&nbsp;
+  How often only one tool got it right:<span id="summary_one_tool" style="color:brown">unknown</span>&nbsp;&nbsp;
+  How often any tool got it right:<span id="summary_any_tool" style="color:brown">unknown</span>&nbsp;&nbsp;
+<br>
+</p>
+There were <span id="summary_tools" style="color:brown;"> unknown</span> tools but they may not have run on all datasets, this
+can effect some of the numbers shown above.
+
   {% set ns = namespace(count = 0) %}
   <ul>
 
@@ -318,13 +325,24 @@
       let summary_under = 0
       let summary_over = 0
       let summary_empty = 0
+
+      let summary_no_tool = 0
+      let summary_one_tool = 0
+      let summary_any_tool = 0
       
       let index = 0;
+
+      let datasets = new Set();
+      let tools = new Set();
+      let datasetCorrectTools = new Map()
       
       challenges.forEach(challenge => {
-
 	  if (filter_includes(challenge,filter,challenges)) {
-
+	      datasets.add(challenge.dataset)
+	      tools.add(challenge.tool)
+	      if (!datasetCorrectTools.has(challenge.dataset)) {
+		  datasetCorrectTools.set(challenge.dataset,new Set())
+	      }
 	      document.getElementById("row"+index).style.display="block"; //show it
 	      console.log("show row " + index + ":" + challenge.name);
 	      count = count + 1;
@@ -342,6 +360,7 @@
 		  summary_wrong = summary_wrong + 1
 	      } else if (challenge.summary.startsWith("RIGHT")) {
 		  summary_right = summary_right + 1
+		  datasetCorrectTools.get(challenge.dataset).add(challenge.tool)
 	      } else if (challenge.summary.startsWith("EMPTY")) {
 		  summary_empty = summary_empty + 1
 	      } else if (challenge.summary.startsWith("UNDER")) {
@@ -357,8 +376,24 @@
 	  index = index + 1;
       });
 
+
+      // compute summary_no,one,any
+
+      datasets.forEach(dataset => {
+	  correctTools = datasetCorrectTools.get(dataset)
+	  if (correctTools.size == 1) {
+	      summary_one_tool = summary_one_tool + 1
+	  }
+	  if (correctTools.size == 0) {
+	      summary_no_tool = summary_no_tool + 1
+	  }
+	  if (correctTools.size > 0) {
+	      summary_any_tool = summary_any_tool + 1
+	  }
+      });
+
       // now render
-      document.getElementById('span_count').textContent = count;
+      document.getElementById('summary_count').textContent = count;
       document.getElementById('span_correct').textContent = correct;
       document.getElementById('span_incorrect').textContent = incorrect;
       document.getElementById('span_timeout').textContent = timeout;
@@ -370,8 +405,11 @@
       document.getElementById('summary_over').textContent = summary_over;
       document.getElementById('summary_under').textContent = summary_under;
       document.getElementById('summary_empty').textContent = summary_empty;
-
-
+      document.getElementById('summary_ds_count').textContent = datasets.size;
+      document.getElementById('summary_tools').textContent = tools.size;
+      document.getElementById('summary_no_tool').textContent = summary_no_tool;
+      document.getElementById('summary_one_tool').textContent = summary_one_tool;
+      document.getElementById('summary_any_tool').textContent = summary_any_tool;
       
   }
 
