@@ -10,6 +10,14 @@
       <input type="radio" name="filter" value="all" checked />
       all
     </label>
+    <label>
+      <input type="radio" name="filter" value="textfilter" />
+      text filter
+      <input type="text" id="filterText" placeholder="filter"
+	     onkeydown="handleFilterKeyDown(event)"
+	     />
+    </label>
+
     <br>
     Specific Tools:
     <label>
@@ -135,6 +143,15 @@
 
 
   <script>
+
+    function handleFilterKeyDown(event) {
+	if (event.key === "Enter") {
+	    const inputText=event.target.value;
+	    event.preventDefault();
+	    console.log("filter:",inputText);
+	}
+    }
+
     
   function includeFilter() {
       // move data to the excel submission as needed
@@ -189,6 +206,11 @@
       if (filter == "all") {
 	  return true;
       }
+      if (filter =="textfilter") {
+	  return challenge.name.includes(document.getElementById("filterText").value)
+      }
+
+      
       if (filter == "ghidra-xrefs") {
 	  return challenge.name.endsWith("--ghidra-xrefs-results");
       }
