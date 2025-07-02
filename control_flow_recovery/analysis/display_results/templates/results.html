@@ -12,7 +12,7 @@
     </label>
     <label>
       <input type="radio" name="filter" value="textfilter" />
-      text filter
+      dataset filter
       <input type="text" id="filterText" placeholder="filter"
 	     onkeydown="handleFilterKeyDown(event)"
 	     />
@@ -60,6 +60,17 @@
       ooanalyzer
     </label>
 
+    <label>
+      <input type="radio" name="filter" value="toolfilter" />
+      tool filter
+      <input type="text" id="filterTool" placeholder="filter"
+	     onkeydown="handleFilterToolKeyDown(event)"
+	     />
+    </label>
+
+
+
+    
     <br>
     Interesting Results:
     <label>
@@ -148,10 +159,17 @@ can effect some of the numbers shown above.
   {% endfor %}
   </ul>
 
-
   <script>
 
     function handleFilterKeyDown(event) {
+	if (event.key === "Enter") {
+	    const inputText=event.target.value;
+	    event.preventDefault();
+	    console.log("filter:",inputText);
+	}
+    }
+
+    function handleFilterToolKeyDown(event) {
 	if (event.key === "Enter") {
 	    const inputText=event.target.value;
 	    event.preventDefault();
@@ -217,6 +235,9 @@ can effect some of the numbers shown above.
 	  return challenge.name.includes(document.getElementById("filterText").value)
       }
 
+      if (filter =="toolfilter") {
+	  return challenge.tool.includes(document.getElementById("filterTool").value)
+      }
       
       if (filter == "ghidra-xrefs") {
 	  return challenge.name.endsWith("--ghidra-xrefs-results");
