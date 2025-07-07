@@ -92,6 +92,10 @@
     <input type="hidden" id="exportFilterValue" name="exportFilterValue">
     <input type="hidden" id="exportRequestValue" name="exportRequestValue" value={{ request }}>
     <button type="submit">Export ALL to Excel</button>
+    <button type="button" id="compareTools">Compare Two Tools</button>
+    <input type="text" id="comparetool1" placeholder="tool filter"/>
+    <input type="text" id="comparetool2" placeholder="tool filter"/>
+    <br>
   </form>
 
   
@@ -117,6 +121,7 @@ There were <span id="summary_tools" style="color:brown;"> unknown</span> tools b
 can effect some of the numbers shown above.
 
   {% set ns = namespace(count = 0) %}
+  <div id='results-rows'>
   <ul>
 
   {% for challenge in challenges | sort(attribute="name") %}
@@ -158,9 +163,21 @@ can effect some of the numbers shown above.
     </span>
   {% endfor %}
   </ul>
-
+  </div>
+  <div id="comparison-data">
+    <p>
+      <span id="tool1r" style="color: green;">
+	Tool1right</span> got the following right whereas <span id="tool2w" style="color: red;">
+	Tool2wrong</span> did not:
+      <ul><div id ="tool1-right"></div></ul>
+      <span id="tool2r" style="color: green;">
+	Tool2right</span> got the following right whereas <span id="tool1w" style="color: red;">
+	Tool1wrong</span> did not:
+      <ul><div id ="tool2-right"></div></ul>
+  </div>
   <script>
 
+    
     function handleFilterKeyDown(event) {
 	if (event.key === "Enter") {
 	    const inputText=event.target.value;
@@ -332,9 +349,58 @@ can effect some of the numbers shown above.
       return false;
   }
 
+
+  function renderComparison(challenges, tool1, tool2) {
+      document.getElementById('results-rows').style.display = 'none';
+      document.getElementById('comparison-data').style.display = 'block';
+      console.log("compare " + tool1 + " vs. " + tool2);
+/*
+      <div id ="tool1-right"></div>
+      <div id ="tool2-right"></div>
+*/
+      document.getElementById('tool1r').textContent = tool1
+      document.getElementById('tool1w').textContent = tool1
+      document.getElementById('tool2r').textContent = tool2
+      document.getElementById('tool2w').textContent = tool2
+
+      let tool1Right = new Set();
+      let tool2Right = new Set();
+      
+      challenges.forEach(challenge => {
+	  if (challenge.tool.includes(tool1) && challenge.score === "YES") {
+	      tool1Right.add(challenge.dataset)
+	  }
+	  if (challenge.tool.includes(tool2) && challenge.score === "YES") {
+	      tool2Right.add(challenge.dataset)
+	  }
+      });
+      document.getElementById('tool1-right').innerHTML = ''; 
+      tool1Right.forEach(dataset => {
+	  if (!tool2Right.has(dataset)) {
+	      let newListItem = document.createElement('li');
+              newListItem.textContent = dataset;
+              document.getElementById('tool1-right').appendChild(newListItem);
+	  }
+      });
+      document.getElementById('tool2-right').innerHTML = ''; 
+      tool2Right.forEach(dataset => {
+	  if (!tool1Right.has(dataset)) {
+	      let newListItem = document.createElement('li');
+              newListItem.textContent = dataset;
+              document.getElementById('tool2-right').appendChild(newListItem);
+	  }
+      });
+
+      
+  }
+    
   
   function renderTotals(challenges, filter) {
 
+      document.getElementById('results-rows').style.display = 'block';
+      document.getElementById('comparison-data').style.display = 'none';
+
+      
       let count = 0;
       let correct = 0;
       let incorrect = 0;
@@ -434,6 +500,12 @@ can effect some of the numbers shown above.
       
   }
 
+  document.getElementById('compareTools').addEventListener('click', function() {
+      renderComparison(challenges,
+		       document.getElementById('comparetool1').value,
+		       document.getElementById('comparetool2').value);
+  });
+    
   const filterOptions = document.querySelectorAll('input[name="filter"]');
   const challenges = {{ challenges  | sort(attribute="name") | tojson }};
   
@@ -442,7 +514,7 @@ can effect some of the numbers shown above.
 	  const selectedFilter = this.value;
 	  console.log('you selected:' + selectedFilter);
 	  renderTotals(challenges,selectedFilter);
-	  // call function
+
       });
   });
 
