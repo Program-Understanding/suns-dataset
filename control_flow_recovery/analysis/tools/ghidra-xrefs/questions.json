@@ -1,16 +1,11 @@
 { "questions": 
   [
       {
-
 	  "question":"What are the file offsets for the instructions that are the targets of the '$INSTRUCTION' instruction at file offset '$OFFSET' ?",
-	  "script": "rm -rf /control-flow-recovery/project.gpr; rm -rf /control-flow-recovery/project.rep; /ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite"
-      },
-      {
-	  "question":"What are the file offsets for the instructions that are the targets of the targets of the '$INSTRUCTION' instruction at file offset '$OFFSET' ?",
-	  "script": "/ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite"
+	  "script": "rm -rf /control-flow-recovery/project*.*; /ghidra/ghidra_11.2_PUBLIC/support/analyzeHeadless /control-flow-recovery project$RANDOM -import $BINARY_TO_ANALYZE_FILENAME -scriptPath /control-flow-recovery -postscript ReportXrefs.java $CFR_JSON_FILENAME -overwrite"
       }
   ],
-  "version":"1.1.2"
+  "version":"1.1.3"
 }
     
 

@@ -95,6 +95,7 @@
     <button type="button" id="compareTools">Compare Two Tools</button>
     <input type="text" id="comparetool1" placeholder="tool filter"/>
     <input type="text" id="comparetool2" placeholder="tool filter"/>
+    <input type="checkbox" id="comparedetails" checked=false >include details</input>
     <br>
   </form>
 
@@ -350,7 +351,7 @@ can effect some of the numbers shown above.
   }
 
 
-  function renderComparison(challenges, tool1, tool2) {
+    function renderComparison(challenges, tool1, tool2, withDetails) {
       document.getElementById('results-rows').style.display = 'none';
       document.getElementById('comparison-data').style.display = 'block';
       console.log("compare " + tool1 + " vs. " + tool2);
@@ -378,15 +379,31 @@ can effect some of the numbers shown above.
       tool1Right.forEach(dataset => {
 	  if (!tool2Right.has(dataset)) {
 	      let newListItem = document.createElement('li');
-              newListItem.textContent = dataset;
+	      if (withDetails) {
+		  rightC = challenges.find(challenge => challenge.dataset === dataset && challenge.tool.includes(tool1));
+		  wrongC = challenges.find(challenge => challenge.dataset === dataset && challenge.tool.includes(tool2));
+		  newListItem.textContent = dataset + " RIGHT DETAILS: " + rightC.details + " WRONG DETAILS: " + wrongC.details
+
+	      } else {
+		  newListItem.textContent = dataset;
+	      }
+	      
+
               document.getElementById('tool1-right').appendChild(newListItem);
+	      
 	  }
       });
       document.getElementById('tool2-right').innerHTML = ''; 
       tool2Right.forEach(dataset => {
 	  if (!tool1Right.has(dataset)) {
 	      let newListItem = document.createElement('li');
-              newListItem.textContent = dataset;
+	      if (withDetails) {
+		  rightC = challenges.find(challenge => challenge.dataset === dataset && challenge.tool.includes(tool2));
+		  wrongC = challenges.find(challenge => challenge.dataset === dataset && challenge.tool.includes(tool1));
+		  newListItem.textContent = dataset + " RIGHT DETAILS: " + rightC.details + " WRONG DETAILS: " + wrongC.details
+	      } else {
+		  newListItem.textContent = dataset;
+	      }
               document.getElementById('tool2-right').appendChild(newListItem);
 	  }
       });
@@ -503,7 +520,8 @@ can effect some of the numbers shown above.
   document.getElementById('compareTools').addEventListener('click', function() {
       renderComparison(challenges,
 		       document.getElementById('comparetool1').value,
-		       document.getElementById('comparetool2').value);
+		       document.getElementById('comparetool2').value,
+		       document.getElementById('comparedetails').checked);
   });
     
   const filterOptions = document.querySelectorAll('input[name="filter"]');
