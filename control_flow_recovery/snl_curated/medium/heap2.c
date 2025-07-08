@@ -1,16 +1,28 @@
 #include <stdlib.h>
+#include <stdio.h>
 
-int zero(void) { return 0; }
-int one(void)  { return 1; }
+typedef void (*func_ptr)(void);
+func_ptr *hp_ptr; 
 
-int main(int argc, char *argv[]) {
-    int (* *fp)(void) = malloc(sizeof *fp);
-    if (!fp) return 1;
+void simple_function(void) {
+    printf("Simple func");
+}
 
-    *fp = (argc > 1) ? one : zero;
+int set_pointer(void) {
+    hp_ptr = malloc(sizeof(*hp_ptr));  
+    if (!hp_ptr) return -1;
+    *hp_ptr = simple_function;        
+    return 0;
+}
 
-    int v = (*fp)();
+__attribute__((noinline))
+void call_pointer(void) {            
+    (*hp_ptr)();            
+}
 
-    free(fp);
-    return v; 
+int main(void) {
+    if (set_pointer() != 0) return EXIT_FAILURE;
+    call_pointer();
+    free(hp_ptr);                 
+    return EXIT_SUCCESS;
 }

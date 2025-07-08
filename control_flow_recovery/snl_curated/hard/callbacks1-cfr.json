@@ -1,9 +1,8 @@
 {
-    "program":"callbacks4_gcc-stripped",
+    "program":"callbacks1",
     "question":"What are the file offsets for the instructions that are the targets of the 'call r12' instruction at file offset '0x1192' ?",
     "groundtruth": ["0x1160"],
     "evaluation":"set",
-    "source":"../../../source/indirect_calls/callbacks/callbacks4.c",
     "stripped": true,
     "compiler":"gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d00425036bc873048]",
     "compiler-options":"gcc"
