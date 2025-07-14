@@ -3,7 +3,7 @@ RESULTS: The groundtruth is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1190}
 RESULTS: The tool's answer is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1190}
 RESULTS: Tool's answer matches groundtruth? YES
 RESULTS: SUMMARY: RIGHT
-RESULTS: Running time: 2 seconds
+RESULTS: Running time: 0 seconds
 RESULTS: Tool name:ida-cfg
 RESULTS: Tool version:0.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

@@ -1,5 +1,5 @@
 RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0x0a989d' ?'
-RESULTS: The groundtruth is: {0x4045b3}
+RESULTS: The groundtruth is: {0x45b3, 0x467c}
 RESULTS: The tool's answer is: {}
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: SUMMARY: EMPTY

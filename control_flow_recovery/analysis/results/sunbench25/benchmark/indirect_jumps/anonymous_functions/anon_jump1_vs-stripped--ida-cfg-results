@@ -3,7 +3,7 @@ RESULTS: The groundtruth is: {0x400}
 RESULTS: The tool's answer is: {}
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: SUMMARY: EMPTY
-RESULTS: Running time: 5 seconds
+RESULTS: Running time: 1 seconds
 RESULTS: Tool name:ida-cfg
 RESULTS: Tool version:0.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

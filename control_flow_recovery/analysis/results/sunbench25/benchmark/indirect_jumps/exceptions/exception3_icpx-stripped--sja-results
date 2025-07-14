@@ -3,7 +3,7 @@ RESULTS: The groundtruth is: {0x52b6, 0x5341}
 RESULTS: The tool's answer is: {}
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: SUMMARY: EMPTY
-RESULTS: Running time: 5 seconds
+RESULTS: Running time: 6 seconds
 RESULTS: Tool name:sja
 RESULTS: Tool version:1.1.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

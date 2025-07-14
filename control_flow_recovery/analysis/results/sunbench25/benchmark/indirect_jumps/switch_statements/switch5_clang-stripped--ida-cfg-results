@@ -1,9 +1,9 @@
 RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x115e' ?'
-RESULTS: The groundtruth is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1195, 0x11a1, 0x1ad}
+RESULTS: The groundtruth is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1195, 0x11a1, 0x11ad}
 RESULTS: The tool's answer is: {0x1160, 0x1165, 0x1171, 0x117d, 0x1189, 0x1195, 0x11a1, 0x11ad}
-RESULTS: Tool's answer matches groundtruth? NO
-RESULTS: SUMMARY: WRONG+2-1
-RESULTS: Running time: 2 seconds
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT
+RESULTS: Running time: 1 seconds
 RESULTS: Tool name:ida-cfg
 RESULTS: Tool version:0.6
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)

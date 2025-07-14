@@ -1,10 +1,10 @@
-RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rax*8 + 0x402028]' instruction at file offset '0x113b' ?'
-RESULTS: The groundtruth is: {0x1142, 0x115a, 0x1160, 0x1166, 0x116c, 0x1178, 0x117e}
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp qword ptr [rax*8 + 0x402080]' instruction at file offset '0x11ad' ?'
+RESULTS: The groundtruth is: {0x11b4, 0x11cc, 0x11d2, 0x11d8, 0x11de, 0x11ea, 0x11f0}
 RESULTS: The tool's answer is: {}
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: SUMMARY: EMPTY
-RESULTS: Running time: 2 seconds
+RESULTS: Running time: 3 seconds
 RESULTS: Tool name:rose
-RESULTS: Tool version:1.0.11
+RESULTS: Tool version:1.0.15
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

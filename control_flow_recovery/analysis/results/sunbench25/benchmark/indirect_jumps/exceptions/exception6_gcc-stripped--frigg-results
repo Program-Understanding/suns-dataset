@@ -1,0 +1,13 @@
+study requested for binary:../sunbench25/benchmark/indirect_jumps/exceptions/exception6_gcc-stripped with cfr:../sunbench25/benchmark/indirect_jumps/exceptions/exception6_gcc-stripped-cfr.json
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0xb2de5' ?'
+RESULTS: The groundtruth is: {0x5a79, 0x5b39, 0x599f, 0x5a5f}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes incorrect elements: {}
+Tool's answer does not include correct elements: {'0x599f', '0x5b39', '0x5a79', '0x5a5f'}
+RESULTS: SUMMARY: UNDER-4
+RESULTS: Running time: 0 seconds
+RESULTS: Tool name:frigg
+RESULTS: Tool version:1.1.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

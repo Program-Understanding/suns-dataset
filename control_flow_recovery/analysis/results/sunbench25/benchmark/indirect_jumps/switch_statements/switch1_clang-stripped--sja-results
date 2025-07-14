@@ -1,8 +1,8 @@
 RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rax' instruction at file offset '0x1165' ?'
-RESULTS: The groundtruth is: {0x116c, 0x1178, 0x1184, 0x1190}
+RESULTS: The groundtruth is: {0x1167, 0x116c, 0x1178, 0x1184, 0x1190}
 RESULTS: The tool's answer is: {0x1167, 0x116c, 0x1178, 0x1184, 0x1190}
-RESULTS: Tool's answer matches groundtruth? NO
-RESULTS: SUMMARY: OVER+1
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT
 RESULTS: Running time: 2 seconds
 RESULTS: Tool name:sja
 RESULTS: Tool version:1.1.6

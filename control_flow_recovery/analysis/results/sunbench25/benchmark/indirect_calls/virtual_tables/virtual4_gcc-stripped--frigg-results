@@ -1,0 +1,11 @@
+study requested for binary:../sunbench25/benchmark/indirect_calls/virtual_tables/virtual4_gcc-stripped with cfr:../sunbench25/benchmark/indirect_calls/virtual_tables/virtual4_gcc-stripped-cfr.json
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x12d2' ?'
+RESULTS: The groundtruth is: {0x18a2}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+RESULTS: Running time: 8 seconds
+RESULTS: Tool name:frigg
+RESULTS: Tool version:1.1.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

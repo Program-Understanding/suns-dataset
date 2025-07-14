@@ -1,0 +1,11 @@
+RESULTS: The groundtruth is: {0x657b, 0x6584, 0x658d, 0x6596, 0x659f, 0x65a8, 0x65b1, 0x65ba, 0x65c3, 0x65cc, 0x65d5, 0x65de, 0x65e5}
+RESULTS: The tool's answer is: {0x657b, 0x6584, 0x658d, 0x6596, 0x659f, 0x65a8, 0x65b1, 0x65ba, 0x65c3, 0x65cc, 0x65d5, 0x65de, 0x65e5}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 13 out of 13 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: RIGHT
+RESULTS: Running time: 35 seconds
+RESULTS: Tool name:ghidra-galore-11.0
+RESULTS: Tool version:1.1
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

@@ -1,10 +1,10 @@
 RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'jmp rcx' instruction at file offset '0x0a989d' ?'
-RESULTS: The groundtruth is: {0x4045b3}
+RESULTS: The groundtruth is: {0x45b3, 0x467c}
 RESULTS: The tool's answer is: {}
 RESULTS: Tool's answer matches groundtruth? NO
 RESULTS: SUMMARY: EMPTY
-RESULTS: Running time: 44 seconds
+RESULTS: Running time: 45 seconds
 RESULTS: Tool name:rose
-RESULTS: Tool version:1.0.11
+RESULTS: Tool version:1.0.15
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

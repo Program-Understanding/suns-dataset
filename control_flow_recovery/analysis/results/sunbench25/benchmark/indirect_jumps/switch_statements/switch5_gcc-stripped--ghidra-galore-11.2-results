@@ -1,0 +1,11 @@
+RESULTS: The groundtruth is: {0x1162, 0x116b, 0x1174, 0x117d, 0x1186, 0x118f, 0x1198, 0x11a1}
+RESULTS: The tool's answer is: {0x1162, 0x116b, 0x1174, 0x117d, 0x1186, 0x118f, 0x1198, 0x11a1}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 8 out of 8 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: RIGHT
+RESULTS: Running time: 8 seconds
+RESULTS: Tool name:ghidra-galore-11.2
+RESULTS: Tool version:1.1
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

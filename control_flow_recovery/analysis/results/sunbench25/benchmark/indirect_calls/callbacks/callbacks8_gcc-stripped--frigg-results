@@ -1,0 +1,20 @@
+study requested for binary:../sunbench25/benchmark/indirect_calls/callbacks/callbacks8_gcc-stripped with cfr:../sunbench25/benchmark/indirect_calls/callbacks/callbacks8_gcc-stripped-cfr.json
+Error: Conversion of 0x1014 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x103f to file offset failed; unable to find matching header entry
+Error: Conversion of 0x106f to file offset failed; unable to find matching header entry
+Error: Conversion of 0x10ab to file offset failed; unable to find matching header entry
+Error: Conversion of 0x10ed to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1121 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1144 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1178 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1180 to file offset failed; unable to find matching header entry
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rbp' instruction at file offset '0x1178' ?'
+RESULTS: The groundtruth is: {0x1150}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+RESULTS: Running time: 8 seconds
+RESULTS: Tool name:frigg
+RESULTS: Tool version:1.1.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

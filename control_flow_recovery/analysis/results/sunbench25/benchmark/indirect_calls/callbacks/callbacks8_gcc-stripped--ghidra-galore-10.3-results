@@ -1,0 +1,11 @@
+RESULTS: The groundtruth is: {0x1150}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: Correctly identified 0 out of 1 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: EMPTY
+RESULTS: Running time: 7 seconds
+RESULTS: Tool name:ghidra-galore-10.3
+RESULTS: Tool version:1.1
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

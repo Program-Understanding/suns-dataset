@@ -1,0 +1,22 @@
+study requested for binary:../sunbench25/benchmark/indirect_calls/callbacks/callbacks1_gcc-stripped with cfr:../sunbench25/benchmark/indirect_calls/callbacks/callbacks1_gcc-stripped-cfr.json
+Error: Conversion of 0x1014 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1020 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x104f to file offset failed; unable to find matching header entry
+Error: Conversion of 0x108b to file offset failed; unable to find matching header entry
+Error: Conversion of 0x10cd to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1101 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1124 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1170 to file offset failed; unable to find matching header entry
+Error: Conversion of 0x118b to file offset failed; unable to find matching header entry
+Error: Conversion of 0x118b to file offset failed; unable to find matching header entry
+Error: Conversion of 0x1194 to file offset failed; unable to find matching header entry
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rax' instruction at file offset '0x118b' ?'
+RESULTS: The groundtruth is: {0x1130, 0x1140, 0x1150}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY
+RESULTS: Running time: 8 seconds
+RESULTS: Tool name:frigg
+RESULTS: Tool version:1.1.6
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)
