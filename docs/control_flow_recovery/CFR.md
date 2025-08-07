@@ -26,12 +26,12 @@ Notice the `-cfr.json` at the end of the file name. This is critical for the par
    
 The four necessary fields are `program`, `question`, `groundtruth`, and `evaluation`. The program is a relative filepath to the `-cfr.json`. **The question requires exact wording** as tools currently rely on regex. The groundtruth contains the answers to the questions, and the evaluation is the format of the answers.   
    
-Other helpful fields can be added as an aid to a human viewer.   
+Other helpful fields can be added as an aid to the human viewer.   
    
 ## Formatting Questions and Finding Ground Truth   
-Finding the question when the program is simple is easy enough. Fortunately, we are very interested in minimal examples.   
+Knowing which indirect branch instruction is the correct question can be challenging. The silver lining is we are very interested in *minimal* examples.   
    
-Objdump is a great tool that can help with this. One good news is, since we are working with ELF binaries compiled by GCC, Objdump already gives to us the file offset. Even better news is, stripping a binary does not affect the code sections, so we can use the same offsets we find in the non-stripped for the stripped.    
+Objdump is one tool that can help with this. When working with C programs compiled as ELF by GCC, Objdump typically gives to us the file offset. Even better news is, stripping a binary does not affect the code sections, so we can use the same offsets we find in the non-stripped for the stripped. (Exception largely occurs when stripping object files.)   
    
 ```bash
 objdump -d enya-fptr_array
@@ -40,12 +40,12 @@ objdump -d enya-fptr_array
    
 Since we have our function calls in main, we should check for a call to a pointer. Objdump will make this obvious, and in our case, it was `call *(%rbx)` at offset `0x11b5`.   
    
-![](https://cs.dg.jeok.net/z-assets/pasted-image-20250205180533.png)   
+![](images/pasted-image-20250205180533.png)   
    
 The target of these calls are similarly also easy to find:   
-![](https://cs.dg.jeok.net/z-assets/pasted-image-20250205180620.png)   
+![](images/pasted-image-20250205180620.png)   
    
-From the examples above, it is clear that they are `0x1310`, `0x1320`, and `0x1330`.   
+From the examples above, we should be able to infer that the answers are `0x1310`, `0x1320`, and `0x1330`.   
    
 Then we should be able to update our `-cfr.json` file with these offsets.   
    
@@ -71,6 +71,12 @@ Then use `./show_me_all_the_questions` to verify that at least one tool can proc
    
 ```bash
 ./show_me_all_the_questions
+```
+
+There is also a ground truth validator for ELF binaries that prerequisites you to write source code where the only source of uncertainty is argc. Although some components are fragile, it is available for use:
+
+```bash
+python control_flow_recovery/analysis/validate_groundtruth_targets
 ```
    
    
