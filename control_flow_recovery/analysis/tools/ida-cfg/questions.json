@@ -6,7 +6,7 @@
 	  "script": "./script.sh $BINARY_TO_ANALYZE_FILENAME $CFR_JSON_FILENAME"
       }
   ],
-  "version":"0.6"
+  "version":"0.6.0"
 }
     
 
