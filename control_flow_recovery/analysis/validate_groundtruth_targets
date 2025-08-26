@@ -32,13 +32,6 @@ def find_cfr_files(root_dir):
             if fn.endswith('cfr.json'):
                 yield os.path.join(dp, fn)
 
-
-def extract_question_offset(question):
-    m = re.findall(r"0x[0-9A-Fa-f]+", question) # there should only be one hex val in Q
-    if not m:
-        raise ValueError(f"No hex offset in question: {question!r}")
-    return int(m[-1], 16)
-
 def get_elf_virtual_address_for_offset(binary, file_offset):
     with open(binary, 'rb') as f:
         elf = ELFFile(f)
@@ -161,6 +154,21 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
     data = json.load(open(cfr_path))
 
     prog = data["program"]
+    question = data["question"]
+    split_question = question.split("'")
+
+    if (split_question[0] != 'What are the file offsets for the instructions that are the targets of the ' or
+        split_question[2] != ' instruction at file offset ' or
+        split_question[4] != ' ?'
+        ):
+        print(f"{rel}: question is not understood by this program (not a next instruction question)")
+        return None,rel
+
+    if (split_question[3].startswith("0x") or split_question[3].startswith("0X")):
+        file_off = int(split_question[3],16)
+    else:
+        file_off = int(split_question[3])
+        
     binary = os.path.join(os.path.dirname(cfr_path), prog)
     if not os.path.isfile(binary):
         print(f"{rel}: binary not found: {binary}", file=sys.stderr)
@@ -181,7 +189,6 @@ def validate_one(cfr_path, root_dir, max_args=53, debug=False):
     #ENOCH WILL CONSIDER.
     #Just ask if PIE, if so ... base = 0x555555554000, break_va = base + file_off
 
-    file_off = extract_question_offset(data["question"])
     base = rt_base - 0x1040 # heuristic for load address
     if base < 0x400000:
         base = 0x555555554000

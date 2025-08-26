@@ -37,6 +37,8 @@ import ghidra.program.model.address.AddressFactory;
 import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Instruction;
 import ghidra.program.model.symbol.Reference;
+import ghidra.program.model.symbol.FlowType;
+import ghidra.program.model.symbol.ReferenceIterator;
 import ghidra.program.model.symbol.ReferenceManager;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
@@ -156,8 +158,8 @@ public class ReportXrefs extends GhidraScript {
 	    }
 
 	    String accepted1 = "What are the file offsets for the instructions that are the targets of the '";
-	    String accepted2 = "What are the file offsets for the instructions that are the targets of the targets of the '";
-	    Boolean targetsOfTargets = null;
+	    String accepted2 = "What are the file offsets for the instructions that could precede the '";
+	    Boolean findSources = null;
 	    String accepted = null;
 
 	    Set<String> truthStringSet = new HashSet<String>();
@@ -172,10 +174,10 @@ public class ReportXrefs extends GhidraScript {
 	    }
 
 	    if (question.startsWith(accepted1)) {
-		targetsOfTargets = false;
+		findSources = false;
 		accepted = accepted1;
 	    } else if (question.startsWith(accepted2)) {
-		targetsOfTargets = true;
+		findSources = true;
 		accepted = accepted2;
 	    } else {
 		System.out.println("I only understand two questions right now: " + accepted1 + " OR " + accepted2);
@@ -228,43 +230,47 @@ public class ReportXrefs extends GhidraScript {
 	    //TODO: compare the instructionString to the Ghidra instruction???
 
 	    ReferenceManager referenceManager = currentProgram.getReferenceManager();
-
-	    Reference[] references = referenceManager.getReferencesFrom(ia);
-
-	    System.out.println("Ghidra has references to:");
-
-	    Set<String> answerStringSet = new HashSet<String>();
-	    for (Reference reference: references) {
-
-		System.out.println("Found a reference of type: " + reference.getReferenceType());
-		if (!reference.getReferenceType().isFlow()) {
-		    continue;
-		}
-		
-		Address target = reference.getToAddress();
-
-		if (targetsOfTargets) {
-		    Reference[] targetReferences = referenceManager.getReferencesFrom(target);
-		    if (targetReferences.length != 1) {
-			System.out.println("The question assumes the indirect target is a JMP instruction that should have a single target itself");
-			System.exit(1);
+	    Set<String> answerStringSet = new HashSet<String>();	    
+	    
+	    if (findSources) {
+		for (Reference reference: referenceManager.getReferencesTo(ia)) {
+		    if (!reference.getReferenceType().isFlow()) {
+			continue;
 		    }
-		    Address targetsTarget = targetReferences[0].getToAddress();
-		    System.out.println(reference.getToAddress() + " which in turn has a target of " + targetsTarget );
-		    Long fileOffset = addressToFileOffset(targetsTarget);
+		    if (reference.getReferenceType() == FlowType.INDIRECTION) {
+			System.out.println("Found an INDIRECTION, ignoring, Reference is: " + reference);
+			continue;
+		    }
+		    System.out.println("Found a flow reference that will be treated as a sink of type: " + reference.getReferenceType());
+		    System.out.println("Reference is: " + reference);
+		    Address answerAddress = reference.getFromAddress();
+		    Long fileOffset = addressToFileOffset(answerAddress);
+		    System.out.println("Offset: " + Long.toHexString(fileOffset));
 		    if (fileOffset != null) {
 			answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset)));
 		    }
-		} else {
-		    Long fileOffset = addressToFileOffset(target);		    
+		}
+	    } else {
+		for (Reference reference: referenceManager.getReferencesFrom(ia)) {
+		    System.out.println("Found a reference of type: " + reference.getReferenceType());
+		    if (!reference.getReferenceType().isFlow()) {
+			continue;
+		    }
+		    Address answerAddress = reference.getToAddress();
+
+		    System.out.println("------------");
+		    System.out.println("Reference check...we found a reference using 'From' from " + ia + " to " + answerAddress);
+		    System.out.println("Here are the references using 'To' to " + answerAddress);
+		    for (Reference checkref: referenceManager.getReferencesTo(answerAddress)) {
+			System.out.println(checkref);
+		    }
+		    System.out.println("------------");
+		    
+		    Long fileOffset = addressToFileOffset(answerAddress);		    
 		    if (fileOffset != null) {
-			answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset))); //target.toString("0x")));
+			answerStringSet.add(hexNormalizeWithPrefix("0x" + Long.toHexString(fileOffset)));
 		    }
 		}
-	    }
-	    System.out.println("Not the question, but Ghidra has references from:");
-	    for (Reference reference: referenceManager.getReferencesTo(ia)) {
-		System.out.println(reference.getFromAddress());
 	    }
 
 	    System.out.println("RESULTS: The groundtruth is: " + setToString(truthStringSet));

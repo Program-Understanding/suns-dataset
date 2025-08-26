@@ -1,5 +1,5 @@
 <nav>
-{% for menu_item in ["home", "all", "snl", "jakstab", "dial", "SunBench25"] %}
+{% for menu_item in ["home", "all", "snl", "jakstab", "injected", "dial", "SunBench25"] %}
   <a href="{{ url_for(menu_item) }}">{{ menu_item|upper }}&nbsp;&nbsp;</a>
 {% endfor %}
 </nav>

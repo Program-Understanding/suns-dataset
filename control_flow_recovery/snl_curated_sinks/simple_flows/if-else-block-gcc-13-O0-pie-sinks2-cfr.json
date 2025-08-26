@@ -1,0 +1,7 @@
+{
+    "program":"if-else-block-gcc-13-O0-pie",
+    "source":"if-else-block.c",
+    "question":"What are the file offsets for the instructions that could precede the 'xyzzy' instruction at file offset '0x1165' ?",
+    "groundtruth": ["0x11da"],
+    "evaluation":"set"
+}

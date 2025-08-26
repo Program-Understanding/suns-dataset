@@ -7,6 +7,7 @@ log_processing_scripts_for_tool=()
 only_tool="*all*"
 only_cfr="!all!"
 timeout="60"
+tools_directory="./tools"
 
 function show_help {
     echo "Usage: $0 [OPTIONS]"
@@ -17,6 +18,7 @@ function show_help {
     echo "     CFR is either path, filename, or filename without '-cfr.json' "
     echo "     CFR can also be '*foo*' matching any file containing foo"
     echo "  --timeout TIME      Specify a timeout in seconds for each test (default is 60)."
+    echo "  --tools_directory DIR  Specify the tools directory if not at ./tools"
     echo "  --help          Display this help message."
     
 }
@@ -51,7 +53,7 @@ start_tool() {
     local tool=$1
     
     # Check if the tool should use Docker or not
-    if [ -f "./tools/$tool/.nodocker" ]; then
+    if [ -f "$tools_directory/$tool/.nodocker" ]; then
         echo "Tool $tool does not use Docker"
         return
     fi
@@ -66,7 +68,7 @@ stop_tool() {
     local tool=$1
     
     # Check if the tool should use Docker or not
-    if [ -f "./tools/$tool/.nodocker" ]; then
+    if [ -f "$tools_directory/$tool/.nodocker" ]; then
         return
     fi
     
@@ -351,6 +353,19 @@ while [[ "$#" -gt 0 ]]; do
                 exit 1
             fi
             ;;
+        --tools_directory)
+            if [[ -n "$2" && ! "$2" =~ ^-- ]]; then
+                tools_directory="$2"
+		if [ ! -d "$tools_directory" ]; then
+                    echo "Error: --tools_directory requires a directory specification."
+		    exit 1
+		fi
+                shift 2
+            else
+                echo "Error: --tools_directory requires a directory specification."
+                exit 1
+            fi
+            ;;
         --help)
             show_help
             exit 0
@@ -372,7 +387,7 @@ echo "This is a proof of concept script that runs analysis tools"
 echo "Docker containers will be used unless a .nodocker file is found in the tool directory"
 
 #for efficiency reasons, we try to apply each tool to each dataset
-find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
+find $tools_directory/*  -maxdepth 0 -type d | while read -r tooldir; do
     echo "found a tool directory: $tooldir"
     #extract the name of the tool from the tooldir
     tool="${tooldir##*/}"
@@ -433,6 +448,7 @@ find ./tools/*  -maxdepth 0 -type d | while read -r tooldir; do
                     fi
                 fi
 
+		echo "Tool is $tool version is $version existing_version is $existing_version"
                 echo "fetching question from $cfr_json_file"
                 cfr_question=$(jq -r '.question' "$cfr_json_file" )
 

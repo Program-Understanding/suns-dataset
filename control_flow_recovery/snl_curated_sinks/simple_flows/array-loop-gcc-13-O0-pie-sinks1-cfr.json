@@ -1,0 +1,7 @@
+{
+    "program":"array-loop-gcc-13-O0-pie",
+    "source":"array-loop.c",
+    "question":"What are the file offsets for the instructions that could precede the 'push rbp' instruction at file offset '0x1154' ?",
+    "groundtruth": ["0x11f4"],
+    "evaluation":"set"
+}

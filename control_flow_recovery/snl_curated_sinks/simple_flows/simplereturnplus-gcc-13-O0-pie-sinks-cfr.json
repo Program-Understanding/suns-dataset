@@ -1,0 +1,7 @@
+{
+    "program":"simplereturnplus-gcc-13-O0-pie",
+    "question":"What are the file offsets for the instructions that could precede the 'push rbp' instruction at file offset '0x1149' ?",
+    "groundtruth": ["0x1170","0x118d","0x11ae"],
+    "evaluation":"set",
+    "source":"simplereturn.c"
+}

@@ -49,30 +49,25 @@ def inject_code_after_halfway_declaration(code, new_code):
     return modified_code
 
 
-def find_halfway_statement(c_code):
 
-    # Parse the original C code
-    tree = parser.parse(bytes(c_code, 'utf8'))
+def find_halfway_statement(code):
+    tree = parser.parse(bytes(code,'utf8'))
     root_node = tree.root_node
-    statements = []
+    all_statements = []
 
-    # Traverse the syntax tree to collect statements
-    def collect_statements(node):
-        if str(node.type) == ';':
-            statements.append(node)
-        for child in node.children:
-            collect_statements(child)
+    # Collect statements from all function definitions
+    for child in root_node.children:
+        if child.type == 'function_definition':
+            for func_child in child.children:
+                if func_child.type == 'compound_statement':
+                    for stmt in func_child.children:
+                        if stmt.type == 'expression_statement':
+                            all_statements.append(stmt)
 
-    collect_statements(tree.root_node)
+    # Calculate halfway index
+    halfway_index = len(all_statements) // 2
+    return all_statements[halfway_index] if all_statements else None
 
-    # Calculate halfway point
-    halfway_index = len(statements) // 2
-
-    if not statements:
-        return None  # No statements found
-
-    # Return the halfway statement
-    return statements[halfway_index]
 
 def inject_code_after_halfway_statement(code, new_code):
 
@@ -100,32 +95,66 @@ def inject_code_after_halfway_statement(code, new_code):
 
 @click.command()
 @click.argument('c_code_path')
-@click.option('--late', is_flag=True, help='Indicates late option')
-@click.option('--early', is_flag=True, help='Indicates early option')
-def study(c_code_path:str,late,early):
+@click.option('--alocal', is_flag=True, help='Indicates local array of function pointers option')
+@click.option('--aglobal', is_flag=True, help='Indicates global array of function pointers  option')
+@click.option('--findex', is_flag=True, help='Indicates function invocation yields index option')
+@click.option('--cindex', is_flag=True, help='Indicates constant for index option')
+@click.option('--lmodify', is_flag=True, help='Modify the array locally prior to use') 
+def study(c_code_path:str,alocal,aglobal,findex,cindex,lmodify):
     
-    if not (late or early):
-        raise click.BadParameter('You must provide either --late or --early.')
+    if not (alocal or aglobal):
+        raise click.BadParameter('You must provide either --alocal or --aglobal.')
+
+    if (alocal and aglobal):
+        raise click.BadParameter('You cant have both --alocal and --aglobal.')
+
+    if not (findex or cindex):
+        raise click.BadParameter('You must provide either --findex or --cindex.')
+
+    if (findex and cindex):
+        raise click.BadParameter('You cant have both --findex and --cindex.')
+
     
     # Statement to inject
     declaration_to_inject = """
+
     __attribute__((noinline, optimize("O0"))) int notxyzzyfunc1() { return 1;}
     __attribute__((noinline, optimize("O0"))) int notxyzzyfunc2() { return 2;}
     __attribute__((noinline, optimize("O0"))) int notxyzzyfunc3() {return 3;}
+    __attribute__((noinline, optimize("O0"))) int notxyzzyfunc4() {return 4;}
     __attribute__((noinline, optimize("O0"))) int get_xyzzy() { return 1;}
-    """
-    statement_to_inject = """
-    (void)xyzzy_fp_array[get_xyzzy()]();
+
     """
 
+    if lmodify:
+        statement_modify = "xyzzy_fp_array[1] = notxyzzyfunc4;"
+    else:
+        statement_modify = ""
+
+    
+    statement_to_inject_cindex = """
+    int xyzzy_ignore = get_xyzzy(); (void)xyzzy_fp_array[1](); (void) xyzzy_fp_array[xyzzy_ignore]();
+    """
+
+    statement_to_inject_findex = """
+    (void)xyzzy_fp_array[get_xyzzy()]();
+    """
+    
     assignment_statement = """
     int (*xyzzy_fp_array[5])() = {notxyzzyfunc1, notxyzzyfunc2, notxyzzyfunc3};
     """
     
-    if late:
-        statement_to_inject = assignment_statement + statement_to_inject
+    if alocal:
+        if findex:
+            statement_to_inject = assignment_statement + statement_to_inject_findex
+        else:
+            statement_to_inject = assignment_statement + statement_to_inject_cindex            
     else:
         declaration_to_inject = declaration_to_inject + assignment_statement
+        if findex:
+            statement_to_inject = statement_modify + statement_to_inject_findex
+        else:
+            statement_to_inject = statement_modify + statement_to_inject_cindex
     
     with open(c_code_path, 'r') as file:
         original_c_code = file.read()

@@ -20,7 +20,7 @@ RUN apt update && apt install -y --no-install-recommends curl unzip bash nano
 
 RUN apt update && apt install -y --no-install-recommends fontconfig libxi6 libxrender1 libxtst6
 
-RUN curl --proto '=https' --tlsv1.2 -LO https://github.com/NationalSecurityAgency/ghidra/releases/download/${GHIDRA_RELEASE_TAG}/${GHIDRA_VERSION}.zip \
+RUN curl --insecure --proto '=https' --tlsv1.2 -LO https://github.com/NationalSecurityAgency/ghidra/releases/download/${GHIDRA_RELEASE_TAG}/${GHIDRA_VERSION}.zip \
     && unzip -d ghidra ${GHIDRA_VERSION}.zip > /dev/null \
     && rm ${GHIDRA_VERSION}.zip 
 

@@ -68,9 +68,11 @@ def study_targets(question, program, groundtruth, instruction_string, offset):
                         print("I just added " + str(ans) + " to the answer set")
                     elif target_line.startswith(p2):
                         if "basic block" in target_line:
-                            ans = target_line[len(p2):].split('basic block')[1]
+                            ans = target_line[len(p2):].split('basic block')[1].strip()
+                            ans = ans.split(' ')[0]
                         if "function" in target_line:
-                            ans = target_line[len(p2):].split('function')[1]
+                            ans = target_line[len(p2):].split('function')[1].strip()
+                            ans = ans.split(' ')[0]
                         answer_set.add(ans)
                         print("I just added " + str(ans) + " to the answer set")
                     else:
