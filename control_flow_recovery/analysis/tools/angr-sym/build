@@ -1,0 +1,2 @@
+#! /bin/bash
+docker buildx build --build-context tools=../../tools . -t angr-sym-tool

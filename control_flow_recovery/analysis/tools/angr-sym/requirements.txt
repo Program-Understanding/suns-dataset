@@ -1,0 +1,5 @@
+capstone==5.0.3
+angr==9.2.53
+protobuf==3.20.1
+click==8.1.8
+claripy==9.2.53
