@@ -1,0 +1,7 @@
+study requested for binary:issue-local_findex with cfr:issue-local_findex-cfr.json
+adding address due to cfg successor 0x601058
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x124c' ?'
+RESULTS: The groundtruth is: {0x1178}
+RESULTS: The tool's answer is: {}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: EMPTY

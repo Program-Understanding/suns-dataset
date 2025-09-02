@@ -1,0 +1,197 @@
+Extracting program info, this can take a while...
+
+Found 42 functions to analyze: (0x101000:64u 0x101080:64u 0x101120:64u
+                                0x101160:64u 0x101169:64u 0x101178:64u
+                                0x101187:64u 0x101196:64u 0x1011A5:64u
+                                0x1011B4:64u 0x1012A4:64u 0x102000:64u
+                                0x104000:64u 0x104008:64u 0x104010:64u
+                                0x104014:64u 0x104018:64u 0x10401C:64u
+                                0x101000:64u 0x101020:64u 0x101050:64u
+                                0x101060:64u 0x101070:64u 0x101080:64u
+                                0x1010B0:64u 0x1010E0:64u 0x101120:64u
+                                0x101160:64u 0x101169:64u 0x101178:64u
+                                0x101187:64u 0x101196:64u 0x1011A5:64u
+                                0x1011B4:64u 0x1012A4:64u 0x105000:64u
+                                0x105008:64u 0x105010:64u 0x105018:64u
+                                0x105020:64u 0x105028:64u 0x105030:64u)
+frigg: [WARNING] Duplicate type name IDENTITY_TYPE for architecture x86_64
+frigg: [WARNING] Duplicate type name POLICY_ELEMENT for architecture x86_64
+frigg: [WARNING] Duplicate type name Location for architecture x86_64
+frigg: [WARNING] Duplicate type name IResourceManager for architecture x86_64
+frigg: [WARNING] Duplicate type name IComponent for architecture x86_64
+frigg: [WARNING] Duplicate function name GetDeviceID for architecture x86_64
+frigg: [WARNING] Duplicate type name IImageList for architecture x86_64
+frigg: [WARNING] Duplicate type name IRangeException for architecture x86_64
+Analyzing 0x101000 [_init]
+State Finished (entry 0x101000) (callstack (some ((0x101014:64u
+0x101016:64u)))
+ ("No memory at pc" 0x105038:64u))
+Analyzing 0x101080 [_start]
+frigg: [WARNING][0x105000] Storing to top pointer at 0x105000 (Top)
+State Finished at 0x105000: Storing to top pointer (Top) :(
+Analyzing 0x101120 [__do_global_dtors_aux]
+frigg: [WARNING][0x105030] Storing to top pointer at 0x105030 (Top)
+State Finished at 0x105030: Storing to top pointer (Top) :(
+Analyzing 0x101160 [frame_dummy]
+State Finished (entry 0x101160) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x101169 [notxyzzyfunc1]
+State Finished (entry 0x101169) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x101178 [notxyzzyfunc2]
+State Finished (entry 0x101178) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x101187 [notxyzzyfunc3]
+State Finished (entry 0x101187) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x101196 [notxyzzyfunc4]
+State Finished (entry 0x101196) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x1011A5 [get_xyzzy]
+State Finished (entry 0x1011A5) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x1011B4 [main]
+State Finished (entry 0x1011B4) (callstack (some ((0x101282:64u
+0x101287:64u)))
+ ("No memory at pc" 0x105038:64u))
+Analyzing 0x1012A4 [_fini]
+State Finished (entry 0x1012A4) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x102000 [_IO_stdin_used]
+frigg: [WARNING][0x102000] Storing to top pointer at 0x102000 (Top)
+State Finished at 0x102000: Storing to top pointer (Top) :(
+Analyzing 0x104000 [data_start]
+frigg: [WARNING][0x104000] Storing to top pointer at 0x104000 (Top)
+State Finished at 0x104000: Storing to top pointer (Top) :(
+Analyzing 0x104008 [__dso_handle]
+frigg: [WARNING][0x104008] Storing to top pointer at 0x104008 (Top)
+State Finished at 0x104008: Storing to top pointer (Top) :(
+Analyzing 0x104010 [completed.0]
+frigg: [WARNING][0x104010] Storing to top pointer at 0x104010 (Top)
+State Finished at 0x104010: Storing to top pointer (Top) :(
+Analyzing 0x104014 [x]
+frigg: [WARNING][0x104014] Storing to top pointer at 0x104014 (Top)
+State Finished at 0x104014: Storing to top pointer (Top) :(
+Analyzing 0x104018 [y]
+frigg: [WARNING][0x104018] Storing to top pointer at 0x104018 (Top)
+State Finished at 0x104018: Storing to top pointer (Top) :(
+Analyzing 0x10401C [z]
+frigg: [WARNING][0x10401C] Storing to top pointer at 0x10401C (Top)
+State Finished at 0x10401C: Storing to top pointer (Top) :(
+Analyzing 0x101020 [FUN_00101020]
+State Finished at 0: decoder
+Analyzing 0x101060 [<EXTERNAL>::__stack_chk_fail]
+frigg: [WARNING][0x105010] Storing to top pointer at 0x105010 (Top)
+State Finished at 0x105010: Storing to top pointer (Top) :(
+Analyzing 0x1010B0 [deregister_tm_clones]
+State Finished (entry 0x1010B0) (callstack (some ())
+ ("Setting SP to non singleton pointer_set (Top) at 0"
+  (((value
+     ((scalar Top) (pointer_set Top) (pointer_diff Top) (pointer_xor Top)
+      (handle Top) (is_zero Top)
+      (gdi
+       ((window_attributes
+         ((is_desktop Top) (is_enumerated Top) (is_found Top)))
+        (dc_attributes
+         ((window_dc ((is_desktop Top) (is_enumerated Top) (is_found
+Top)))))))
+      (width 64)))
+    (lo 0) (hi 63)))))
+Analyzing 0x105008 [_ITM_deregisterTMCloneTable]
+frigg: [WARNING][0x105008] Storing to top pointer at 0x105008 (Top)
+State Finished at 0x105008: Storing to top pointer (Top) :(
+Done (culled 0 duplicate states)
+Wrote 14 unique PC transitions to /control-flow-recovery/output.xrefs
+addr 0x101014 0x105020
+addr 0x101026 0
+addr 0x101054 0x105030
+addr 0x101064 0x105010
+addr 0x101074 0x105018
+addr 0x10109F 0x105000
+addr 0x1010C1 0x1010D8
+addr 0x101102 0x101118
+addr 0x101142 0x101050
+addr 0x101164 0x1010E0
+addr 0x10123B 0x1011A5
+addr 0x10124C 0x101178
+addr 0x10125D 0x101178
+addr 0x101282 0x101070
+  <!ATTLIST PROGRAM IMAGE_BASE CDATA #IMPLIED>
+<PROGRAM NAME="issue-local_cindex" EXE_PATH="/control-flow-recovery/issue-local_cindex" EXE_FORMAT="Executable and Linking Format (ELF)" IMAGE_BASE="00100000">

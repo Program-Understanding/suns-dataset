@@ -1,0 +1,29 @@
+bat-cfg[122] 0.02732s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[122] 2.06043s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 587 bytes 35 blks 16 funcs(10%)...
+bat-cfg[122] 2.09438s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.067139 seconds
+bat-cfg[122] 2.09446s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.018229 seconds
+Running Rose bat-cfg on program:issue-local_cindex
+****** extract result from the following***
+      0x00001247: mov eax, 0
+      0x0000124c: call rdx
+    block is a function call
+    call return edge to B3 basic block 0x0000124e
+    function call edge to function 0x00001178 "notxyzzyfunc2"
+  B3 basic block 0x0000124e:
+    call return edge from B2 basic block 0x00001240
+      0x0000124e: mov eax, dword ds:[rbp + 0xcc<204,-52>]
+      0x00001251: cdqe
+      0x00001253: mov rdx, qword ds:[rbp + 0xd0<208,-48> + rax * 8]
+      0x00001258: mov eax, 0
+      0x0000125d: call rdx
+    block is a function call
+    call return edge to B4 basic block 0x0000125f
+    function call edge to function 0x00001178 "notxyzzyfunc2"
+...
+****** extract result from the above***
+I just added 0x00001178 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x124c' ?'
+RESULTS: The groundtruth is: {0x1178}
+RESULTS: The tool's answer is: {0x1178}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

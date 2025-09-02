@@ -1,0 +1,105 @@
+openjdk version "17.0.14" 2025-01-21
+OpenJDK Runtime Environment Temurin-17.0.14+7 (build 17.0.14+7)
+OpenJDK 64-Bit Server VM Temurin-17.0.14+7 (build 17.0.14+7, mixed mode)
+INFO  Using log config file: jar:file:/opt/ghidra/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: /root/.ghidra/.ghidra_11.0_PUBLIC/application.log (LoggingInitialization)  
+INFO  Loading user preferences: /root/.ghidra/.ghidra_11.0_PUBLIC/preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (1158 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (SSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: NativePRNGNonBlocking (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (ApplicationTrustManagerFactory)  
+INFO  Starting cache cleanup: /tmp/root-Ghidra/fscache2 (FileCacheMaintenanceDaemon)  
+INFO  Finished cache cleanup, estimated storage used: 0 (FileCacheMaintenanceDaemon)  
+INFO  HEADLESS Script Paths:
+    /opt/ghidra/Ghidra/Features/SystemEmulation/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/GnuDemangler/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-agent-frida/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/DATA/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/JVM/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-rmi-trace/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/MicrosoftCodeAnalyzer/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Python/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/VersionTracking/ghidra_scripts
+    /control-flow-recovery
+    /opt/ghidra/Ghidra/Features/Base/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/Atmel/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Decompiler/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FunctionID/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-agent-dbgmodel-traceloader/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/PDB/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/8051/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/PIC/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FileFormats/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/BSim/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/BytePatterns/ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project31141 (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project31141 (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: /control-flow-recovery/project31141 (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///control-flow-recovery/issue-global_cindex (HeadlessAnalyzer)  
+INFO  Using Loader: Executable and Linking Format (ELF) (AutoImporter)  
+INFO  Using Language/Compiler: x86:LE:64:default:gcc (AutoImporter)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: file:///control-flow-recovery/issue-global_cindex (HeadlessAnalyzer)  
+INFO  DWARF external debug information found: ExternalDebugInfo [filename=null, crc=0, hash=5636a7774d749a37e11cd72597e874a16bd02af2] (ExternalDebugFilesService)  
+INFO  Unable to find DWARF information, skipping DWARF analysis (DWARFAnalyzer)  
+INFO  Packed database cache: /tmp/root-Ghidra/packed-db-cache (PackedDatabaseCache)  
+INFO  Applied data type archive: generic_clib_64 (ApplyDataArchiveAnalyzer)  
+INFO  -----------------------------------------------------
+    ASCII Strings                              0.528 secs
+    Apply Data Archives                        0.278 secs
+    Call Convention ID                         0.048 secs
+    Call-Fixup Installer                       0.003 secs
+    Create Address Tables                      0.004 secs
+    Create Function                            0.001 secs
+    DWARF                                      0.008 secs
+    Data Reference                             0.004 secs
+    Decompiler Switch Analysis                 0.203 secs
+    Demangler GNU                              0.011 secs
+    Disassemble Entry Points                   0.049 secs
+    ELF Scalar Operand References              0.003 secs
+    Embedded Media                             0.008 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.018 secs
+    Function Start Search                      0.017 secs
+    Function Start Search After Code           0.001 secs
+    Function Start Search After Data           0.001 secs
+    GCC Exception Handlers                     0.089 secs
+    Non-Returning Functions - Discovered       0.001 secs
+    Non-Returning Functions - Known            0.002 secs
+    Reference                                  0.010 secs
+    Shared Return Calls                        0.006 secs
+    Stack                                      0.020 secs
+    Subroutine References                      0.003 secs
+    Subroutine References - One Time           0.000 secs
+    x86 Constant Reference Analyzer            0.040 secs
+-----------------------------------------------------
+     Total Time   1 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:///control-flow-recovery/issue-global_cindex (HeadlessAnalyzer)  
+INFO  SCRIPT: /control-flow-recovery/ReportXrefs.java (HeadlessAnalyzer)  
+XYZZY
+we have instruction of:call rdx:
+we have offset of:0x11d7:
+we have offset of:4567
+which yielded an address of: 001011d7
+Ghidra is answering the question: What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11d7' ?
+Ghidra has the instruction as:CALL RDX:
+Ghidra has references to:
+Found a reference of type: COMPUTED_CALL
+Not the question, but Ghidra has references from:
+RESULTS: The groundtruth is: {0x1158}
+RESULTS: The tool's answer is: {0x1158}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 1 out of 1 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: RIGHT
+INFO  ANALYZING changes made by post scripts: file:///control-flow-recovery/issue-global_cindex (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: file:///control-flow-recovery/issue-global_cindex (HeadlessAnalyzer)  
+INFO  REPORT: Save succeeded for: /issue-global_cindex (project31141:/issue-global_cindex) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

@@ -1,0 +1,96 @@
+openjdk version "17.0.14" 2025-01-21
+OpenJDK Runtime Environment Temurin-17.0.14+7 (build 17.0.14+7)
+OpenJDK 64-Bit Server VM Temurin-17.0.14+7 (build 17.0.14+7, mixed mode)
+INFO  Using log config file: jar:file:/opt/ghidra/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: /root/.ghidra/.ghidra_10.2_PUBLIC/application.log (LoggingInitialization)  
+INFO  Loading user preferences: /root/.ghidra/.ghidra_10.2_PUBLIC/preferences (Preferences)  
+INFO  Class search complete (1055 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (SSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: NativePRNGNonBlocking (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (ApplicationTrustManagerFactory)  
+INFO  HEADLESS Script Paths:
+    /opt/ghidra/Ghidra/Features/GnuDemangler/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-agent-frida/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/DATA/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/JVM/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/MicrosoftCodeAnalyzer/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Python/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/VersionTracking/ghidra_scripts
+    /control-flow-recovery
+    /opt/ghidra/Ghidra/Features/Base/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/Atmel/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Decompiler/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FunctionID/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-agent-dbgmodel-traceloader/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/PDB/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/8051/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/PIC/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FileFormats/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/BytePatterns/ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project19280 (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project19280 (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: /control-flow-recovery/project19280 (HeadlessAnalyzer)  
+INFO  IMPORTING: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  Using Loader: Executable and Linking Format (ELF) (AutoImporter)  
+INFO  REPORT: Import succeeded with language "x86:LE:64:default" and cspec "gcc" for file: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  DWARF external debug information found: ExternalDebugInfo [filename=null, crc=0, hash=c139af62d46050348bac5b5b19f5e82c7dfe9998] (ExternalDebugFilesService)  
+INFO  Unable to find DWARF information, skipping DWARF analysis (DWARFAnalyzer)  
+INFO  Packed database cache: /tmp/root-Ghidra/packed-db-cache (PackedDatabaseCache)  
+INFO  -----------------------------------------------------
+    ASCII Strings                              0.450 secs
+    Apply Data Archives                        0.289 secs
+    Call Convention ID                         0.047 secs
+    Call-Fixup Installer                       0.001 secs
+    Create Address Tables                      0.003 secs
+    Create Function                            0.001 secs
+    DWARF                                      0.009 secs
+    Data Reference                             0.005 secs
+    Decompiler Switch Analysis                 0.184 secs
+    Demangler GNU                              0.009 secs
+    Disassemble Entry Points                   0.048 secs
+    ELF Scalar Operand References              0.005 secs
+    Embedded Media                             0.008 secs
+    External Entry References                  0.001 secs
+    Function ID                                0.020 secs
+    Function Start Search                      0.023 secs
+    Function Start Search After Code           0.001 secs
+    Function Start Search After Data           0.001 secs
+    GCC Exception Handlers                     0.050 secs
+    Non-Returning Functions - Discovered       0.001 secs
+    Non-Returning Functions - Known            0.003 secs
+    Reference                                  0.013 secs
+    Shared Return Calls                        0.006 secs
+    Stack                                      0.017 secs
+    Subroutine References                      0.005 secs
+    Subroutine References - One Time           0.000 secs
+    x86 Constant Reference Analyzer            0.040 secs
+-----------------------------------------------------
+     Total Time   1 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  SCRIPT: /control-flow-recovery/ReportXrefs.java (HeadlessAnalyzer)  
+XYZZY
+we have instruction of:call rdx:
+we have offset of:0x11e5:
+we have offset of:4581
+which yielded an address of: 001011e5
+Ghidra is answering the question: What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11e5' ?
+Ghidra has the instruction as:CALL RDX:
+Ghidra has references to:
+Found a reference of type: COMPUTED_CALL
+Not the question, but Ghidra has references from:
+RESULTS: The groundtruth is: {0x1176}
+RESULTS: The tool's answer is: {0x1176}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 1 out of 1 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: RIGHT
+INFO  ANALYZING changes made by post scripts: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  REPORT: Save succeeded for file: /issue-modify (HeadlessAnalyzer)  

@@ -1,0 +1,8 @@
+Running sja on program:issue-local_cindex
+{'Indirect Jump Location': {'0x125d': ['0x1169'], '0x124c': ['0x1178']}, 'Jump Table Location': {}}
+The virtual address answers are ['0x1178']
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x124c' ?'
+RESULTS: The groundtruth is: {0x1178}
+RESULTS: The tool's answer is: {0x1178}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

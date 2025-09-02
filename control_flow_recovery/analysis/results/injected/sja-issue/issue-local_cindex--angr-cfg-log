@@ -1,0 +1,10 @@
+study requested for binary:issue-local_cindex with cfr:issue-local_cindex-cfr.json
+adding address due to cfg successor 0x601058
+ran a reaching definition analysis
+answer added via reaching definition: 0x401178
+for address 0x401178 offset is 0x1178
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x124c' ?'
+RESULTS: The groundtruth is: {0x1178}
+RESULTS: The tool's answer is: {0x1178}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

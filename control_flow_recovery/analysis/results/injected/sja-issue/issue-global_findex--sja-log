@@ -1,0 +1,10 @@
+Running sja on program:issue-global_findex
+{'Indirect Jump Location': {'0x11de': ['0x1167', '0x1158', '0x1149']}, 'Jump Table Location': {}}
+The virtual address answers are ['0x1167', '0x1158', '0x1149']
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11de' ?'
+RESULTS: The groundtruth is: {0x1158}
+RESULTS: The tool's answer is: {0x1149, 0x1158, 0x1167}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x1149', '0x1167'}
+Tool's answer does not include correct elements: {}
+RESULTS: SUMMARY: OVER+2

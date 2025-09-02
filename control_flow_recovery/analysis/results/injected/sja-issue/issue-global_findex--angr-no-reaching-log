@@ -1,0 +1,14 @@
+study requested for binary:issue-global_findex with cfr:issue-global_findex-cfr.json
+adding address due to cfg successor 0x401149
+adding address due to cfg successor 0x401158
+adding address due to cfg successor 0x401167
+for address 0x401158 offset is 0x1158
+for address 0x401149 offset is 0x1149
+for address 0x401167 offset is 0x1167
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11de' ?'
+RESULTS: The groundtruth is: {0x1158}
+RESULTS: The tool's answer is: {0x1149, 0x1158, 0x1167}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x1167', '0x1149'}
+Tool's answer does not include correct elements: {}
+RESULTS: SUMMARY: OVER+2

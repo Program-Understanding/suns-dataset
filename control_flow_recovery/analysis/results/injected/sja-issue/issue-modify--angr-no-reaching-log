@@ -1,0 +1,10 @@
+study requested for binary:issue-modify with cfr:issue-modify-cfr.json
+adding address due to cfg successor 0x401158
+for address 0x401158 offset is 0x1158
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11e5' ?'
+RESULTS: The groundtruth is: {0x1176}
+RESULTS: The tool's answer is: {0x1158}
+RESULTS: Tool's answer matches groundtruth? NO
+Tool's answer includes falsePositive elements: {'0x1158'}
+Tool's answer does not include correct elements: {'0x1176'}
+RESULTS: SUMMARY: WRONG+1-1

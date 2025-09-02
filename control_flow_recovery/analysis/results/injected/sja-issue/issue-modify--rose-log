@@ -1,0 +1,29 @@
+bat-cfg[174] 0.02802s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning...
+bat-cfg[174] 2.05854s Rose::BinaryAnalysis::Partitioner2[MARCH]: cfg: 484 bytes 30 blks 15 funcs(10%)...
+bat-cfg[174] 2.08849s Rose::BinaryAnalysis::Partitioner2[INFO ]: disassembling and partitioning; took 2.060552 seconds
+bat-cfg[174] 2.08857s Rose::BinaryAnalysis::Partitioner2[INFO ]: post partition analysis: may-return, stack-delta; total 0.011854 seconds
+Running Rose bat-cfg on program:issue-modify
+****** extract result from the following***
+      0x000011e0: mov eax, 0
+      0x000011e5: call rdx
+    block is a function call
+    call return edge to B3 basic block 0x000011e7
+    function call edge to function 0x00001176 "notxyzzyfunc4"
+  B3 basic block 0x000011e7:
+    call return edge from B2 basic block 0x000011d6
+      0x000011e7: mov eax, dword ds:[rbp + 0xfc<252,-4>]
+      0x000011ea: cdqe
+      0x000011ec: lea rdx, ds:[0 + rax * 8]
+      0x000011f4: lea rax, ds:[rip + 0x0000000000002e25<11813><absolute=0x0000000000004020>]
+      0x000011fb: mov rdx, qword ds:[rdx + rax]
+      0x000011ff: mov eax, 0
+      0x00001204: call rdx
+    block is a function call
+...
+****** extract result from the above***
+I just added 0x00001176 to the answer set
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11e5' ?'
+RESULTS: The groundtruth is: {0x1176}
+RESULTS: The tool's answer is: {0x1176}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: SUMMARY: RIGHT

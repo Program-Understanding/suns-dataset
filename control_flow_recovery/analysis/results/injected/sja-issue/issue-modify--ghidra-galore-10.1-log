@@ -1,0 +1,96 @@
+openjdk version "11.0.26" 2025-01-21
+OpenJDK Runtime Environment Temurin-11.0.26+4 (build 11.0.26+4)
+OpenJDK 64-Bit Server VM Temurin-11.0.26+4 (build 11.0.26+4, mixed mode)
+INFO  Using log config file: jar:file:/opt/ghidra/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: /root/.ghidra/.ghidra_10.1_PUBLIC/application.log (LoggingInitialization)  
+INFO  Loading user preferences: /root/.ghidra/.ghidra_10.1_PUBLIC/preferences (Preferences)  
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/opt/ghidra/Ghidra/Features/Base/lib/slf4j-nop-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/opt/ghidra/Ghidra/Features/GraphServices/lib/slf4j-nop-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.helpers.NOPLoggerFactory]
+INFO  Class search complete (1078 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (SSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: NativePRNGNonBlocking (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (ApplicationTrustManagerFactory)  
+INFO  HEADLESS Script Paths:
+    /opt/ghidra/Ghidra/Features/GnuDemangler/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/DATA/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/MicrosoftCodeAnalyzer/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Python/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/VersionTracking/ghidra_scripts
+    /control-flow-recovery
+    /opt/ghidra/Ghidra/Features/Base/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Decompiler/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FunctionID/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-agent-dbgmodel-traceloader/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/8051/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/PIC/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FileFormats/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/BytePatterns/ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project17119 (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project17119 (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: /control-flow-recovery/project17119 (HeadlessAnalyzer)  
+INFO  IMPORTING: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded with language "x86:LE:64:default" and cspec "gcc" for file: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  DWARF external debug information found: ExternalDebugInfo [filename=null, crc=0, hash=c139af62d46050348bac5b5b19f5e82c7dfe9998] (ExternalDebugFilesService)  
+INFO  Unable to find DWARF information, skipping DWARF analysis (DWARFAnalyzer)  
+INFO  Packed database cache: /tmp/root-Ghidra/packed-db-cache (PackedDatabaseCache)  
+INFO  -----------------------------------------------------
+    ASCII Strings                              0.443 secs
+    Apply Data Archives                        0.224 secs
+    Call Convention ID                         0.053 secs
+    Call-Fixup Installer                       0.001 secs
+    Create Address Tables                      0.004 secs
+    Create Function                            0.001 secs
+    DWARF                                      0.010 secs
+    Data Reference                             0.004 secs
+    Decompiler Switch Analysis                 0.183 secs
+    Demangler GNU                              0.010 secs
+    Disassemble Entry Points                   0.040 secs
+    ELF Scalar Operand References              0.003 secs
+    Embedded Media                             0.009 secs
+    External Entry References                  0.001 secs
+    Function ID                                0.024 secs
+    Function Start Search                      0.016 secs
+    Function Start Search After Code           0.000 secs
+    Function Start Search After Data           0.001 secs
+    GCC Exception Handlers                     0.045 secs
+    Non-Returning Functions - Discovered       0.001 secs
+    Non-Returning Functions - Known            0.001 secs
+    Reference                                  0.014 secs
+    Shared Return Calls                        0.003 secs
+    Stack                                      0.019 secs
+    Subroutine References                      0.001 secs
+    Subroutine References - One Time           0.000 secs
+    x86 Constant Reference Analyzer            0.043 secs
+-----------------------------------------------------
+     Total Time   1 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  SCRIPT: /control-flow-recovery/ReportXrefs.java (HeadlessAnalyzer)  
+XYZZY
+we have instruction of:call rdx:
+we have offset of:0x11e5:
+we have offset of:4581
+which yielded an address of: 001011e5
+Ghidra is answering the question: What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11e5' ?
+Ghidra has the instruction as:CALL RDX:
+Ghidra has references to:
+Found a reference of type: COMPUTED_CALL
+Not the question, but Ghidra has references from:
+RESULTS: The groundtruth is: {0x1176}
+RESULTS: The tool's answer is: {0x1176}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 1 out of 1 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: RIGHT
+INFO  ANALYZING changes made by post scripts: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: /control-flow-recovery/issue-modify (HeadlessAnalyzer)  
+INFO  REPORT: Save succeeded for file: /issue-modify (HeadlessAnalyzer)  

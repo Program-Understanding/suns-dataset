@@ -1,0 +1,125 @@
+openjdk version "21.0.8" 2025-07-15 LTS
+OpenJDK Runtime Environment Temurin-21.0.8+9 (build 21.0.8+9-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.8+9 (build 21.0.8+9-LTS, mixed mode)
+INFO  Using log config file: jar:file:/opt/ghidra/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: /root/.config/ghidra/ghidra_11.4_PUBLIC/application.log (LoggingInitialization)  
+INFO  Loading user preferences: /root/.config/ghidra/ghidra_11.4_PUBLIC/preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (890 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (SSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: NativePRNGNonBlocking (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (ApplicationTrustManagerFactory)  
+INFO  Headless startup complete (2094 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 58 extension points (18 false positives) (ClassSearcher)  
+INFO  HEADLESS Script Paths:
+    /opt/ghidra/Ghidra/Features/GnuDemangler/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/JVM/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger-rmi-trace/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/MicrosoftCodeAnalyzer/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/VersionTracking/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/PyGhidra/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/SwiftDemangler/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/Atmel/ghidra_scripts
+    /opt/ghidra/Ghidra/Debug/Debugger/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Decompiler/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FunctionID/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/PIC/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/BSim/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/BytePatterns/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/SystemEmulation/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/WildcardAssembler/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/DATA/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/DecompilerDependent/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/Jython/ghidra_scripts
+    /control-flow-recovery
+    /opt/ghidra/Ghidra/Features/Base/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/PDB/ghidra_scripts
+    /opt/ghidra/Ghidra/Processors/8051/ghidra_scripts
+    /opt/ghidra/Ghidra/Features/FileFormats/ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project24435 (HeadlessAnalyzer)  
+INFO  Creating project: /control-flow-recovery/project24435 (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: /control-flow-recovery/project24435 (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///control-flow-recovery/issue-local_cindex (HeadlessAnalyzer)  
+INFO  Using Loader: Executable and Linking Format (ELF) (AutoImporter)  
+INFO  Using Language/Compiler: x86:LE:64:default:gcc (AutoImporter)  
+INFO  Using Library Search Path: [., /bin, /lib, /lib64, /lib/x86_64-linux-gnu, /lib/aarch64-linux-gnu, /usr/bin, /usr/lib, /usr/X11R6/bin, /usr/X11R6/lib, /usr/java/packages/lib, /usr/lib64] (AutoImporter)  
+INFO  Additional info:
+Loading file:///control-flow-recovery/issue-local_cindex?MD5=23e9b389fed664985395693c6042973c...
+Setting block .init_array to read-only
+Setting block .fini_array to read-only
+Setting block .dynamic to read-only
+------------------------------------------------
+
+Linking the External Programs of 'issue-local_cindex' to imported libraries...
+  [libc.so.6] -> not found in project
+------------------------------------------------
+
+Resolving External Symbols of [/issue-local_cindex] - 4 unresolved symbols, no external libraries configured - skipping
+ (AutoImporter)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: file:///control-flow-recovery/issue-local_cindex (HeadlessAnalyzer)  
+INFO  DWARF external debug information found: ExternalDebugInfo [filename=null, crc=0, hash=80e6479aa0c8aba7d00c1ad480945a92af7fc19c] (ExternalDebugFileSectionProvider)  
+INFO  Unable to find DWARF information, skipping DWARF analysis (DWARFAnalyzer)  
+INFO  hit non-returning function, restarting decompiler switch analyzer later (DecompilerSwitchAnalyzer)  
+WARN  Decompiling 001010b0, pcode error at 00105008: Unable to disassemble EXTERNAL block location: 00105008 (DecompileCallback)  
+WARN  Decompiling 001010e0, pcode error at 00105028: Unable to disassemble EXTERNAL block location: 00105028 (DecompileCallback)  
+INFO  Packed database cache: /var/tmp/root-ghidra/packed-db-cache (PackedDatabaseCache)  
+INFO  Applied data type archive: generic_clib_64 (ApplyDataArchiveAnalyzer)  
+INFO  -----------------------------------------------------
+    ASCII Strings                              0.406 secs
+    Apply Data Archives                        0.234 secs
+    Call Convention ID                         0.306 secs
+    Call-Fixup Installer                       0.004 secs
+    Create Address Tables                      0.002 secs
+    Create Function                            0.002 secs
+    DWARF                                      0.008 secs
+    Data Reference                             0.003 secs
+    Decompiler Switch Analysis                 0.025 secs
+    Decompiler Switch Analysis - One Time      0.897 secs
+    Demangler GNU                              0.012 secs
+    Disassemble Entry Points                   0.055 secs
+    ELF Scalar Operand References              0.047 secs
+    Embedded Media                             0.015 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.017 secs
+    Function Start Search                      0.025 secs
+    Function Start Search After Code           0.001 secs
+    Function Start Search After Data           0.001 secs
+    GCC Exception Handlers                     0.051 secs
+    Non-Returning Functions - Discovered       0.001 secs
+    Non-Returning Functions - Known            0.005 secs
+    Reference                                  0.012 secs
+    Shared Return Calls                        0.006 secs
+    Stack                                      0.019 secs
+    Subroutine References                      0.003 secs
+    Subroutine References - One Time           0.000 secs
+    x86 Constant Reference Analyzer            0.044 secs
+-----------------------------------------------------
+     Total Time   2 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:///control-flow-recovery/issue-local_cindex (HeadlessAnalyzer)  
+INFO  SCRIPT: /control-flow-recovery/ReportXrefs.java (HeadlessAnalyzer)  
+XYZZY
+we have instruction of:call rdx:
+we have offset of:0x124c:
+we have offset of:4684
+which yielded an address of: 0010124c
+Ghidra is answering the question: What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x124c' ?
+Ghidra has the instruction as:CALL RDX:
+Ghidra has references to:
+Found a reference of type: COMPUTED_CALL
+Not the question, but Ghidra has references from:
+RESULTS: The groundtruth is: {0x1178}
+RESULTS: The tool's answer is: {0x1178}
+RESULTS: Tool's answer matches groundtruth? YES
+RESULTS: Correctly identified 1 out of 1 correct answers
+RESULTS: Incorrectly provided 0 values which are not in the answer.
+RESULTS: SUMMARY: RIGHT
+INFO  ANALYZING changes made by post scripts: file:///control-flow-recovery/issue-local_cindex (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: file:///control-flow-recovery/issue-local_cindex (HeadlessAnalyzer)  
+INFO  REPORT: Save succeeded for: /issue-local_cindex (project24435:/issue-local_cindex) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  
