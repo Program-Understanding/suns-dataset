@@ -1,0 +1,10 @@
+RESULTS: For question 'What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11c5' ?'
+RESULTS: The groundtruth is: {0x11e6, 0x11f6, 0x1206}
+RESULTS: The tool's answer is: {0x1206}
+RESULTS: Tool's answer matches groundtruth? NO
+RESULTS: SUMMARY: UNDER-2
+RESULTS: Running time: 2 seconds
+RESULTS: Tool name:angr-sym
+RESULTS: Tool version:0.5.2
+RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
+RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

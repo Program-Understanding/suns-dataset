@@ -3,8 +3,8 @@ RESULTS: The groundtruth is: {0x1150, 0x1160, 0x1170}
 RESULTS: The tool's answer is: {0x1150, 0x1160, 0x1170}
 RESULTS: Tool's answer matches groundtruth? YES
 RESULTS: SUMMARY: RIGHT
-RESULTS: Running time: 2 seconds
+RESULTS: Running time: 1 seconds
 RESULTS: Tool name:angr-cfg
-RESULTS: Tool version:0.4.3
+RESULTS: Tool version:1.0.0
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)

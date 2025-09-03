@@ -5,6 +5,6 @@ RESULTS: Tool's answer matches groundtruth? YES
 RESULTS: SUMMARY: RIGHT
 RESULTS: Running time: 24 seconds
 RESULTS: Tool name:angr-cfg
-RESULTS: Tool version:0.4.3
+RESULTS: Tool version:1.0.0
 RESULTS:      (not the version of the underlying tool, but of the script that invokes it)
 RESULTS:      (see the tool itself to find which underlying tools it uses and their versions)
