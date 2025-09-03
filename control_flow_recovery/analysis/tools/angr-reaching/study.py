@@ -49,9 +49,9 @@ def study_targets(question, binary_path, groundtruth, instruction_string, offset
                 successors.add(ss)
 
     address_answers = set()
-    for s in successors:
-        print("adding address due to cfg successor " + hex(s.addr))
-        address_answers.add(s.addr)
+    #for s in successors:
+    #    print("adding address due to cfg successor " + hex(s.addr))
+    #    address_answers.add(s.addr)
 
     try:
         #assume indirection is via a register
@@ -81,7 +81,7 @@ def study_targets(question, binary_path, groundtruth, instruction_string, offset
                 address_answers.add(v.v)
             
     except Exception as exc:
-        print("Not able to do reaching definition analysis which for now only works if the target is a simple register")
+        print("Caught an exception: " + str(exc) + "Possibly because reaching definition analysis only works if the target is a simple register")
     
         
     offset_answers = set()

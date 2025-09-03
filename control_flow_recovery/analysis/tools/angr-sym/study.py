@@ -52,6 +52,14 @@ def study_targets(question, binary_path, groundtruth, instruction_string, offset
         sm.step(num_inst=1)
 
 
+    if len(address_answers) == 0:
+        print("We never hit address " + hex(address) + "(e.g., offset " + offset_string + ")")
+        if sm.errored:
+            print(sm.errored)
+        for s in sm.deadended:
+            print([hex(x) for x in s.history.bbl_addrs])
+
+        
     offset_answers = set()
 
     for a in address_answers:
