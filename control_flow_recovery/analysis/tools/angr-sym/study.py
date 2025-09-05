@@ -30,10 +30,13 @@ def study_targets(question, binary_path, groundtruth, instruction_string, offset
     #in this approach, we exhaustively symbolically execute, perhaps up until some
     #time limit is hit, need to figure out how to do that...
 
+    SIZE_OF_INT = 4 #hardcoded, find a way to use angr to obtain this...
     
-
-    entry_state = project.factory.entry_state(args=['a','a','a','a','a','a','a','a','a'],argc=claripy.BVS('argc',project.arch.bits),
+    symbolic_argc = claripy.BVS('argc', SIZE_OF_INT)
+    entry_state = project.factory.entry_state(args=[],argc=symbolic_argc,
                                               add_options={"SYMBOLIC_WRITE_ADDRESSES","SYMBOL_FILL_UNCONSTRAINED_REGISTERS"})
+    
+    entry_state.solver.add(symbolic_argc > 0)                                      
     sm = project.factory.simulation_manager(entry_state)
     address_answers = set()
     #we care about a specific address so for now have to step individual instruction

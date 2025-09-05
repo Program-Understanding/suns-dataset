@@ -5,7 +5,7 @@
 	  "script": "python study.py $BINARY_TO_ANALYZE_FILENAME $CFR_JSON_FILENAME"
       }
   ],
-  "version":"0.5.2"
+  "version":"0.5.3"
 }
     
 
