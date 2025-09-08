@@ -301,8 +301,12 @@ for rf in result_files:
     #"../results/dial_a_benchmark/conditional-20--angr-cfg-results"
     #if we split on "--" and strip "results" we can get dataset name and tool name
 
-    dataset=rf.split('--')[0]
-    tool=rf.split('--')[1].split('-results')[0]
+    try:
+        dataset=rf.split('--')[0]
+        tool=rf.split('--')[1].split('-results')[0]
+    except:
+        print(f"Skipping on {rf}...")
+        continue
     mr="?? invalid"
     summary="?? no summary"
     with open(rf,'r') as rff:
