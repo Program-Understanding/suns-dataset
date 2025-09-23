@@ -1,0 +1,5 @@
+Starting program: /home/ttamon/suns/suns-dataset/control_flow_recovery/sunbench25/benchmark/indirect_jumps/switch_statements/switch1_clang-stripped 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[Inferior 1 (process 2006376) exited normally]
+A syntax error in expression, near `)'.
