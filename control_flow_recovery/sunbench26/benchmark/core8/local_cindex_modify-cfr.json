@@ -1,0 +1,9 @@
+{
+    "program": "local_cindex_modify",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x120e' ?",
+    "groundtruth": [
+        "0x1196"
+    ],
+    "evaluation": "set",
+    "source": "local_cindex_modify.c"
+}
