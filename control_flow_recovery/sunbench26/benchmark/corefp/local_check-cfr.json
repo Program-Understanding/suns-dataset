@@ -1,0 +1,9 @@
+{
+    "program": "local_check",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1264' ?",
+    "groundtruth": [
+        "0x1189","0x1198"
+    ],
+    "evaluation": "set",
+    "source": "local_check.c"
+}
