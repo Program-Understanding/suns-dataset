@@ -1,0 +1,79 @@
+How do these compare to stuff over in snl_curated?
+
+CORE8
+
+global_cindex -- RIGHT: angr-cfg,angr-reaching,angr-sym,ghidra-xrefs,ida-cfg,rose
+                 WRONG: sja
+global_cindex_modify -- RIGHT: angr-reaching,angr-sym,ghidra-xrefs, rose, sja
+                        WRONG: angr-cfg, ida-cfg, 
+local_cindex -- RIGHT: angr-reaching, angr-sym, ghidra-xrefs, rose, sja
+                WRONG: angr-cfg, ida-cfg
+local_cindex_modify -- RIGHT: angr-reaching, angr-sym, ghidra-xrefs, rose, sja
+                       WRONG: angr-cfg, ida-cfg
+global_findex -- RIGHT: angr-sym, rose
+                 WRONG: angr-cfg, angr-reaching, ghidra-xrefs, ida-cfg, sja  (some over some empty)
+global_findex_modify -- RIGHT: angr-sym, rose
+                        WRONG: angr-cfg, angr-reaching, ghidra-xrefs, ida-cfg, sja
+			     (*** +3/-1, empty, empty, +1/-1, +3/-1)
+local_findex -- RIGHT: angr-sym, rose
+                WRONG: angr-cfg, angr-reaching, ghidra-xrefs,ida-cfg, sja  (all empty except SJA)
+local_findex_modify -- RIGHT: angr-sym, rose
+                       WRONG: angr-cfg, angr-reaching,ghidra-xrefs,ida-cfg,sja (all empty except SJA)
+
+
+SIMPLE
+
+array0 -- NO LONGER NEEDED, SAME RESULTS AS local_cindex
+
+   RIGHT: angr-reaching,angr-sym,ghidra-xrefs,rose,sja
+   WRONG: angr-cfg (E), ida-cfg (E), 
+
+
+array-modified -- it modifies the array using dataflow for swap...so its a step up...from global-cindex-modify
+
+   RESULTS ARE SIMILAR TO GLOBAL_CINDEX_MODIFY but sja fails now.
+
+   gcc:
+   RIGHT: angr-reaching, angr-sym,ghidra-xrefs,rose 
+   WRONG: angr-cfg(+1/-1),ida-cfg(+1/-1),sja(E)
+
+   arm:
+   RIGHT: angr-reaching, angr-sym, ghidra-xrefs, 
+   WRONG: angr-cfg(+1/-1), ida-cfg(E), rose(E), sja(I)
+
+   *** hypothesis...ghidra can track changes to the array, but likes a constant index into it (it fails on all findex)
+   *** conclusion:  there are harder versions of "cindex" that don't involve a function call
+                    there are harder versions of "modify" that don't involve a function call
+
+
+array-loop -- introduces a loop, so different.
+if-else-block -- there is no array of function pointers, so it is also slightly different.
+
+3 other examples are switch statements
+simple-return is also a bit different...but we could build more cfr from our core
+
+MODERATE
+
+array-modified-func -- now the dataflow uses a function to swap elements in the array
+
+
+
+
+
+
+
+heap1.c
+heap2.c
+inc-dec.c  -- this is different, because we kind of are asking "who calls twice and with what arguments"
+timestwo -- looks to be an example that requires analysis across functions
+
+only one example uses jmp statements
+
+CHALLENGING
+
+array-modified-hard -- uses two global arrays and swaps across them
+calculator -- uses some pthreads
+callbacks1.c
+callbacks2.c
+hard-interpreter declares global array static, more complex dataflow...involving loop
+nested_fptr.c -- not sure I see the point
