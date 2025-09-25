@@ -40,12 +40,39 @@ for file in "$1"/*; do
 	    python create_cfr.py "${global_cindex_file%.c}-objdump" "sunbench26_f2"
 	}
 
-	modify_file="${file%.c}-modify.c"
-	cp "$file" "$modify_file"
-        python inject.py "$modify_file" "--aglobal" "--cindex"  "--lmodify"
-	gcc -O0 -o "${modify_file%.c}" "$modify_file" && {
-	    objdump -D "${modify_file%.c}" > "${modify_file%.c}-objdump"
-	    python create_cfr.py "${modify_file%.c}-objdump" "sunbench26_f4"
+
+
+
+	local_findex_file="${file%.c}-local_findex-modify.c"
+	cp "$file" "$local_findex_file"
+        python inject.py "$local_findex_file" "--alocal" "--findex" "--lmodify"
+	gcc -O0 -o "${local_findex_file%.c}" "$local_findex_file" && {
+	    objdump -D "${local_findex_file%.c}" > "${local_findex_file%.c}-objdump"
+	    python create_cfr.py "${local_findex_file%.c}-objdump" "sunbench26_f4"
+	}
+
+	global_findex_file="${file%.c}-global_findex-modify.c"
+	cp "$file" "$global_findex_file"
+        python inject.py "$global_findex_file" "--aglobal" "--findex" "--lmodify"
+	gcc -O0 -o "${global_findex_file%.c}" "$global_findex_file" && {
+	    objdump -D "${global_findex_file%.c}" > "${global_findex_file%.c}-objdump"
+	    python create_cfr.py "${global_findex_file%.c}-objdump" "sunbench26_f4"
+	}
+
+	local_cindex_file="${file%.c}-local_cindex-modify.c"
+	cp "$file" "$local_cindex_file"
+        python inject.py "$local_cindex_file" "--alocal" "--cindex" "--lmodify"
+	gcc -O0 -o "${local_cindex_file%.c}" "$local_cindex_file" && {
+	    objdump -D "${local_cindex_file%.c}" > "${local_cindex_file%.c}-objdump"
+	    python create_cfr.py "${local_cindex_file%.c}-objdump" "sunbench26_f4"
+	}
+
+	global_cindex_file="${file%.c}-global_cindex-modify.c"
+	cp "$file" "$global_cindex_file"
+        python inject.py "$global_cindex_file" "--aglobal" "--cindex" "--lmodify"
+	gcc -O0 -o "${global_cindex_file%.c}" "$global_cindex_file" && {
+	    objdump -D "${global_cindex_file%.c}" > "${global_cindex_file%.c}-objdump"
+	    python create_cfr.py "${global_cindex_file%.c}-objdump" "sunbench26_f4"
 	}
 
     else

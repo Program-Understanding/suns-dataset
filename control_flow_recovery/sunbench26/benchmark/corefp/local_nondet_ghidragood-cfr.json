@@ -1,0 +1,9 @@
+{
+    "program": "local_nondet_ghidragood",
+    "question": "What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x11f4' ?",
+    "groundtruth": [
+        "0x1169","0x1178"
+    ],
+    "evaluation": "set",
+    "source": "local_nondet_ghidragood.c"
+}

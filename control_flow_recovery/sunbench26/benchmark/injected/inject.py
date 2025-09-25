@@ -120,9 +120,9 @@ def study(c_code_path:str,alocal,aglobal,findex,cindex,lmodify):
 
 int sunbench26_x = 0;
 int sunbench26_f1() { return 1;}
-int sunbench26_f2() { return 1;}
-int sunbench26_f3() { return 1;}
-int sunbench26_f4() { return 1;}
+int sunbench26_f2() { return 2;}
+int sunbench26_f3() { return 3;}
+int sunbench26_f4() { return 4;}
 
     """
 
@@ -133,31 +133,31 @@ int sunbench26_f4() { return 1;}
 
     
     statement_to_inject_cindex = """
-    sunbench26_x = sunbench26_x + sunbench26_f1(); sunbench26_x = sunbench26_x + sunbench26_fp[1]();
+sunbench26_x = sunbench26_x + sunbench26_f1(); sunbench26_x = sunbench26_x + sunbench26_fp[1]();
     """
     
     statement_to_inject_findex = """
-    sunbench26_x = sunbench26_x + sunbench26_fp[sunbench26_f1()]();
+sunbench26_x = sunbench26_x + sunbench26_fp[sunbench26_f1()]();
     """
 
     use_functions = """
-    sunbench26_x = sunbench26_x + sunbench26_f1() + sunbench26_f2() + sunbench26_f3() + sunbench26_f4();
+sunbench26_x = sunbench26_x + sunbench26_f1() + sunbench26_f2() + sunbench26_f3() + sunbench26_f4();
     """
     
     assignment_statement = """
-    int (*sunbench26_fp[3])() = {sunbench26_f1,sunbench26_f2,sunbench26_f3};
+int (*sunbench26_fp[3])() = {sunbench26_f1,sunbench26_f2,sunbench26_f3};
     """
 
     print_statement = """
-    #include <stdio.h>
-    printf("%d",sunbench26_x);
-    """
+#include <stdio.h>
+printf("%d",sunbench26_x);
+"""
     
     if alocal:
         if findex:
-            statement_to_inject = assignment_statement + statement_to_inject_findex
+            statement_to_inject = assignment_statement + statement_modify + statement_to_inject_findex
         else:
-            statement_to_inject = assignment_statement + statement_to_inject_cindex
+            statement_to_inject = assignment_statement + statement_modify + statement_to_inject_cindex
     else:
         declaration_to_inject = declaration_to_inject + assignment_statement
         if findex:
