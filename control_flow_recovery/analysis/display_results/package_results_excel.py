@@ -53,6 +53,8 @@ def traverse_and_add_all(directory, ws):
                 category = subpaths[2]
             if(len(subpaths) > 4):
                 sub_category = subpaths[3]
+            if(len(subpaths) > 5 and subpaths[3] == "benchmark"):
+                sub_category = subpaths[4]
             
             tool_name = basename[basename.index('--')+2:basename.index('-results')]
             sample_name = basename[:basename.index('--')]

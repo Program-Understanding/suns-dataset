@@ -36,6 +36,22 @@
     </label>
 
     <label>
+      <input type="radio" name="filter" value="angr-reaching"/>
+      angr-reaching
+    </label>
+
+    <label>
+      <input type="radio" name="filter" value="angr-sym"/>
+      angr-sym
+    </label>
+
+    
+    <label>
+      <input type="radio" name="filter" value="angr-sym,angr-cfg,angr-reaching"/>
+      all three angr tools
+    </label>
+    
+    <label>
       <input type="radio" name="filter" value="jakstab-cfg"/>
       jakstab-cfg
     </label>
@@ -266,6 +282,19 @@ can effect some of the numbers shown above.
       if (filter == "angr-cfg") {
 	  return challenge.name.endsWith("--angr-cfg-results");
       }
+      if (filter == "angr-sym") {
+	  return challenge.name.endsWith("--angr-sym-results");
+      }
+      if (filter == "angr-reaching") {
+	  return challenge.name.endsWith("--angr-reaching-results");
+      }
+
+      if (filter == "angr-sym,angr-cfg,angr-reaching") {
+	  return (challenge.name.endsWith("--angr-reaching-results") ||
+		  challenge.name.endsWith("--angr-sym-results") ||
+		  challenge.name.endsWith("--angr-cfg-results"));
+      }
+
       if (filter == "sja") {
 	  return challenge.name.endsWith("--sja-results");
       }
