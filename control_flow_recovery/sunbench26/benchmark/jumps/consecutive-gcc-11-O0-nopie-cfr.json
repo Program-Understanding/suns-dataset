@@ -1,0 +1,8 @@
+{
+    "program":"consecutive-gcc-11-O0-nopie",
+    "source":"consecutive.c",
+    "question":"What are the file offsets for the instructions that are the targets of the 'jmp edx' instruction at file offset '0x11b1' ?",
+    "groundtruth": ["0x11b3", "0x11bc", "0x11c5", "0x11ce", "0x11d7"],
+    "evaluation":"set"
+}
+   

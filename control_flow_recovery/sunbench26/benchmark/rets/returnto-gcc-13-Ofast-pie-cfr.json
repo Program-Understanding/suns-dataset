@@ -1,0 +1,8 @@
+{
+    "program":"returnto-gcc-13-Ofast-pie",
+    "question":"What are the file offsets for the instructions that are the targets of the 'ret' instruction at file offset '0x1239' ?",
+    "groundtruth": ["0x11cd","0x11f0"],
+    "evaluation":"set",
+    "source":"returnto.c"
+}
+   
