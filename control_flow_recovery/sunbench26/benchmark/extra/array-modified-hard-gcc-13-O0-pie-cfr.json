@@ -1,0 +1,7 @@
+{
+    "program":"array-modified-hard-gcc-13-O0-pie",
+    "source":"array-modified-hard.c",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x1277' ?",
+    "groundtruth": ["0x1139", "0x1144", "0x114f"],
+    "evaluation":"set"
+}
