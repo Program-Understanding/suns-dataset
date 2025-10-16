@@ -30,7 +30,7 @@ def study_targets(question, binary_path, groundtruth, instruction_string, offset
     #in this approach, we exhaustively symbolically execute, perhaps up until some
     #time limit is hit, need to figure out how to do that...
 
-    SIZE_OF_INT = 4 #hardcoded, find a way to use angr to obtain this...
+    SIZE_OF_INT = project.arch.bits
     
     symbolic_argc = claripy.BVS('argc', SIZE_OF_INT)
     entry_state = project.factory.entry_state(args=[],argc=symbolic_argc,
