@@ -1,0 +1,7 @@
+{
+    "program":"inc-dec-gcc-13-O0-pie",
+    "source":"inc-dec.c",
+    "question":"What are the file offsets for the instructions that are the targets of the 'call rdx' instruction at file offset '0x114e' ?",
+    "groundtruth": ["0x1161","0x1177"],
+    "evaluation":"set"
+}
