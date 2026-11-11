@@ -1,0 +1,27 @@
+\begin{table}[h]
+    \caption{Your caption here.}
+    \label{table-your-label}
+    \setlength{\tabcolsep}{2pt}
+\begin{center}
+    \begin{tabular}{l@{\hskip 0.5pt}cccccccccc@{\hskip 0.5pt}}
+        \toprule
+        Tool Name & \rotatebox{90}{callback} & \rotatebox{90}{global} & \rotatebox{90}{global\_check} & \rotatebox{90}{global\_modify} & \rotatebox{90}{global\_nondet} & \rotatebox{90}{local} & \rotatebox{90}{local\_check} & \rotatebox{90}{local\_modify} & \rotatebox{90}{local\_nondet} & \rotatebox{90}{local\_nondet\_ghidragood} \\
+        \midrule
+        angr-cfg & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\tfrac{\+1}{-1}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        angr-reaching & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ \\
+        angr-sym & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        ghidra-xrefs & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\downarrow$$_{1}$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\downarrow$$_{1}$ & $\star$ \\
+        ida-cfg & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\tfrac{\+1}{-1}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        rose & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        sja & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ \\
+        \bottomrule
+    \end{tabular}%
+\end{center}
+\raggedright
+\textit{Notation:} 
+$\star$—correct; 
+$\emptyset$—tool failure or no output; 
+$\tfrac{\text{+FP}}{\text{-FN}}$—incorrect;
+$\uparrow$—over-approximation (superset); 
+$\downarrow$—under-approximation (subset).
+\end{table}

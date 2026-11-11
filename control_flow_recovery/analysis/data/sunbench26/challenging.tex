@@ -1,0 +1,29 @@
+\begin{table}[h]
+    \caption{Your caption here.}
+    \label{table-your-label}
+    \setlength{\tabcolsep}{2pt}
+\begin{center}
+    \begin{tabular}{l@{\hskip 0.5pt}ccccccccccccccccccccc@{\hskip 0.5pt}}
+        \toprule
+        Tool Name & \rotatebox{90}{array-loop-gcc-13-O0-pie} & \rotatebox{90}{array-modified-O0-arm} & \rotatebox{90}{array-modified-func-clang-arm-O0} & \rotatebox{90}{array-modified-func-gcc-13-O0-pie} & \rotatebox{90}{array-modified-gcc-13-O0-pie} & \rotatebox{90}{array-modified-hard-gcc-13-O0-pie} & \rotatebox{90}{array0-gcc-13-O0-pie} & \rotatebox{90}{calculator} & \rotatebox{90}{callbacks1} & \rotatebox{90}{callbacks2} & \rotatebox{90}{consumer-producer-threading-stripped} & \rotatebox{90}{exception} & \rotatebox{90}{hard-interpreter} & \rotatebox{90}{heap1} & \rotatebox{90}{heap2} & \rotatebox{90}{if-else-block-gcc-13-O0-pie} & \rotatebox{90}{inc-dec-gcc-13-O0-pie} & \rotatebox{90}{simple-interpretor-gcc-13-O0-pie} & \rotatebox{90}{timestwo-gcc-13-O0-pie} & \rotatebox{90}{virtual} & \rotatebox{90}{virtual1\_gcc-stripped} \\
+        \midrule
+        angr-reaching & $\downarrow$$_{2}$ & $\star$ & $\tfrac{+1}{-1}$ & $\tfrac{+1}{-1}$ & $\star$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\downarrow$$_{3}$ & $\uparrow$$^{3}$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        angr-sym & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\downarrow$$_{2}$ & $\star$ & $\star$ & TIMEOUT & TIMEOUT & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\uparrow$$^{1}$ & TIMEOUT & $\star$ \\
+        binja-xrefs & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\uparrow$$^{3}$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ghidra-xrefs & $\downarrow$$_{3}$ & $\star$ & $\tfrac{+1}{-1}$ & $\tfrac{+1}{-1}$ & $\star$ & $\downarrow$$_{2}$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\uparrow$$^{3}$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ida-cfg & \tiny$\emptyset$ & $\tfrac{+1}{-1}$ & \tiny$\emptyset$ & $\tfrac{+1}{-1}$ & $\tfrac{+1}{-1}$ & $\downarrow$$_{2}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\tfrac{+1}{-2}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\uparrow$$^{1}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ooanalyzer & \tiny$\emptyset$ & ERROR & ERROR & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ \\
+        rose & $\downarrow$$_{2}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & $\star$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\uparrow$$^{3}$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        rose-old & $\downarrow$$_{2}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & $\star$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\uparrow$$^{3}$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        sja & $\downarrow$$_{3}$ & ERROR & ERROR & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & $\uparrow$$^{1}$ & $\uparrow$$^{3}$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        \bottomrule
+    \end{tabular}%
+\end{center}
+\raggedright
+\textit{Notation:} 
+$\star$—correct; 
+$\emptyset$—tool failure or no output; 
+$\tfrac{+\text{FP}}{-\text{FN}}$—incorrect;
+$\uparrow$—over-approximation (superset); 
+$\downarrow$—under-approximation (subset).
+\end{table}

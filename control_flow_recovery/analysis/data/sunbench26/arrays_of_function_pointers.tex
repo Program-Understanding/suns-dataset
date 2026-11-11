@@ -1,0 +1,29 @@
+\begin{table}[h]
+    \caption{Your caption here.}
+    \label{table-your-label}
+    \setlength{\tabcolsep}{2pt}
+\begin{center}
+    \begin{tabular}{l@{\hskip 0.5pt}ccccccccccc@{\hskip 0.5pt}}
+        \toprule
+        Tool Name & \rotatebox{90}{angr\_sym\_fail} & \rotatebox{90}{global\_cindex} & \rotatebox{90}{global\_cindex\_modify} & \rotatebox{90}{global\_findex} & \rotatebox{90}{global\_findex\_modify} & \rotatebox{90}{global\_loop} & \rotatebox{90}{local\_cindex} & \rotatebox{90}{local\_cindex\_modify} & \rotatebox{90}{local\_findex} & \rotatebox{90}{local\_findex\_modify} & \rotatebox{90}{local\_loop} \\
+        \midrule
+        angr-reaching & \tiny$\emptyset$ & $\star$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ \\
+        angr-sym & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        binja-xrefs & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ghidra-xrefs & \tiny$\emptyset$ & $\star$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & $\star$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ida-cfg & $\star$ & $\star$ & $\tfrac{+1}{-1}$ & $\uparrow$$^{2}$ & $\tfrac{+1}{-1}$ & $\uparrow$$^{1}$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ooanalyzer & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        rose & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        rose-old & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        sja & $\star$ & \tiny$\emptyset$ & $\star$ & $\uparrow$$^{2}$ & $\tfrac{+3}{-1}$ & $\star$ & $\star$ & $\star$ & $\tfrac{+1}{-1}$ & $\tfrac{+1}{-1}$ & $\downarrow$$_{1}$ \\
+        \bottomrule
+    \end{tabular}%
+\end{center}
+\raggedright
+\textit{Notation:} 
+$\star$—correct; 
+$\emptyset$—tool failure or no output; 
+$\tfrac{+\text{FP}}{-\text{FN}}$—incorrect;
+$\uparrow$—over-approximation (superset); 
+$\downarrow$—under-approximation (subset).
+\end{table}

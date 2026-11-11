@@ -22,9 +22,11 @@ def main():
         num = int(offset, 16)
     else:
         num = int(offset)
-    isPE = False
+    isPE = False      # True when num was converted from a PE file offset to an address
+    isPEFile = False  # True when the program parsed as a PE file at all
     try:
         base_addr, section_offset, raw_offset = _parse_header(program)
+        isPEFile = True
         if num < base_addr + section_offset:
             vaddr = _file_to_virtual_address(num, base_addr, section_offset, raw_offset)
             print(hex(vaddr))
@@ -40,21 +42,48 @@ def main():
 
     with bn.load(program) as bv:
         logger.debug(f"Opening {bv.file.filename} which has {len(list(bv.functions))} functions")
-        func = bv.get_functions_containing(num)[0] # this assumes there are no overlapping functions
-        mlil_instr = func.mlil[func.get_low_level_il_at(num).mlil.instr_index]
-        # Check possible values for the function call target
-        if hasattr(mlil_instr, 'dest'):  # Ensure it's a valid instruction
-            reg_values = mlil_instr.dest.get_possible_values()
-            print(reg_values)
-            if hasattr(reg_values, 'values'):
-                for i in reg_values.values:
-                    answer = i
-                    if isPE:
-                        answer = _virtual_to_file_offset(answer, base_addr, section_offset, raw_offset)
-                    answers.add(hex(answer))
-            else:
-                print("Other lookups not implemented")
-                # Also try LookupTableValue
+        if not isPEFile:
+            # Non-PE (e.g., ELF): the question gives a file offset, binja works in addresses
+            vaddr = bv.get_address_for_data_offset(num)
+            if vaddr is None:
+                raise ValueError(f"file offset {hex(num)} is not mapped in {program}")
+            print(f"file offset {hex(num)} is address {hex(vaddr)}")
+            num = vaddr
+        funcs = bv.get_functions_containing(num)
+        if not funcs:
+            print(f"No function contains address {hex(num)}")
+        else:
+            func = funcs[0] # this assumes there are no overlapping functions
+            target_addrs = set()
+            # Indirect branch targets binja resolved during analysis (e.g., jump tables)
+            for branch in func.get_indirect_branches_at(num):
+                target_addrs.add(branch.dest_addr)
+            print(f"indirect branches: {[hex(a) for a in sorted(target_addrs)]}")
+            mlil_instr = func.mlil[func.get_low_level_il_at(num).mlil.instr_index]
+            # Check possible values for the function call target
+            if hasattr(mlil_instr, 'dest'):  # Ensure it's a valid instruction
+                reg_values = mlil_instr.dest.get_possible_values()
+                print(reg_values)
+                # Only positive value sets name targets; e.g., NotInSetOfValues lists values the
+                # destination can NOT take, so its .values must not be reported as targets
+                if reg_values.type == bn.RegisterValueType.InSetOfValues:
+                    target_addrs.update(reg_values.values)
+                elif reg_values.type in (bn.RegisterValueType.ConstantValue,
+                                         bn.RegisterValueType.ConstantPointerValue):
+                    target_addrs.add(reg_values.value)
+                else:
+                    print(f"Other lookups not implemented ({reg_values.type.name})")
+                    # Also try LookupTableValue
+            for answer in target_addrs:
+                if isPE:
+                    answer = _virtual_to_file_offset(answer, base_addr, section_offset, raw_offset)
+                elif not isPEFile:
+                    foff = bv.get_data_offset_for_address(answer)
+                    if foff is None:
+                        print(f"target {hex(answer)} is not backed by the file, skipping it")
+                        continue
+                    answer = foff
+                answers.add(hex(answer))
     
 
     # do instruction sanity check
@@ -73,10 +102,9 @@ def main():
 def _print_results(answer: set, groundtruth: set):
     # if the set is empty, we need to display {} rather than set()
     # this is because dict and set both surround elements with {}
-    if len(answer) == 0:
-        answer = {}
+    answer_display = answer if len(answer) > 0 else "{}"
     print(f"RESULTS: The groundtruth is: {groundtruth}")
-    print(f"RESULTS: The tool's answer is: {answer}")
+    print(f"RESULTS: The tool's answer is: {answer_display}")
     print(f"RESULTS: Tool's answer matches groundtruth? ", end="")
     if groundtruth == answer:
         print("YES")

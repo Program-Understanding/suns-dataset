@@ -41,10 +41,12 @@ RUN mkdir -p /control-flow-recovery/build
 RUN echo "Ran configure, type for make"
 RUN echo "Here are your flags before: $LDFLAGS"
 RUN echo "Here are your flags after: $LDFLAGS"
-RUN cd build && /control-flow-recovery/src/configure --prefix=/control-flow-recovery/install --enable-languages=c,c++,binaries --with-boost=/usr --with-boost-libdir=/usr/lib/x86_64-linux-gnu --with-z3=/usr/local
+RUN cd build && /control-flow-recovery/src/configure --prefix=/control-flow-recovery/install --enable-languages=binaries --with-boost=/usr --with-boost-libdir=/usr/lib/x86_64-linux-gnu --with-z3=/usr/local
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-RUN cd build && make core -j10 && make install-core -j10 && make check-core -j10
-RUN cd build && make -j10 && make install -j10 && make core -j10
+# The ENV proxy line above uses the legacy 'ENV key value' form, which sets http_proxy to the whole
+# rest of that line. ROSE's make downloads the EDG binary with wget, so set the proxies from the build args.
+RUN export http_proxy="$HTTP_PROXY" https_proxy="$HTTPS_PROXY" && cd build && make core -j10 && make install-core -j10 && make check-core -j10
+RUN export http_proxy="$HTTP_PROXY" https_proxy="$HTTPS_PROXY" && cd build && make -j10 && make install -j10 && make core -j10
 
 # Install the shared control flow recovery helper library
 COPY --from=tools cfr-helper cfr-helper

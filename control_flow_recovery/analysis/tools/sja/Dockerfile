@@ -25,7 +25,7 @@ WORKDIR /control-flow-recovery
 
 RUN git clone https://github.com/nhuhuan/sba.git
 
-RUN cd sba && git checkout 1307cbc263dc31d8861566eb9f32504eba681132
+RUN cd sba && git fetch origin 1307cbc263dc31d8861566eb9f32504eba681132 && git checkout 1307cbc263dc31d8861566eb9f32504eba681132
 
 COPY sbafixes/CMakeLists.txt sba/CMakeLists.txt
 

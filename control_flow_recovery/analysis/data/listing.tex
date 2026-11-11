@@ -1,0 +1,28 @@
+     1	int thefunc(int flag, int num) {
+     2	  if (flag == 0) {
+     3	    int a = 123;
+     4	    int c = 345;
+     5	    while (a < c) {
+     6	      a += 33;
+     7	    }
+     8	    return num + a; // question 1
+     9	  }
+    10	  return num*num; // question 2
+    11	}
+    12	int a(int flag, int num) {
+    13	  return thefunc(flag, num);
+    14	}
+    15	int b(int flag, int num) {
+    16	  return thefunc(flag, num*2);
+    17	}
+    18	int c(int flag, int num) {
+    19	  return thefunc(flag, num*3);
+    20	}
+    21	int main(int argc, char *argv[]) {
+    22	  int sum = 0;
+    23	  sum = sum + a(1, argc);
+    24	  sum = sum + b(1, argc);
+    25	  sum = sum + c(0, argc);
+    26	  printf("result: %d\n", sum);
+    27	  return 0;
+    28	}

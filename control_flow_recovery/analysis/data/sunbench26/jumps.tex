@@ -1,0 +1,29 @@
+\begin{table}[h]
+    \caption{Your caption here.}
+    \label{table-your-label}
+    \setlength{\tabcolsep}{2pt}
+\begin{center}
+    \begin{tabular}{l@{\hskip 0.5pt}cccccc@{\hskip 0.5pt}}
+        \toprule
+        Tool Name & \rotatebox{90}{consecutive-gcc-11-O0-nopie} & \rotatebox{90}{nested\_fptr} & \rotatebox{90}{switch-dead-gcc-13-O0-nopie} & \rotatebox{90}{switch-disparate-bounded-gcc-13-O0-pie} & \rotatebox{90}{switch-large-gcc-13-O2} & \rotatebox{90}{switch-linear-gcc-13-O2-nopie} \\
+        \midrule
+        angr-reaching & \tiny$\emptyset$ & $\star$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        angr-sym & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        binja-xrefs & $\star$ & $\star$ & $\uparrow$$^{4}$ & $\star$ & $\star$ & $\star$ \\
+        ghidra-xrefs & $\uparrow$$^{1}$ & $\star$ & $\uparrow$$^{5}$ & $\star$ & $\uparrow$$^{1}$ & $\uparrow$$^{1}$ \\
+        ida-cfg & $\uparrow$$^{1}$ & \tiny$\emptyset$ & $\uparrow$$^{6}$ & $\star$ & $\star$ & $\star$ \\
+        ooanalyzer & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        rose & $\star$ & \tiny$\emptyset$ & $\star$ & $\star$ & $\star$ & $\star$ \\
+        rose-old & $\star$ & ERROR & $\star$ & $\star$ & $\star$ & $\star$ \\
+        sja & $\uparrow$$^{1}$ & \tiny$\emptyset$ & $\uparrow$$^{4}$ & $\star$ & $\star$ & $\star$ \\
+        \bottomrule
+    \end{tabular}%
+\end{center}
+\raggedright
+\textit{Notation:} 
+$\star$—correct; 
+$\emptyset$—tool failure or no output; 
+$\tfrac{+\text{FP}}{-\text{FN}}$—incorrect;
+$\uparrow$—over-approximation (superset); 
+$\downarrow$—under-approximation (subset).
+\end{table}

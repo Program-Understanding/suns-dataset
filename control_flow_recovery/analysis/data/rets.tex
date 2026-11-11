@@ -1,0 +1,28 @@
+\begin{table}[h]
+    \caption{Your caption here.}
+    \label{table-your-label}
+    \setlength{\tabcolsep}{2pt}
+\begin{center}
+    \begin{tabular}{l@{\hskip 0.5pt}cccc@{\hskip 0.5pt}}
+        \toprule
+        Tool Name & \rotatebox{90}{returnone-gcc-13-O0-pie} & \rotatebox{90}{returnto-gcc-13-Ofast-pie} & \rotatebox{90}{returnto-gcc-13-Ofast-pie-2} & \rotatebox{90}{simplereturn-gcc-13-O0-pie} \\
+        \midrule
+        angr-cfg & $\uparrow$$^{2}$ & $\uparrow$$^{1}$ & $\uparrow$$^{2}$ & $\star$ \\
+        angr-reaching & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        angr-sym & $\star$ & $\star$ & $\star$ & $\star$ \\
+        ghidra-xrefs & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        ida-cfg & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        jakstab-cfg & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        rose & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        sja & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ & \tiny$\emptyset$ \\
+        \bottomrule
+    \end{tabular}%
+\end{center}
+\raggedright
+\textit{Notation:} 
+$\star$—correct; 
+$\emptyset$—tool failure or no output; 
+$\tfrac{\text{FP}}{\text{FN}}$—incorrect;
+$\uparrow$—over-approximation (superset); 
+$\downarrow$—under-approximation (subset).
+\end{table}

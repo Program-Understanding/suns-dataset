@@ -1,0 +1,10 @@
+Script,Total,Correct,Timeout,CorrectPct,TimeoutPct
+angr-cfg,16,0,0,0.0,0.0
+angr-reaching,16,3,0,18.8,0.0
+angr-sym,15,14,0,93.3,0.0
+ghidra-galore-11.4,16,4,0,25.0,0.0
+ghidra-xrefs,16,4,0,25.0,0.0
+ida-cfg,17,0,0,0.0,0.0
+jakstab-cfg,17,0,0,0.0,0.0
+rose,17,4,0,23.5,0.0
+sja,15,1,0,6.7,0.0
